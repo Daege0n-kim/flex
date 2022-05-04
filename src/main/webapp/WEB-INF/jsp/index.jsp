@@ -32,7 +32,7 @@
     <header>
       <a href="#" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
       <nav>
-        <a href="">STYLE</a> <a href="">SHOP</a> <a href="">ABOUT</a> <a href="">SIGN IN</a>
+        <a href="/style">STYLE</a> <a href="/shop">SHOP</a> <a href="/about">ABOUT</a> <a href="">SIGN IN</a>
       </nav>
     </header>
   </div>
