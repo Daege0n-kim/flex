@@ -28,11 +28,26 @@
 </head>
 
 <body>
+  <%
+    String UserId = (String)session.getAttribute("userName");
+  %>
   <div id="header">
+    <c:out value = "" />
     <header>
       <a href="#" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
       <nav>
-        <a href="/style">STYLE</a> <a href="/shop">SHOP</a> <a href="/about">ABOUT</a> <a href="/sign-in">SIGN IN</a>
+        <a href="/style">STYLE</a> <a href="/shop">SHOP</a> <a href="/about">ABOUT</a> 
+        <c:set var="name" value="${userName}" />
+        <c:choose>
+          <c:when test="${empty name}">
+            <a href="/sign-in">SIGN IN</a>
+          </c:when>
+          <c:when test="${not empty name}">
+            <a href="/logout">
+              <li class="header-menu-list-item">SIGN OUT</li>
+            </a>
+          </c:when>
+        </c:choose>
       </nav>
     </header>
   </div>
