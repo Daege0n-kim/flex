@@ -1,5 +1,7 @@
 package com.pg.flex.service;
 
+import java.util.Objects;
+
 import com.pg.flex.dao.TestDao;
 import com.pg.flex.dto.User;
 
@@ -15,10 +17,9 @@ public class LoginService {
     public String login(User user) {
         User userInfo = dao.login(user);
         
-        if(!userInfo.getName().isEmpty()) return userInfo.getName();
-
-        return "fail";
-
+        if(Objects.isNull(userInfo)) return "fail";
+        else return userInfo.getUserName();
+        
     }
 
     public void signUp(User user) {
