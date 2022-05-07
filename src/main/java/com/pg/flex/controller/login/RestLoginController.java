@@ -29,12 +29,12 @@ public class RestLoginController {
         String loginInfo = service.login(user);
 
         if(loginInfo.equals("fail")) {
-            session.setAttribute("fail", "fail");
             response.sendRedirect("/sign-in");
+        } else {
+            session.setAttribute("userName", loginInfo);
+            response.sendRedirect("/");
         }
 
-        session.setAttribute("userName", loginInfo);
-        response.sendRedirect("/");
     }
 
     @PostMapping(value = "/signup")

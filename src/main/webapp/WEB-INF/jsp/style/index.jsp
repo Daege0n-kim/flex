@@ -45,42 +45,25 @@
         <!-- style-popular -->
         <div id="con1" class="conBox">
             <div class="cont-wrap">
-                <div class="style-content">
-                    <div class="st-img"></div>
-                    <div class="popularcard">
-                        <p>@kimchi<br><span>봄인줄 알았지만 겨울이었다.<br></span>(하트) 12 (댓글) 2</p>
-                        <div class="sm-img-wrap">
-                            <div class="card-sm-img"></div>
-                            <div class="card-sm-img"></div>
-                            <div class="card-sm-img"></div>
-                            <div class="card-sm-img"></div>
+                <c:forEach var="data" items="${posts}" varStatus="status">
+                    <div class="style-content">
+                        <div class="st-img"></div>
+                        <div class="popularcard">
+                            <p><c:out value="${data.userId}" />
+                            <br>
+                            <span> <c:out value="${data.postContent}" /> </span>
+                            <br>
+                            (하트) <c:out value="${data.likeCount}" />
+                            (댓글) <c:out value="${data.commentCount}" /></p>
+                            <div class="sm-img-wrap">
+                                <div class="card-sm-img"></div>
+                                <div class="card-sm-img"></div>
+                                <div class="card-sm-img"></div>
+                                <div class="card-sm-img"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="style-content">
-                    <div class="st-img"></div>
-                    <div class="popularcard">
-                        <p>@kimchi<br><span>봄인줄 알았지만 겨울이었다.<br></span>(하트) 12 (댓글) 2</p>
-                        <div class="sm-img-wrap">
-                            <div class="card-sm-img"></div>
-                            <div class="card-sm-img"></div>
-                            <div class="card-sm-img"></div>
-                            <div class="card-sm-img"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="style-content" style="margin-bottom:64px;">
-                    <div class="st-img"></div>
-                    <div class="popularcard">
-                        <p>@kimchi<br><span>봄인줄 알았지만 겨울이었다.<br></span>(하트) 12 (댓글) 2</p>
-                        <div class="sm-img-wrap">
-                            <div class="card-sm-img"></div>
-                            <div class="card-sm-img"></div>
-                            <div class="card-sm-img"></div>
-                            <div class="card-sm-img"></div>
-                        </div>
-                    </div>
-                </div>
+                </c:forEach>
             </div>
         </div>
 
