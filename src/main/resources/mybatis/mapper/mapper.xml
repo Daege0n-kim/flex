@@ -4,6 +4,14 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.pg.flex.dao.TestDao">
+
+  <resultMap id="UserResultMap" type="com.pg.flex.dto.User">
+    <result column="login_id" property="loginId" />
+    <result column="login_password" property="loginPassword" />
+    <result column="user_name" property="userName" />
+    <result column="user_id" property="userId" />
+  </resultMap>
+
   <select id="getAllUser" resultType="com.pg.flex.dto.User">
     select
       *
@@ -11,22 +19,22 @@
       UserProfile
   </select>
 
-  <select id="login" parameterType="com.pg.flex.dto.User" resultType="com.pg.flex.dto.User">
+  <select id="login" parameterType="com.pg.flex.dto.User" resultMap="UserResultMap">
     SELECT
-      name
+      *
     FROM
-      UserProfile
+      user_info
     WHERE
-      id = #{id}
+      login_id = #{loginId}
     AND
-      password = #{password}
+      login_password = #{loginPassword}
   </select>
 
   <insert id="signUp">
-    INSERT INTO UserProfile
-      (id, password, name)
+    INSERT INTO user_info
+      (login_id, login_password, user_name, user_id)
     VALUES
-      (#{id}, #{password}, #{name})
+      (#{loginId}, #{loginPassword}, #{userName}, #{userId})
   </insert>
 
   <select id="checkId" parameterType="com.pg.flex.dto.User" resultType="int">

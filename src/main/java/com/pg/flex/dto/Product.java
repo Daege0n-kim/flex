@@ -1,0 +1,17 @@
+package com.pg.flex.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@ToString
+@Getter @Setter
+public class Product {
+
+  private int productIndex;
+  private String productName;
+  private String productBranc;
+  private int productPrice;
+  private String categoryName;
+
+}

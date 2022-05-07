@@ -10,12 +10,11 @@
     <title>Sign In</title>
 </head>
 <body>
-  <jsp:include page="/WEB-INF/jsp/header.jsp"/>
   
   <div class="title-section">
     <form action="/login" method="post">
-      <input type="text" name="id">
-      <input type="password" name="password">
+      <input type="text" name="login_id" placeholder="login_id">
+      <input type="password" name="login_password" placeholder="login_password">
       <button type="submit">Click</button>
     </form>
   </div>
