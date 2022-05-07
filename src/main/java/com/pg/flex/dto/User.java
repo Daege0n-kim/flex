@@ -7,24 +7,24 @@ import lombok.ToString;
 @ToString
 @Getter @Setter
 public class User {
-    private String id;
-    private String password;
-    private String name;
-    private String phone;
-    private String address;
+    private String loginId;
+    private String loginPassword;
+    private String userName;
+    private String userId;
 
 
     public User() {}
 
-    public User(String id, String password) {
-        this.id = id;
-        this.password = password;
+
+    public User(String loginId, String loginPassword, String userName, String userId) {
+        this.loginId = loginId;
+        this.loginPassword = loginPassword;
+        this.userName = userName;
+        this.userId = userId;
     }
 
-    public User(String id, String password, String name) {
-        this.id = id;
-        this.password = password;
-        this.name = name;
+    public User(String loginId, String loginPassword) {
+        this.loginId = loginId;
+        this.loginPassword = loginPassword;
     }
-
 }

@@ -22,9 +22,9 @@ public class RestLoginController {
     private LoginService service;
 
     @PostMapping("/login")
-    public void login(HttpServletResponse response, HttpSession session, @RequestParam String id, @RequestParam String password) throws IOException {
+    public void login(HttpServletResponse response, HttpSession session, @RequestParam String login_id, @RequestParam String login_password) throws IOException {
 
-        User user = new User(id, password);
+        User user = new User(login_id, login_password);
 
         String loginInfo = service.login(user);
 
@@ -33,26 +33,26 @@ public class RestLoginController {
             response.sendRedirect("/sign-in");
         }
 
-        session.setAttribute("userName", "userName");
+        session.setAttribute("userName", loginInfo);
         response.sendRedirect("/");
     }
 
     @PostMapping(value = "/signup")
-    public void signup(HttpServletResponse response, @RequestParam String id, @RequestParam String password, @RequestParam String name) throws IOException {
+    public void signup(HttpServletResponse response, @RequestParam String login_id, @RequestParam String login_password, @RequestParam String user_name, @RequestParam String user_id) throws IOException {
 
-        User user = new User(id, password, name);
+        User user = new User(login_id, login_password, user_name, user_id);
 
         service.signUp(user);
         response.sendRedirect("/sign-in");
     }
 
-    @GetMapping(value = "/check_id")
-    public int checkId(@RequestParam String id) {
+    // @GetMapping(value = "/check_id")
+    // public int checkId(@RequestParam String id) {
 
-        User user = new User();
+    //     User user = new User();
 
-        user.setId(id);
-        return service.checkId(user);
-    }
+    //     user.setId(id);
+    //     return service.checkId(user);
+    // }
     
 }
