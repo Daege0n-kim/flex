@@ -24,7 +24,7 @@
     
     <div id="header">
         <header>
-            <a href="#" title="Logo"><img src="../../../resources/img/style/logo.png"></a>
+            <a href="" title="Logo"><img src="../../../resources/img/style/logo.png"></a>
             <nav>
                 <a href="">STYLE</a> <a href="">SHOP</a> <a href="">ABOUT</a> <a href="">SIGN IN</a>
             </nav>

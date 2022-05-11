@@ -8,7 +8,7 @@
   <resultMap id="ProductResultMap" type="com.pg.flex.dto.Product">
     <result column="product_index" property="productIndex" />
     <result column="product_name" property="productName" />
-    <result column="product_branc" property="productBranc" />
+    <result column="brand_name" property="productBrand" />
     <result column="product_price" property="productPrice" />
     <result column="category_name" property="categoryName" />
   </resultMap>
@@ -17,7 +17,7 @@
     SELECT
       p.product_index,
       p.product_name,
-      p.product_branc,
+      b.brand_name,
       p.product_price,
       c.category_name
     FROM
@@ -26,6 +26,32 @@
       category AS c
     ON
       p.category_index = c.category_index
+    INNER JOIN
+      brand AS b
+    ON
+      p.product_brand=b.brand_index
     LIMIT 4 OFFSET 0
   </select>
+
+  <!-- 상품상세 페이지(1개씩 가져오기) -->
+
+  <select id="getProductByProductIndex" parameterType="productIndex" resultMap="ProductResultMap">
+    SELECT
+      p.product_index,
+      p.product_name,
+      b.brand_name,
+      p.product_price
+    FROM
+      product AS p
+      
+    INNER JOIN
+      brand AS b
+    ON
+      p.product_brand=b.brand_index
+    where
+     p.product_index=#{productIndex}
+    
+  </select>
+
+
 </mapper>

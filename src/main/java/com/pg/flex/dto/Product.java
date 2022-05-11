@@ -10,7 +10,7 @@ public class Product {
 
   private int productIndex;
   private String productName;
-  private String productBranc;
+  private String productBrand;
   private int productPrice;
   private String categoryName;
 

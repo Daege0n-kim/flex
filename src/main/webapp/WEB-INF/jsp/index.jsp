@@ -136,52 +136,40 @@
     <h4 class="tit">&lang; NEW ARRIVE &rang;</h4>
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+
+
+        <c:forEach var="data" items="${productList}" varStatus="status">
         <div class="col">
           <div class="card" style="width: 18rem;">
             <img src="../../../resources/img/main/img-sample2.png">
             <div class="card-body">
-              <p class="card-text"><span class="card-text-tit">NIKE AIR<br></span>TREVISCAT</p>
+              <p class="card-text">
+                <span class="card-text-tit"><c:out value="${data.productBrand}"/><br></span>
+                <span><c:out value="${data.productName}"/></span>
+                <span><c:out value="${data.productPrice}"/></span>
+              </p>
+
             </div>
           </div>
         </div>
-        <div class="col">
-          <div class="card" style="width: 18rem;">
-            <img src="../../../resources/img/main/img-sample2.png">
-            <div class="card-body">
-              <p class="card-text"><span class="card-text-tit">NIKE AIR<br></span>TREVISCAT</p>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card" style="width: 18rem;">
-            <img src="../../../resources/img/main/img-sample2.png">
-            <div class="card-body">
-              <p class="card-text"><span class="card-text-tit">NIKE AIR<br></span>TREVISCAT</p>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card" style="width: 18rem;">
-            <img src="../../../resources/img/main/img-sample2.png">
-            <div class="card-body">
-              <p class="card-text"><span class="card-text-tit">NIKE AIR<br></span>TREVISCAT</p>
-            </div>
-          </div>
-        </div>
+      </c:forEach>
+
       </div>
     </div>
+    
     <div class="bannerimg"></div>
 
     <!-- MD's Pick -->
     <h4 class="tit">&lang; MD's Pick &rang;</h4>
     <div class="container" style="margin-bottom:117px">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+        
         <c:forEach var="data" items="${productList}" varStatus="status">
           <div class="col">
             <div class="card" style="width: 18rem;">
               <img src="../../../resources/img/main/img-sample2.png">
               <div class="card-body">
-                <p class="card-text"><span class="card-text-tit"> <c:out value="${data.productBranc}"/> <br></span> <c:out value="${data.productName}"/> </p>
+                <p class="card-text"><span class="card-text-tit"> <c:out value="${data.productBrand}"/> <br></span> <c:out value="${data.productName}"/> </p>
               </div>
             </div>
           </div>

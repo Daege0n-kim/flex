@@ -12,6 +12,8 @@
     <result column="comment_count" property="commentCount" />
   </resultMap>
 
+  
+  <!-- style post가져오기 -->
   <select id="getPosts" resultMap="StyleResultMap">
     SELECT
       u.user_id, 
