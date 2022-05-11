@@ -8,10 +8,40 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../../../resources/css/mypage/style.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
   <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
   <title>My Page</title>
-  <style>
-  </style>
+  <script type="text/javascript">
+    $(function() {
+      $("#filename").on('change', function(){
+        readURL(this);
+      });
+    });
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          console.log(e)
+          $('#preImage').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    // console.log(border)
+    // mark.click(function(){
+    //   mark.toggleClass('black');
+    // })
+
+    function checked() {
+
+      var mark = $("#searched-product-add-check-mark");
+
+      mark.toggleClass('black')
+
+    }
+  </script>
 </head>
 <body>
   <%
@@ -61,10 +91,10 @@
               <input type="text" class="post-text" placeholder="문구입력">
             </div>
             <ul class="pre-view-area">
-              <li><img src="../../../resources/img/main/logo.png" alt="lorem"></li>
-              <li><img src="../../../resources/img/main/logo.png" alt="lorem"></li>
-              <li><img src="../../../resources/img/main/logo.png" alt="lorem"></li>
-              <li><img src="../../../resources/img/main/logo.png" alt="lorem"></li>
+              <li><img id="preImage" alt=""></li>
+              <li><img alt=""></li>
+              <li><img alt=""></li>
+              <li><img alt=""></li>
             </ul>
           </div>
 
@@ -80,16 +110,18 @@
             <div class="search-list-area">
               <div class="searched-item-card">
                 <div class="searched-product-thumb-area">
-                  <img src="" alt="ProductThumbnail">
+                  <input type="file" name="filename" id="filename">
                 </div>
                 <div class="searched-product-inform-area">
                   <p class="searched-product-brand">Searched Product Brand</p>
                   <p class="searched-product-name">Searched Product Name</p>
                 </div>
                 <div class="searched-product-add-check-box-area">
-                  <div class="searched-product-add-check-box">
-                    ✔
-                  </div>
+                  <a class="searched-product-add-check-btn" id="searched-product-add-check-btn" onclick="return checked()">
+                    <div class="searched-product-add-check-mark" id="searched-product-add-check-mark">
+                      ✓
+                    </div>
+                  </a>
                 </div>
               </div>
             </div>
