@@ -35,7 +35,7 @@
 
   <!-- 상품상세 페이지(1개씩 가져오기) -->
 
-  <select id="getProductByProductIndex" parameterType="productIndex" resultMap="ProductResultMap">
+  <select id="getProductByProductIndex" parameterType="int" resultMap="ProductResultMap">
     SELECT
       p.product_index,
       p.product_name,
@@ -53,5 +53,27 @@
     
   </select>
 
+
+  <!-- Mypage에 관련상품선택 API -->
+
+<select id="getProductsRelation" parameterType="string" resultMap="ProductResultMap">
+  SELECT
+	  p.product_index,
+	  p.product_name,
+	  b.brand_name
+  FROM
+	  product AS p
+
+  INNER JOIN 
+    brand AS b
+  ON
+	  p.product_brand=b.brand_index
+<if test="#{search} != null"> 
+  WHERE 
+	  p.product_name=#{search} 
+  OR
+	  b.brand_name=#{search} 
+</if>
+  </select>
 
 </mapper>
