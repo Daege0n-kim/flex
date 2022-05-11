@@ -37,9 +37,32 @@ li {
   height: calc(100vw / 13);
   margin-left: 6%;
   border: 1px solid black;
-  border-radius: 5px;
+  border-radius: 25px;
 }
 .images-container .pre-view-area li img {
   width: 100%;
   height: 100%;
+  border-radius: 25px;
+}
+.searched-product-add-check-btn {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border: 1px solid black;
+  position: relative;
+}
+.searched-product-add-check-btn:hover {
+  cursor: pointer;
+}
+
+.searched-product-add-check-mark {
+  color: rgb(190, 190, 190);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.5rem;
+}
+.black {
+  color: black;
 }

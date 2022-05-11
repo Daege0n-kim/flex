@@ -35,7 +35,7 @@
 
   <!-- 상품상세 페이지(1개씩 가져오기) -->
 
-  <select id="getProductByProductIndex" parameterType="productIndex" resultMap="ProductResultMap">
+  <select id="getProductByProductIndex" parameterType="int" resultMap="ProductResultMap">
     SELECT
       p.product_index,
       p.product_name,
@@ -49,7 +49,7 @@
     ON
       p.product_brand=b.brand_index
     where
-     p.product_index=#{productIndex}
+      p.product_index=#{productIndex}
     
   </select>
 
