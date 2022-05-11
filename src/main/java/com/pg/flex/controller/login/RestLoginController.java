@@ -1,6 +1,7 @@
 package com.pg.flex.controller.login;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -26,12 +27,13 @@ public class RestLoginController {
 
         User user = new User(login_id, login_password);
 
-        String loginInfo = service.login(user);
+        User loginInfo = service.login(user);
 
-        if(loginInfo.equals("fail")) {
+        if(Objects.isNull(loginInfo)) {
             response.sendRedirect("/sign-in");
         } else {
-            session.setAttribute("userName", loginInfo);
+            session.setAttribute("userId", loginInfo.getUserId());
+            session.setAttribute("userName", loginInfo.getUserName());
             response.sendRedirect("/");
         }
 

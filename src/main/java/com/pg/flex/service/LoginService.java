@@ -14,11 +14,11 @@ public class LoginService {
     @Autowired
     TestDao dao;
 
-    public String login(User user) {
+    public User login(User user) {
         User userInfo = dao.login(user);
         
-        if(Objects.isNull(userInfo)) return "fail";
-        else return userInfo.getUserName();
+        if(Objects.isNull(userInfo)) return null;
+        else return userInfo;
         
     }
 
