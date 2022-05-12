@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pg.flex.dao.Mypage">
+
+<resultMap id="ProductResultMap" type="com.pg.flex.dto.UserDetail">
+    <result column="user_name" property="userName" />
+    <result column="user_id" property="userId" />
+    <result column="product_price" property="productPrice" />
+    <result column="order_list" property="orderList" />
+    
+</resultMap>
+
+<select id="getUserDetail" resultMap="MypageResultMap">
+    SELECT
+        u.user_name,
+        u.user_id,
+    (
+    SELECT
+        sum(p.product_price)
+    FROM
+        product AS p
+    INNER JOIN
+        order_list AS o
+    ON
+        p.product_index = o.product_index
+    WHERE
+        o.user_id = u.user_id
+    )
+    FROM
+        user_info AS u
+    WHERE
+        u.login_id = u.user_id
+        
+
+
+
+</mapper>
