@@ -32,6 +32,7 @@ public class RestLoginController {
         if(Objects.isNull(loginInfo)) {
             response.sendRedirect("/sign-in");
         } else {
+            session.setAttribute("loginId", loginInfo.getLoginId());
             session.setAttribute("userId", loginInfo.getUserId());
             session.setAttribute("userName", loginInfo.getUserName());
             response.sendRedirect("/");
