@@ -13,7 +13,7 @@
   </resultMap>
 
   
-  <!-- style post가져오기 -->
+  <!-- style  post가져오기 -->
   <select id="getPosts" resultMap="StyleResultMap">
     SELECT
       u.user_id, 
@@ -27,4 +27,59 @@
     ON
       p.login_id = u.login_id;
   </select>
+
+  <!-- main style 가져오기 -->
+
+   <select id="getMainPosts" resultMap="StyleResultMap">
+    SELECT
+      u.user_id, 
+      p.post_content, 
+    FROM 
+      posting AS p
+    INNER JOIN 
+      user_info AS u
+    ON
+      p.login_id = u.login_id
+    LIMIT 0 OFFSET 3 
+
+  </select>
+
+  <!-- xd기준(10,11페이지) 스타일 페이지 프로필사진 -->
+
+  <select id="getProfilePosts" resultMap="StyleResultMap">
+    SELECT
+      u.user_id, 
+      u.user_name,
+      sum(p.product_price)
+    FROM 
+      product AS p
+    INNER JOIN 
+      user_info AS u
+    ON
+      p.login_id = u.login_id;
+  </select>
+
+<!-- xd기준(14페이지) 구매내역 -->
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
 </mapper>
