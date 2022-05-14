@@ -17,6 +17,7 @@
       *
     from   
       UserProfile
+      
   </select>
 
   <select id="login" parameterType="com.pg.flex.dto.User" resultMap="UserResultMap">
