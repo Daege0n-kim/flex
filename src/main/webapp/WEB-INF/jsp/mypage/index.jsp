@@ -7,127 +7,56 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../../../resources/css/mypage/style.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-  <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
-  <title>My Page</title>
-  <script type="text/javascript">
-    $(function() {
-      $("#filename").on('change', function(){
-        readURL(this);
-      });
-    });
-    function readURL(input) {
-      if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-          console.log(e)
-          $('#preImage').attr('src', e.target.result);
-        }
-        reader.readAsDataURL(input.files[0]);
-      }
-    }
-
-    // console.log(border)
-    // mark.click(function(){
-    //   mark.toggleClass('black');
-    // })
-
-    function checked() {
-
-      var mark = $("#searched-product-add-check-mark");
-
-      mark.toggleClass('black')
-
-    }
-  </script>
+  <link rel="stylesheet" href="../../../resources/css/mypage/post.css">
+  <title>Document</title>
 </head>
 <body>
   <%
-    String userId = (String)session.getAttribute("userId");
-    String userName = (String)session.getAttribute("userName");
+    String UserId = (String)session.getAttribute("userId");
+    String UserName = (String)session.getAttribute("userName");
   %>
-
-  <div id="header">
-    <header>
-      <a href="#" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
-      <nav>
-        <a href="/style">STYLE</a> <a href="/shop">SHOP</a> <a href="/about">ABOUT</a>
-        <c:set var="name" value="${userName}" />
-        <c:choose>
-          <c:when test="${empty name}">
-            <a href="/sign-in">SIGN IN</a>
-          </c:when>
-          <c:when test="${not empty name}">
-            <a href="/mypage">MYPAGE</a>
-            <a href="/logout">
-              <li class="header-menu-list-item">SIGN OUT</li>
-            </a>
-          </c:when>
-        </c:choose>
-      </nav>
-    </header>
-  </div>
-
   <div class="sub-title-area">
     <p class="style-text">MYPAGE</p>
   </div>
   <div class="container">
-    <div class="form-container">
-      <form action="">
-
-        <div class="images-container">
-
-          <div class="thumb-area ic-child">
-            <img src="" alt="lorem" aria-valuetext="사진선택">
-          </div>
-
-          <div class="inform-area ic-child">
-            <div class="user-id-area">
-              <p><%= userId %> </p>
-            </div>
-            <div class="post-content-area">
-              <input type="text" class="post-text" placeholder="문구입력">
-            </div>
-            <ul class="pre-view-area">
-              <li><img id="preImage" alt=""></li>
-              <li><img alt=""></li>
-              <li><img alt=""></li>
-              <li><img alt=""></li>
-            </ul>
-          </div>
-
+    <div class="user-inform-container">
+      <div class="left-menu-area">
+        <div class="left-shop-inform-area">
+          <strong class="left-menu-ul-title">쇼핑정보</strong>
+          <ul class="left-menu-ul">
+            <li class="left-menu-li">구매내역</li>
+            <li class="left-menu-li">장바구니</li>
+            <li class="left-menu-li">좋아요</li>
+          </ul>
         </div>
-
-        <div class="related-product-container">
-          <p>관련 상품 검색</p>
-          <div class="related-product-search-area">
-            <div class="search-text-area">
-              <input type="text" placeholder="제품검색">
-              <input type="button" value="검색하기">
+        <div class="left-user-inform-area">
+          <strong class="left-menu-ul-title">회원정보</strong>
+          <ul class="left-menu-ul">
+            <li class="left-menu-li">배송지관리</li>
+            <li class="left-menu-li">장바구니관리</li>
+          </ul>
+        </div>
+      </div>
+      <div class="user-infom-area">
+        <div class="user-inform-card">
+          <div class="user-profile-img-box">
+            <img src="${path}" class="user-profile-img" id="user-profile-img" width="100px">
+          </div>
+          <div class="user-profile-infrom-box">
+            <div class="user-profile-infrom-upper-box">
+              <h1 class="user-profile-inform-user-name">${userName}</h1>
+              <p class="user-profile-inform-user-id">${userId}</p>
             </div>
-            <div class="search-list-area">
-              <div class="searched-item-card">
-                <div class="searched-product-thumb-area">
-                  <input type="file" name="filename" id="filename">
-                </div>
-                <div class="searched-product-inform-area">
-                  <p class="searched-product-brand">Searched Product Brand</p>
-                  <p class="searched-product-name">Searched Product Name</p>
-                </div>
-                <div class="searched-product-add-check-box-area">
-                  <a class="searched-product-add-check-btn" id="searched-product-add-check-btn" onclick="return checked()">
-                    <div class="searched-product-add-check-mark" id="searched-product-add-check-mark">
-                      ✓
-                    </div>
-                  </a>
-                </div>
+            <div class="user-profile-infrom-lower-box">
+              <h3>총 구매금액</h3>
+              <div class="user-profile-edit-box">
+                <div class="profile-edit-btn">프로필 수정하기</div>
+                <div class="edit-posting-btn">글쓰기</div>
               </div>
             </div>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </body>

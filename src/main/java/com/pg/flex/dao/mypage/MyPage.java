@@ -3,6 +3,7 @@ package com.pg.flex.dao.mypage;
 import java.util.List;
 
 import com.pg.flex.dto.UserDetail;
+import com.pg.flex.dto.UserImage;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,5 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface MyPage {
 
   public UserDetail getUserDetail(String userId);
+
+  public void postUserImage(UserImage userImage);
   
 }
