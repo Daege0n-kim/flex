@@ -1,9 +1,6 @@
 package com.pg.flex.service.mypage;
 
-import java.util.List;
-
 import com.pg.flex.dao.mypage.MyPage;
-import com.pg.flex.dto.User;
 import com.pg.flex.dto.UserDetail;
 import com.pg.flex.dto.UserImage;
 
