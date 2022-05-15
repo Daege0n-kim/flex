@@ -1,40 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-    PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.pg.flex.dao.Mypage">
 
 <resultMap id="ProductResultMap" type="com.pg.flex.dto.UserDetail">
-    <result column="user_name" property="userName" />
-    <result column="user_id" property="userId" />
-    <result column="product_price" property="productPrice" />
-    <result column="order_list" property="orderList" />
-    
+  <result column="user_name" property="userName" />
+  <result column="user_id" property="userId" />
+  <result column="total_price" property="totalPrice" />
+  <result column="save_name" property="saveName" />
 </resultMap>
 
-<select id="getUserDetail" resultMap="MypageResultMap">
-    SELECT
-        u.user_name,
-        u.user_id,
+<select id="getUserDetail" resultMap="ProductResultMap">
+  SELECT
+    u.user_name,
+    u.user_id,
     (
-    SELECT
+      SELECT
         sum(p.product_price)
-    FROM
+      FROM
         product AS p
-    INNER JOIN
+      INNER JOIN
         order_list AS o
-    ON
+      ON
         p.product_index = o.product_index
-    WHERE
+      WHERE
         o.user_id = u.user_id
-    )
-    FROM
-        user_info AS u
-    WHERE
-        u.login_id = u.user_id
-        
-
-
+    ) AS total_price,
+    ui.save_name
+  FROM
+    user_info AS u
+  INNER JOIN
+    user_image ui
+  ON
+    u.login_id = ui.user_id
+  WHERE
+    u.login_id = u.user_id
+  </select>
 
 </mapper>
