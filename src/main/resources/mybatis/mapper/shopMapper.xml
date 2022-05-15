@@ -13,6 +13,20 @@
     <result column="category_name" property="categoryName" />
   </resultMap>
 
+  <!-- <resultMap id="brandResultMap" type="com.pg.flex.dto.ProductBrand">
+    <result column="brand_index" property="brandIndex" />
+    <result column="brand_name" property="brandName" />
+  </resultMap>
+
+  <resultMap id="sexResultMap" type="com.pg.flex.dto.ProductSex">
+    <result column="sex_index" property="sexIndex" />
+    <result column="sex" property="sex" />
+  </resultMap>
+  <resultMap id="categoryResultMap" type="com.pg.flex.dto.ProductCategory">
+    <result column="category_index" property="categoryIndex" />
+    <result column="category_name" property="categoryName" />
+  </resultMap> -->
+
   <select id="getProducts" resultMap="ProductResultMap">
     SELECT
       p.product_index,
@@ -63,17 +77,37 @@
 	  b.brand_name
   FROM
 	  product AS p
-
   INNER JOIN 
     brand AS b
   ON
 	  p.product_brand=b.brand_index
-<if test="#{search} != null"> 
-  WHERE 
-	  p.product_name=#{search} 
-  OR
-	  b.brand_name=#{search} 
-</if>
-  </select>
+  <if test="#{search} != null"> 
+    WHERE 
+      p.product_name=#{search} 
+    OR
+      b.brand_name=#{search} 
+  </if>
+</select>
+
+<select id="getCategories" resultType="hashmap">
+  SELECT
+    *
+  FROM
+    category
+</select>
+
+<select id="getSex" resultType="hashmap">
+  SELECT
+    *
+  FROM
+    product_sex
+</select>
+
+<select id="getProductBrands" resultType="hashmap">
+  SELECT
+    *
+  FROM
+    brand
+</select>
 
 </mapper>
