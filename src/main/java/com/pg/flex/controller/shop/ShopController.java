@@ -1,10 +1,14 @@
 package com.pg.flex.controller.shop;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.pg.flex.dto.Product;
 import com.pg.flex.dto.ProductBrand;
 import com.pg.flex.dto.ProductCategory;
 import com.pg.flex.dto.ProductEditRequest;
+import com.pg.flex.dto.ProductImage;
+import com.pg.flex.dto.ProductResponse;
 import com.pg.flex.dto.ProductSex;
 import com.pg.flex.service.shop.ShopService;
 
@@ -41,9 +45,60 @@ public class ShopController {
   }
 
   @PostMapping("/edit_product")
-  public void postEditProduct(@RequestParam("thumb") MultipartFile thumb, @RequestParam("detail") MultipartFile detail, ProductEditRequest productEditRequest) {
+  public String postEditProduct(@RequestParam("thumb") MultipartFile thumb, @RequestParam("detail") MultipartFile detail, ProductEditRequest productEditRequest) {
 
-    service.addProduct(productEditRequest);
+    int productIndex = service.addProduct(productEditRequest);
 
+    if(productIndex > 0) {
+      List<MultipartFile> list = new ArrayList<>();
+      list.add(thumb);
+      list.add(detail);
+      service.addProductImage(productIndex, list);
+    }
+
+    return "redirect:/edit_product";
+  }
+
+  @GetMapping(value = "/show_products")
+  public String showProducts(Model model) {
+    List<Product> products = service.getProducts();
+    List<ProductResponse> productResponses = new ArrayList<>();
+
+    for(Product product : products) {
+      ProductResponse productResponse = new ProductResponse(product.getProductIndex(), product.getProductName(), product.getProductBrand(), product.getProductPrice(), product.getCategoryName());
+      List<ProductImage> imagesList = service.getProductImageByProductImage(product.getProductIndex());
+      for(ProductImage image : imagesList) {
+        if (image.getIsThumb() == 1) {
+          productResponse.setThumbSrc(image.getSavedFileName());
+        } else {
+          productResponse.setDetailSrc(image.getSavedFileName());
+        }
+      }
+
+      productResponses.add(productResponse);
+    }
+
+    model.addAttribute("productResponse", productResponses);
+    return "/shop/show_products";
+  }
+
+  @GetMapping(value = "/show_product")
+  public String showProduct(@RequestParam("productIndex") int productIndex, Model model) {
+
+    Product product = service.getProductByProductIndex(productIndex);
+
+    ProductResponse productResponse = new ProductResponse(product.getProductIndex(), product.getProductName(), product.getProductBrand(), product.getProductPrice(), product.getCategoryName());
+
+    List<ProductImage> imagesList = service.getProductImageByProductImage(productIndex);
+    for(ProductImage image : imagesList) {
+      if (image.getIsThumb() == 1) {
+        productResponse.setThumbSrc(image.getSavedFileName());
+      } else {
+        productResponse.setDetailSrc(image.getSavedFileName());
+      }
+    }
+
+    model.addAttribute("product", productResponse);
+    return "/shop/show_product";
   }
 }

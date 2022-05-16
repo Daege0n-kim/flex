@@ -6,6 +6,9 @@ import java.util.List;
 import com.pg.flex.dto.Product;
 import com.pg.flex.dto.ProductBrand;
 import com.pg.flex.dto.ProductCategory;
+import com.pg.flex.dto.ProductEditRequest;
+import com.pg.flex.dto.ProductImage;
+import com.pg.flex.dto.ProductRequest;
 import com.pg.flex.dto.ProductSex;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -15,10 +18,18 @@ public interface ShopDao {
 
   List<Product> getProducts();
 
-  List<HashMap<String, String>> getCategories();
+  List<ProductCategory> getCategories();
 
-  List<HashMap<String, String>> getSex();
+  List<ProductSex> getSex();
 
-  List<HashMap<String, String>> getProductBrands();
+  List<ProductBrand> getProductBrands();
+
+  int addProduct(ProductEditRequest productEditRequest);
+
+  void postProductImage(ProductImage productImage);
+
+  List<ProductImage> getProductImageByProductImage(int productIndex);
+
+  Product getProductByProductIndex(int productIndex);
   
 }
