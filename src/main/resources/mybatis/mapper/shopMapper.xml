@@ -13,19 +13,27 @@
     <result column="category_name" property="categoryName" />
   </resultMap>
 
-  <!-- <resultMap id="brandResultMap" type="com.pg.flex.dto.ProductBrand">
+  <resultMap id="BrandResultMap" type="com.pg.flex.dto.ProductBrand">
     <result column="brand_index" property="brandIndex" />
     <result column="brand_name" property="brandName" />
   </resultMap>
 
-  <resultMap id="sexResultMap" type="com.pg.flex.dto.ProductSex">
+  <resultMap id="SexResultMap" type="com.pg.flex.dto.ProductSex">
     <result column="sex_index" property="sexIndex" />
     <result column="sex" property="sex" />
   </resultMap>
-  <resultMap id="categoryResultMap" type="com.pg.flex.dto.ProductCategory">
+  <resultMap id="CategoryResultMap" type="com.pg.flex.dto.ProductCategory">
     <result column="category_index" property="categoryIndex" />
     <result column="category_name" property="categoryName" />
-  </resultMap> -->
+  </resultMap>
+
+  <resultMap id="ProductImageResponse" type="com.pg.flex.dto.ProductImage">
+    <result column="image_index" property="imgIndex" />
+    <result column="product_index" property="productIndex" />
+    <result column="original_file_name" property="originalFileName" />
+    <result column="saved_file_name" property="savedFileName" />
+    <result column="is_thumb" property="isThumb" />
+  </resultMap>
 
   <select id="getProducts" resultMap="ProductResultMap">
     SELECT
@@ -44,7 +52,6 @@
       brand AS b
     ON
       p.product_brand=b.brand_index
-    LIMIT 4 OFFSET 0
   </select>
 
   <!-- 상품상세 페이지(1개씩 가져오기) -->
@@ -54,17 +61,20 @@
       p.product_index,
       p.product_name,
       b.brand_name,
-      p.product_price
+      p.product_price,
+      c.category_name
     FROM
       product AS p
-      
+    INNER JOIN
+      category AS c
+    ON
+      p.category_index = c.category_index
     INNER JOIN
       brand AS b
     ON
       p.product_brand=b.brand_index
-    where
-      p.product_index=#{productIndex}
-    
+    WHERE
+      p.product_index = #{productIndex}
   </select>
 
 
@@ -89,25 +99,48 @@
   </if>
 </select>
 
-<select id="getCategories" resultType="hashmap">
+<select id="getCategories" resultMap="CategoryResultMap">
   SELECT
     *
   FROM
     category
 </select>
 
-<select id="getSex" resultType="hashmap">
+<select id="getSex" resultMap="SexResultMap">
   SELECT
     *
   FROM
     product_sex
 </select>
 
-<select id="getProductBrands" resultType="hashmap">
+<select id="getProductBrands" resultMap="BrandResultMap">
   SELECT
     *
   FROM
     brand
+</select>
+
+<insert id="addProduct" parameterType="com.pg.flex.dto.ProductEditRequest" useGeneratedKeys="true" keyColumn="product_index" keyProperty="productIndex">
+  INSERT INTO 
+    product (product_name, product_brand, product_price, category_index, sex)
+  VALUES
+    (#{productName}, #{brandIndex}, #{productPrice}, #{categoryIndex}, #{sexIndex})
+</insert>
+
+<insert id="postProductImage">
+  INSERT INTO 
+    product_image (product_index, original_file_name, saved_file_name, is_thumb)
+  VALUES
+    (#{productIndex}, #{originalFileName}, #{savedFileName}, #{isThumb})
+</insert>
+
+<select id="getProductImageByProductImage" parameterType="int" resultMap="ProductImageResponse">
+  SELECT
+    *
+  FROM
+    product_image
+  WHERE
+    product_index = #{productIndex}
 </select>
 
 </mapper>
