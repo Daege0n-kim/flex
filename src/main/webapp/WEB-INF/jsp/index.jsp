@@ -31,6 +31,7 @@
   <%
     String UserId = (String)session.getAttribute("userName");
   %>
+  <%= request.getRealPath("/") %>
   <div id="header">
     <c:out value = "" />
     <header>
