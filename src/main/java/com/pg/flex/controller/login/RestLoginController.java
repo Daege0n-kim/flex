@@ -41,9 +41,9 @@ public class RestLoginController {
     }
 
     @PostMapping(value = "/signup")
-    public void signup(HttpServletResponse response, @RequestParam String login_id, @RequestParam String login_password, @RequestParam String user_name, @RequestParam String user_id) throws IOException {
+    public void signup(HttpServletResponse response, @RequestParam String loginId, @RequestParam String loginPassword, @RequestParam String userName, @RequestParam String userId) throws IOException {
 
-        User user = new User(login_id, login_password, user_name, user_id);
+        User user = new User(loginId, loginPassword, userName, userId);
 
         service.signUp(user);
         response.sendRedirect("/sign-in");

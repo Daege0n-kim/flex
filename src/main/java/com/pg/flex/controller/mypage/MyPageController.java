@@ -55,7 +55,7 @@ public class MyPageController {
 
     String prefix = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1, multipartFile.getOriginalFilename().length());
     String fileName = UUID.randomUUID().toString() + "." + prefix;
-    String pathName = UPLOAD_FILE_PATH + fileName;
+    String pathName = UPLOAD_FILE_PATH + "/user-image" + fileName;
 
     String userId = (String)session.getAttribute("loginId");
     String originalFileName = multipartFile.getOriginalFilename();

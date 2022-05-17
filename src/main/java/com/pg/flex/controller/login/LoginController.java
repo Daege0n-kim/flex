@@ -39,7 +39,7 @@ public class LoginController {
 
     @GetMapping(value = "/sign-in")
     public String signIn(HttpSession session) {
-        return "/sign/sign";
+        return "/sign/sign-in";
     }
 
     @GetMapping(value = "/logout")
