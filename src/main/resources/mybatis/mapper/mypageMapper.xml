@@ -9,7 +9,7 @@
   <result column="user_name" property="userName" />
   <result column="user_id" property="userId" />
   <result column="total_price" property="totalPrice" />
-  <result column="save_name" property="saveName" />
+  <result column="saved_file_name" property="saveName" />
 </resultMap>
 
 <select id="getUserDetail" resultMap="ProductResultMap">
@@ -28,7 +28,7 @@
       WHERE
         o.user_id = u.user_id
     ) AS total_price,
-    ui.save_name
+    ui.saved_file_name
   FROM
     user_info AS u
   INNER JOIN

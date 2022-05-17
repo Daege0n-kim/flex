@@ -17,15 +17,32 @@
   <select id="getPosts" resultMap="StyleResultMap">
     SELECT
       u.user_id, 
-      p.post_content, 
       p.like_count, 
-      (select count(*) from comment where post_index = p.post_index) AS comment_count
+      p.post_content, 
+      (SELECT count(*) FROM post_like AS pl WHERE pl.post_index = p.post_index) AS like_count, 
+      (SELECT count(*) FROM comment AS c WHERE c.post_index = p.post_index) AS comment_count
     FROM 
       posting AS p
     INNER JOIN 
       user_info AS u
     ON
-      p.login_id = u.login_id;
+      p.login_id = u.login_id
+  </select>
+
+  <select id="getPost" parameterType="int" resultMap="StyleResultMap">
+    SELECT
+      u.user_id, 
+      p.post_content, 
+      (SELECT count(*) FROM post_like AS pl WHERE pl.post_index = #{postIndex}) AS like_count, 
+      (SELECT count(*) FROM comment AS c WHERE c.post_index = #{postIndex}) AS comment_count
+    FROM 
+      posting AS p
+    INNER JOIN 
+      user_info AS u
+    ON
+      p.login_id = u.login_id
+    WHERE
+      p.post_index = ${postIndex}
   </select>
 
   <!-- main style 가져오기 -->
