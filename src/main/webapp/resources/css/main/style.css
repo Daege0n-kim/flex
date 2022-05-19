@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 /* CSS Document */
-body{margin:0}
+body{margin:0; position: relative;}
 h1 a img{position:relrelative;width:191px;height:90px;margin-left:80px}
 #header{height:90px;background:#fff}
 header{font-size:30px;width:100%;padding:0 66px;margin:0 auto;background-color:#fff;position:fixed;z-index:100;box-shadow:0 4px 10px rgba(0,0,0,0.1)}
@@ -33,6 +33,25 @@ nav a:hover{border-bottom:3px solid #282a35;padding-bottom:22px;color:#000000}
 .card .card-body{padding:10px 13px 24px 13px;border-top:1px solid #000}
 .card-text-tit{margin-bottom:0;font-size:20px;text-decoration:underline}
 .card-body .card-text{text-align:left;font-size:20px;font-family: 'Segoe UI';}
-.container{margin-bottom:50px}
+.container{margin-bottom:5px}
 
-.side-txt{transform:translate(450px,500px) rotate(90deg);font-size:160px;font-family:'Segoe UI';font-weight:bold;color:#9D9D9D;;position:absolute;z-index:1}
+.side-txt{
+  position: absolute;
+  width: 20%;
+  height: calc(100% - 585px);
+  z-index: 1;
+  overflow: hidden;
+  top: 0;
+  right: 0;
+}
+.txt {
+  position: absolute;
+  right: 2rem;
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+  font-size:160px;
+  font-family: 'Segoe UI';
+  font-weight: bold;
+  color:#9D9D9D;
+  opacity: .4;
+}

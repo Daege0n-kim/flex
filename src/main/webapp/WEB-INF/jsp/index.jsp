@@ -86,9 +86,9 @@
     </section>
     
     <div class="side-txt">
-      <p>
+      <div class="txt">
         FLEX FOR LIMITED EDITION TRANSACTION
-      </p>
+      </div>
     </div>
 
     <!-- Style -->
