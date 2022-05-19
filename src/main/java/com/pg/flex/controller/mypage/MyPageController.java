@@ -50,6 +50,11 @@ public class MyPageController {
     return "/mypage/post_board";
   }
 
+  @GetMapping(value = "/shopping")
+  public String postShopping() {
+    return "/mypage/shopping";
+  }
+
   @PostMapping(value = "/post_mypage")
   public String postMyInfrom(HttpSession session, @RequestParam("myImage") MultipartFile multipartFile) {
 

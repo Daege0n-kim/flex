@@ -17,7 +17,6 @@
   <select id="getPosts" resultMap="StyleResultMap">
     SELECT
       u.user_id, 
-      p.like_count, 
       p.post_content, 
       (SELECT count(*) FROM post_like AS pl WHERE pl.post_index = p.post_index) AS like_count, 
       (SELECT count(*) FROM comment AS c WHERE c.post_index = p.post_index) AS comment_count
