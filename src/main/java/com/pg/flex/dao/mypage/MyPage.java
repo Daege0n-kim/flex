@@ -1,7 +1,5 @@
 package com.pg.flex.dao.mypage;
 
-import java.util.List;
-
 import com.pg.flex.dto.UserDetail;
 import com.pg.flex.dto.UserImage;
 

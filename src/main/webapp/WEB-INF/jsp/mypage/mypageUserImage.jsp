@@ -65,7 +65,7 @@
             </div>
             <div class="profile-card-container">
                 <div class="profile-thumb-container">
-                    <img src="" alt="No Image Here" class="profile-thumb-img">
+                    <img src="${path}" alt="No Image Here" class="profile-thumb-img">
                 </div>
                 <div class="profile-content-container">
                     <div class="content-top-container">
