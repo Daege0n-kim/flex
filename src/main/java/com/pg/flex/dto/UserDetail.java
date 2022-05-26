@@ -9,23 +9,29 @@ import lombok.ToString;
 @Setter
 public class UserDetail {
 
-  private String userName;
-  private String userId;
-  private int totalPrice;
   private String savedFileName;
+  private String userId;
+  private String userName;
+  private int totalPrice;
 
-  public UserDetail(String userName, String userId, int totalPrice) {
-    this.userName = userName;
-    this.userId = userId;
-    this.totalPrice = totalPrice;
-  }
-
-
-  public UserDetail(String userName, String userId, int totalPrice, String savedFileName) {
-    this.userName = userName;
-    this.userId = userId;
-    this.totalPrice = totalPrice;
+  public UserDetail() {}
+  public UserDetail(String savedFileName) {
     this.savedFileName = savedFileName;
+  }
+  public UserDetail(String savedFileName, String userId) {
+    this.savedFileName = savedFileName;
+    this.userId = userId;
+  }
+  public UserDetail(String savedFileName, String userId, String userName) {
+    this.savedFileName = savedFileName;
+    this.userId = userId;
+    this.userName = userName;
+  }
+  public UserDetail(String savedFileName, String userId, String userName, int totalPrice) {
+    this.savedFileName = savedFileName;
+    this.userId = userId;
+    this.userName = userName;
+    this.totalPrice = totalPrice;
   }
 
 }

@@ -92,6 +92,28 @@
         <div class="item-detail-img-container">
           <img src="/resources/product-image/${product.detailSrc}" alt="" class="product-detail-img">
         </div>
+
+        <div class="board-list-container">
+          <h1>STYLE</h1>
+          <div class="board-list">
+            <div class="board-card">
+              <img src="" alt="" class="board-thumb">
+              <div class="board-info-area">
+                <span class="user-id"></span>
+                <span class="board-title"></span>
+                <span class="like"></span>
+                <span class="comment-count"></span>
+                <div class="related-product-group">
+                  <img src="" alt="" class="related-product">
+                  <img src="" alt="" class="related-product">
+                  <img src="" alt="" class="related-product">
+                  <img src="" alt="" class="related-product">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
       </div>
     </div>
 
@@ -120,26 +142,3 @@
   </script>
 </body>
 </html>
-
-
-<!-- <div class="product-card">
-  <input type="hidden" name="product_index" value="${product.productIndex}">
-  <div class="product-name">
-    <span>Product Name : <c:out value="${product.productName}" /></span>
-  </div>
-  <div class="product-brand">
-    <span>Product Brand : <c:out value="${product.productBrand}" /></span>
-  </div>
-  <div class="product-price">
-    <span>Product Price : <c:out value="${product.productPrice}" /></span>
-  </div>
-  <div class="category-name">
-    <span>Category : <c:out value="${product.categoryName}" /></span>
-  </div>
-  <div class="tuhmb">
-    <img src="/resources/product-image/${product.thumbSrc}" alt="" width="100px">
-  </div>
-  <div class="detal">
-    <img src="/resources/product-image/${product.detailSrc}" alt="" width="100px">
-  </div>
-</div> -->
