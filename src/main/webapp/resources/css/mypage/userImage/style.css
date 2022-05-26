@@ -1,0 +1,90 @@
+/* header */
+#header{height:107px;background:#fff}
+header{font-size:30px;width:100%;margin:0 auto;padding:0 30px;background-color:#fff;position:fixed;z-index:100}
+.header-logo{margin:4px 0 11px}
+nav{display:inline-block;float:left}
+nav{text-align:center;float:right}
+nav a{color:#000000;text-decoration:none;padding:33px 30px;display:inline-block;font-size:18px;font-weight:500;font-family:'Noto Sans KR',sans-serif;line-height:40px}
+nav a:hover{border-bottom:3px solid #282a35;padding-bottom:31px;color:#000000}
+.shadow {box-shadow:0 .3rem 1rem rgba(0,0,0,.05)!important}
+
+body{position:relative}
+
+/* top-text */
+.mypage-text{margin-left:35px;margin-bottom:0;font-size:70px;font-family:'Roboto', sans-serif;font-weight:700;line-height:.8;position:relative}
+
+/* side-text */
+.side-txt{position:absolute;width:20%;height:calc(100% - 585px);z-index:1;overflow:hidden;top:0;right:0}
+.txt{position:absolute;right:2rem;writing-mode:vertical-rl;white-space:nowrap;font-size:260px;font-family:'Roboto', sans-serif;font-weight:bold;color:#000;opacity:.12}
+
+/* container */
+.main-container{padding-top:91px;font-family:'Noto Sans KR',sans-serif;display:flex;flex-direction:column;justify-content:center}
+.main-top-container{display:flex;flex-direction:row;justify-content:center}
+.tab-container{margin-top:50px;display:flex;flex-direction:column;align-items:center}
+
+/* side-menu */
+.shopping-info-container, .member-info-container{width:13vw;display:flex;align-items:center;justify-content:center;border:0.1vw solid #707070}
+.member-info-container{margin-top:1vw}
+.shopping-info-area, .member-info-area{margin:2vw 0}
+.shopping-info-area p, .member-info-area p{margin:0;font-size:1.8vw;font-weight:700}
+.shopping-info-area a, .member-info-area a{margin-top:1vw;display:block;color:#000;font-size:1.2vw;text-underline-position:under;text-decoration-thickness:0.1vw}
+
+/* profile-card */
+.main-top-container .profile-card-container{width:65vw;height:32.5vw;margin-left:3vw;margin-right:6vw;border:0.1vw solid #707070;display:flex;flex-direction:row;z-index:2}
+.main-top-container .profile-thumb-container{flex:1}
+.main-top-container .profile-content-container{border-left:0.1vw solid #707070;flex:1;display:flex;flex-direction:column}
+.main-top-container .content-top-container{padding:1.5vw;flex:1}
+.main-top-container .content-bottom-container{padding:1.5vw;flex:1;display:flex;flex-direction:column}
+.main-top-container .user-name-area p{margin:0;font-size:2.8vw;text-decoration:underline;text-underline-position:under;text-decoration-thickness:0.15vw}
+.main-top-container .profile-card-container .user-id-area p{margin:0;font-size:1.9vw;line-height:.9}
+.main-top-container .profile-card-container .purchace-amount-area{flex:1}
+.main-top-container .profile-card-container .purchace-amount-area p{margin:0;font-size:1.9vw}
+.main-top-container .profile-btn-area{flex:1;display:flex;justify-content:space-between}
+.main-top-container .profile-card-container button{width:48%;height:100%;font-size:1vw;background-color:#efefef;border:0.1vw solid #707070;border-radius:1vw}
+.main-top-container .profile-card-container .profile-edit-btn{background-color:#fff;border:0.1vw solid #707070}
+.main-top-container .profile-card-container button:hover{background-color:#cecece;border:0.1vw solid #cecece}
+.main-top-container .profile-card-container .profile-edit-btn:hover{background-color:#fff;border:0.3vw solid #707070}
+
+/* Tab Menu */
+li{list-style:none}
+.tab-wrap{height:40px;display:inline-block}
+.tab{width:85%;height:auto;overflow:hidden;text-align:center}
+.tab ul{margin-bottom:33px;padding:0;list-style:none;width:100%;height:auto;overflow:hidden}
+.tab ul>li{display:inline-block;width:90px;float:left;line-height:40px;text-align:center;cursor:pointer;font-size:18px;border-radius:50px}
+.tab ul>li.on{background:#000;color:#fff}
+.tab .conBox{width:100%;height:auto;overflow:hidden;min-height:200px;display:none}
+.tab .conBox.on{display:block}
+.cont-wrap{width:1200px;margin:0 auto}
+
+/* follow & following */
+.follw-number{margin:0;font-size:37px}
+.follow-card-row-bundle-container{width:100%;margin-top:77px;display:flex;justify-content:space-evenly}
+.follow-card-bundle-container .profile-card-container{width:35vw;height:17.5vw;text-align:left;display:flex;flex-direction:row;border:0.1vw solid #707070}
+.follow-card-bundle-container .profile-thumb-container{flex:1}
+.follow-card-bundle-container .profile-content-container{border-left:0.1vw solid #707070;font-family:'Noto Sans KR',sans-serif;flex:1;display:flex;flex-direction:column}
+.follow-card-bundle-container .content-top-container{padding:1.2vw;flex:1}
+.follow-card-bundle-container .content-bottom-container{padding:1.2vw;flex:1;display:flex;flex-direction:column}
+.follow-card-bundle-container .user-name-area p{margin:0;font-size:2.1vw;text-decoration:underline;text-underline-position:under;text-decoration-thickness:0.15vw}
+.follow-card-bundle-container .user-id-area p{margin:0;font-size:1.4vw;line-height:.9}
+.follow-card-bundle-container .purchace-amount-area{flex:1;display:flex;flex-direction:column;justify-content:flex-end}
+.follow-card-bundle-container .follow-btn-area{flex:1}
+.follow-card-bundle-container .purchace-amount-area p{margin:0;font-size:1.4vw}
+
+/* posting */
+.posting-number{margin:0;font-size:37px}
+.posting-card-row-bundle-container{width:100%;margin-top:77px;display:flex;justify-content:space-evenly}
+.post-card-container{width:19.4vw;text-align:left;border:0.1vw solid #000;z-index:2}
+.post-thumb-container{height:19.4vw}
+.post-content-container{height:10vw;padding:0.3vw 0.6vw;border-top:0.1vw solid #000}
+.post-card-container .user-id-area p{margin:0}
+.post-title-area p{margin:0;font-size:1vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.post-response-area p{margin:0}
+.post-card-container .user-id-area, .post-response-area{font-size:0.8vw;}
+.product-img-container{display:flex;justify-content:space-between}
+.product-thumb-container{width:4.2vw;height:4.2vw;margin-top:0.9vw;border-radius:0.6vw;border:1px solid #000}
+
+/* footer */
+footer{height:585px;margin-top:278px;background:#f9f9f9;padding:50px 0;text-align:left;display:flex;align-items:center}
+footer>div{width:1200px;margin:0 auto}
+.footer-cont p{line-height:4em;border-top:1px solid rgba(0,0,0,.3)}
+.footer-cont p:first-child{border-top:none}

@@ -28,22 +28,27 @@ public class MyPageController {
   @Value("${upload.file.path}")
   private String UPLOAD_FILE_PATH;
 
-  @GetMapping(value = "/mypage")
-  public String myPage(HttpSession session, Model model){
+  
+
+  @GetMapping(value = "/post_mypage")
+  public String postMyPage() {
+    return "/mypage/post_mypage";
+  }
+
+  @GetMapping(value = "/mypageUserImage")
+  public String mypageUserImage(HttpSession session, Model model) {
+
+
     UserDetail userDetail = myPageService.getUserDetail((String)session.getAttribute("loginId"));
 
     String path = "/resources/uploadfile/" + userDetail.getSavedFileName();
 
     model.addAttribute("path", path);
     model.addAttribute("userDetail", userDetail);
-    return "/mypage/index";
-
+    return "/mypage/mypageUserImage";
   }
 
-  @GetMapping(value = "/post_mypage")
-  public String postMyPage() {
-    return "/mypage/post_mypage";
-  }
+
 
   @GetMapping(value = "/post_board")
   public String postBoard() {
