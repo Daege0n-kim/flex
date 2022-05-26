@@ -14,6 +14,8 @@ nav a:hover{border-bottom:3px solid #282a35;padding-bottom:22px;color:#000000}
 .content{background:#fff;overflow:hidden}
 .tit{margin-top:152px;margin-bottom:61px !important;text-align:center;font-size:40px;font-family:'Segoe UI'}
 
+/* top-text */
+.shop-text{margin-left:35px;margin-bottom:0;font-size:70px;font-family:'Roboto', sans-serif;font-weight:700;line-height:.8;position:relative}
 .main-visual dt{position:absolute;right:20%;top:50%;transform:translateY(-50%);color:#fff;text-align:center;font-size:46px}
 .main-tit{margin-left:auto;margin-right:auto;font-size:30px;font-weight:700;font-family:'Segoe UI'}
 
@@ -30,8 +32,8 @@ nav a:hover{border-bottom:3px solid #282a35;padding-bottom:22px;color:#000000}
 .bannerimg{width:100%;height:440px;background-image:url("../../img/main/img-sample-lg.jpg");position:relative;z-index:2;display:flex;align-items:center}
 
 .container .card{position:relative;z-index:2;background-color:transparent;border:1px solid #000;border-radius:0}
-.card .card-body{padding:10px 13px 24px 13px;border-top:1px solid #000}
-.card-text-tit{margin-bottom:0;font-size:20px;text-decoration:underline}
+.card .card-body{height: 150px; padding:10px 13px 24px 13px;border-top:1px solid #000}
+.card-text-tit{margin-bottom:0;font-size:20px;text-decoration:underline; text-transform: uppercase;}
 .card-body .card-text{text-align:left;font-size:20px;font-family: 'Segoe UI';}
 .container{margin-bottom:5px}
 

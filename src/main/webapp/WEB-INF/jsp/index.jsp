@@ -32,7 +32,6 @@
     String UserId = (String)session.getAttribute("userName");
   %>
   <div id="header">
-    <c:out value = "" />
     <header>
       <a href="#" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
       <nav>

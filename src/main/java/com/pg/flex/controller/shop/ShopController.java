@@ -2,6 +2,9 @@ package com.pg.flex.controller.shop;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale.Category;
+
+import javax.servlet.http.HttpSession;
 
 import com.pg.flex.dto.Product;
 import com.pg.flex.dto.ProductBrand;
@@ -60,13 +63,18 @@ public class ShopController {
   }
 
   @GetMapping(value = "/show_products")
-  public String showProducts(Model model) {
+  public String showProducts(Model model, HttpSession session) {
     List<Product> products = service.getProducts();
     List<ProductResponse> productResponses = new ArrayList<>();
+    List<ProductCategory> categories = service.getCategories();
+    List<ProductSex> sexs = service.getSex();
+    List<ProductBrand> brands = service.getProductBrands();
 
     for(Product product : products) {
       ProductResponse productResponse = new ProductResponse(product.getProductIndex(), product.getProductName(), product.getProductBrand(), product.getProductPrice(), product.getCategoryName());
+
       List<ProductImage> imagesList = service.getProductImageByProductImage(product.getProductIndex());
+
       for(ProductImage image : imagesList) {
         if (image.getIsThumb() == 1) {
           productResponse.setThumbSrc(image.getSavedFileName());
@@ -77,8 +85,10 @@ public class ShopController {
 
       productResponses.add(productResponse);
     }
-
     model.addAttribute("productResponse", productResponses);
+    model.addAttribute("categories", categories);
+    model.addAttribute("sex", sexs);
+    model.addAttribute("brands", brands);
     return "/shop/show_products";
   }
 
@@ -88,6 +98,10 @@ public class ShopController {
     Product product = service.getProductByProductIndex(productIndex);
 
     ProductResponse productResponse = new ProductResponse(product.getProductIndex(), product.getProductName(), product.getProductBrand(), product.getProductPrice(), product.getCategoryName());
+
+    List<ProductCategory> categories = service.getCategories();
+    List<ProductSex> sexs = service.getSex();
+    List<ProductBrand> brands = service.getProductBrands();
 
     List<ProductImage> imagesList = service.getProductImageByProductImage(productIndex);
     for(ProductImage image : imagesList) {
@@ -99,6 +113,9 @@ public class ShopController {
     }
 
     model.addAttribute("product", productResponse);
+    model.addAttribute("categories", categories);
+    model.addAttribute("sex", sexs);
+    model.addAttribute("brands", brands);
     return "/shop/show_product";
   }
 }
