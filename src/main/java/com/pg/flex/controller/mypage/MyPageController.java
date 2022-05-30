@@ -38,10 +38,10 @@ public class MyPageController {
   @GetMapping(value = "/mypageUserImage")
   public String mypageUserImage(HttpSession session, Model model) {
 
+    String userId = (String)session.getAttribute("loginId");
+    UserDetail userDetail = myPageService.getUserDetail(userId);
 
-    UserDetail userDetail = myPageService.getUserDetail((String)session.getAttribute("loginId"));
-
-    String path = "/resources/uploadfile/" + userDetail.getSavedFileName();
+    String path = "/mypage/uploadfile/" + userDetail.getSavedFileName();
 
     model.addAttribute("path", path);
     model.addAttribute("userDetail", userDetail);
