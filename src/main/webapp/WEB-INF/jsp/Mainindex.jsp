@@ -91,126 +91,57 @@
     <h4 class="tit" style="margin-top:89px">&lt; STYLE &gt;</h4>
     <div class="card-container">
       <!-- 3개짜리 카드 시작 -->
-      <div class="post-card-container">
-        <div class="post-thumb-container">
-          <img src="" alt="No Image Here" class="post-thumb-img">
-        </div>
-        <div class="post-content-container">
-          <div class="user-id-area">
-            <p>@mrpark</p>
-          </div>
-          <div class="post-title-area">
-            <p>안드로이드 공부 하다가 한컷 ^-^</p>
-          </div>
-        </div>
-      </div>
-      <!-- 3개짜리 카드 끝 -->
-      <div class="post-card-container">
-        <div class="post-thumb-container">
-          <img src="" alt="No Image Here" class="post-thumb-img">
-        </div>
-        <div class="post-content-container">
-          <div class="user-id-area">
-            <p>@mrpark</p>
-          </div>
-          <div class="post-title-area">
-            <p>안드로이드 공부 하다가 한컷 ^-^</p>
-          </div>
-        </div>
-      </div>
-      <div class="post-card-container">
-        <div class="post-thumb-container">
-          <img src="" alt="No Image Here" class="post-thumb-img">
-        </div>
-        <div class="post-content-container">
-          <div class="user-id-area">
-            <p>@mrpark</p>
-          </div>
-          <div class="post-title-area">
-            <p>안드로이드 공부 하다가 한컷 ^-^</p>
-          </div>
-        </div>
-      </div>
-    </div>
 
+      <c:forEach var="data" items="${posting}" varStatus="status">
+      <div class="post-card-container">
+        <div class="post-thumb-container">
+          <img src="${path}" alt="No Image Here" class="post-thumb-img">
+        </div>
+        <div class="post-content-container">
+          <div class="user-id-area">
+            <p><c:out value="${data.userId}"/></p>
+          </div>
+          <div class="post-title-area">
+            <p><c:out value="${data.postContent}"/></p>
+          </div>
+        </div>
+      </div>
+
+    </c:forEach>
+      
+    
+    
     <div class="ezkorry-roller"><span>FLEX FOR LIMITED EDITION TRANSACTION </span></div>
+    
 
     <!-- New Arrive -->
     <h4 class="tit">&lt; NEW ARRIVE &gt;</h4>
     <div class="card-container">
       <!-- 4개짜리 카드 시작 -->
+
+      <c:forEach var="data" items="${productList}" varStatus="status">
       <div class="product-card-container">
 
-        <c:forEach var="data" items="${productList}" varStatus="status">
         <div class="product-thumb-container">
-          <img src="$path" alt="No Image Here" class="product-thumb-img">
+          <img src="${path}" alt="No Image Here" class="product-thumb-img">
         </div>
-        <div class="product-content-container">
+        
+      <div class="product-content-container">
           <div class="product-brand-area">
             <p><c:out value="${data.productBrand}"/></p>
           </div>
+
           <div class="product-name-area">
             <p><c:out value="${data.productName}"/></p>
           </div>
+        </div>
 
-
-        </c:forEach>
-
-        
       </div>
-      
-    </div>
+    </c:forEach>
+  
 
-    
+      <div class="bannerimg"></div>
 
-      
-
-
-
-
-      <!-- 4개짜리 카드 끝 -->
-      <div class="product-card-container">
-        <div class="product-thumb-container">
-          <img src="" alt="No Image Here" class="product-thumb-img">
-        </div>
-        <div class="product-content-container">
-          <div class="product-brand-area">
-            <p>NIKE AIR</p>
-          </div>
-          <div class="product-name-area">
-            <p>TRAVIS SCOTT</p>
-          </div>
-        </div>
-      </div>
-      <div class="product-card-container">
-        <div class="product-thumb-container">
-          <img src="" alt="No Image Here" class="product-thumb-img">
-        </div>
-        <div class="product-content-container">
-          <div class="product-brand-area">
-            <p>NIKE AIR</p>
-          </div>
-          <div class="product-name-area">
-            <p>TRAVIS SCOTT</p>
-          </div>
-        </div>
-      </div>
-      <div class="product-card-container">
-        <div class="product-thumb-container">
-          <img src="" alt="No Image Here" class="product-thumb-img">
-        </div>
-        <div class="product-content-container">
-          <div class="product-brand-area">
-            <p>NIKE AIR</p>
-          </div>
-          <div class="product-name-area">
-            <p>TRAVIS SCOTT</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="bannerimg"></div>
 
     <!-- MD's Pick -->
     <h4 class="tit">&lt; MD's Pick &gt;</h4>

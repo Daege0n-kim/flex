@@ -21,14 +21,26 @@
 <body>
   <div id="header">
     <header>
-      <a href="/home" title="Logo"><img src="../../../resources/img/main/logo.png"></a>
+      <a href="/home" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
       <nav>
-        <a href="">STYLE</a> <a href="">SHOP</a> <a href="">ABOUT</a> <a href="">SIGN IN</a>
+        <a href="/style">STYLE</a> <a href="/shop">SHOP</a> <a href="/about">ABOUT</a>
+        <c:set var="name" value="${userName}" />
+        <c:choose>
+          <c:when test="${empty name}">
+            <a href="/sign-in">SIGN IN</a>
+          </c:when>
+          <c:when test="${not empty name}">
+            <a href="/mypageUserImage">MYPAGE</a>
+            <a href="/logout">
+              <li class="header-menu-list-item">SIGN OUT</li>
+            </a>
+          </c:when>
+        </c:choose>
       </nav>
     </header>
   </div>
 
-  <p class="signin-text">Sign IN</p>
+  <p class="signin-text">Sign UP</p>
 
   <div class="side-txt">
       <div class="txt">

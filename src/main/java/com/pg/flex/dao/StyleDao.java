@@ -10,5 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface StyleDao {
 
   public List<Style> getPosts();
+  public List<Style> getMainPosts();
+  
   
 }
