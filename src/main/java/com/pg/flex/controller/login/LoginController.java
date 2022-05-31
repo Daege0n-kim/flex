@@ -5,8 +5,10 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import com.pg.flex.dto.Product;
+import com.pg.flex.dto.Style;
 import com.pg.flex.dto.User;
 import com.pg.flex.service.shop.ShopService;
+import com.pg.flex.service.style.StyleService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,14 +24,22 @@ public class LoginController {
 
     @Autowired
     private ShopService shopService;
+    private StyleService service;
 
     @GetMapping("/")
     public String main(HttpSession session, Model model) {
 
         List<Product> result =  shopService.getProducts();
+        List<Style> result2 = service.getMainPosts();
 
         model.addAttribute("productList", result);
-        return "/Mainindex";
+        model.addAttribute("posting", result2);
+        
+        
+    return "/Mainindex";
+
+
+
     }
 
     @GetMapping("/home")
@@ -49,8 +59,8 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @GetMapping(value = "/signup")
+    @GetMapping(value = "/sign-up")
     public String signUp() {
-        return "/sign/sign-up";
+        return "/sign-up/sign-up";
     }
 }

@@ -12,6 +12,9 @@
     <result column="comment_count" property="commentCount" />
   </resultMap>
 
+
+
+
   
   <!-- style  post가져오기 -->
   <select id="getPosts" resultMap="StyleResultMap">
@@ -47,16 +50,19 @@
   <!-- main style 가져오기 -->
 
    <select id="getMainPosts" resultMap="StyleResultMap">
-    SELECT
-      u.user_id, 
-      p.post_content, 
-    FROM 
-      posting AS p
-    INNER JOIN 
-      user_info AS u
-    ON
-      p.login_id = u.login_id
-    LIMIT 0 OFFSET 3 
+  SELECT 
+  p.post_content, bi.saved_file_name, ui.user_id 
+  FROM 
+  posting p 
+INNER JOIN
+ user_info ui 
+	ON 
+    p.login_id = ui.login_id 
+INNER JOIN
+  board_img bi 
+	ON 
+    p.post_index = bi.board_index 
+		LIMIT 3 OFFSET 0;
 
   </select>
 

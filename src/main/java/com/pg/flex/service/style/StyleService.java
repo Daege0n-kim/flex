@@ -12,10 +12,17 @@ import org.springframework.stereotype.Service;
 public class StyleService {
 
   @Autowired
-  private StyleDao dao;
+  private StyleDao dao,dao2;
+  public List<Style> getMainPosts;
 
   public List<Style> getPosts() {
     return dao.getPosts();
   }
+
+  public List<Style> getMainPosts() {
+    return dao2.getMainPosts();
+  }
+
+
   
 }

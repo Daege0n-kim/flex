@@ -16,7 +16,6 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../../../resources/css/sign-in/style.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <link rel="stylesheet" href="../../../resources/css/main/reset.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
@@ -75,6 +74,7 @@
                 </div>
             </div>
             <button class="stbtn">Start FLEX</button>
+            
         </form>
     </div>
     <footer>

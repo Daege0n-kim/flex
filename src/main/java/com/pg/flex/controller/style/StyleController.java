@@ -26,5 +26,10 @@ public class StyleController {
         model.addAttribute("posts", result);
         return "/style/StyleMain";
     }
+
+    @GetMapping("/related")
+    public String Related(){
+        return "/Related_Post/Related_post";
+    }
     
 }
