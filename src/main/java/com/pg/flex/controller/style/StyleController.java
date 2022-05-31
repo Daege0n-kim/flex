@@ -24,7 +24,7 @@ public class StyleController {
 
 
         model.addAttribute("posts", result);
-        return "/style/index";
+        return "/style/StyleMain";
     }
     
 }

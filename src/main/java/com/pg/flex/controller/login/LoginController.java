@@ -29,17 +29,17 @@ public class LoginController {
         List<Product> result =  shopService.getProducts();
 
         model.addAttribute("productList", result);
-        return "/index";
+        return "/Mainindex";
     }
 
     @GetMapping("/home")
     public String homeIndex() {
-        return "/home/main";
+        return "/Mainindex";
     }
 
     @GetMapping(value = "/sign-in")
     public String signIn(HttpSession session) {
-        return "/sign/sign-in";
+        return "/sign-in/sign-in";
     }
 
     @GetMapping(value = "/logout")
