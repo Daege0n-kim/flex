@@ -6,7 +6,6 @@ h1,h2,h3,h4,h5,h6{font-family:'Segoe UI';}
 
 /* Main-visual - Title font 사이즈는 40px로 한다 */
 .main-visual li{position:relative}
-.main-visual dt{font-size:40px}
 
 
 /* Footer - footer의 width는 1200px을 기준으로 한다 */

@@ -18,8 +18,8 @@
    font-family:'NanumGothic';
    font-weight:400;
    src: local('NanumGothic'), local('Nanum Gothic'), local('나눔고딕'), local('나눔 고딕'),
-      url('../../font/main/NanumGothic.woff2') format('woff2'), /* Chrome 36, Opera 23, Firefox 39 */
-      url('../../font/main/NanumGothic.woff') format('woff'); /* Chrome 6, Firefox 3.6, IE 9, Safari 5.1  */
+      url('../font/NanumGothic.woff2') format('woff2'), /* Chrome 36, Opera 23, Firefox 39 */
+      url('../font/NanumGothic.woff') format('woff'); /* Chrome 6, Firefox 3.6, IE 9, Safari 5.1  */
 }
 @font-face {
    font-family:'NanumGothic';
@@ -32,8 +32,8 @@
    font-family:'NanumGothic';
    font-weight:800;
    src: local('NanumGothicExtraBold'), local('NanumGothic-ExtraBold'), local('NanumGothic ExtraBold'), local('Nanum Gothic ExtraBold'), local('나눔고딕 ExtraBold'), local('나눔 고딕 ExtraBold'),
-        url('../../font/main/NanumGothic.woff2') format('woff2'), 
-        url('../../font/main/NanumGothic.woff') format('woff');
+        url('../font/NanumGothicExtraBold.woff2') format('woff2'), 
+        url('../font/NanumGothicExtraBold.woff') format('woff');
 }
 
 
@@ -42,8 +42,8 @@
     font-family:'NanumSquare';
    font-weight:300;
    src: local('NanumSquareL'), local('NanumSquareLight'), local('NanumSquare-Light'), local('NanumSquare Light'), 
-         url('../../font/main/NanumGothic.woff2') format('woff2'),
-         url('../../font/main/NanumGothic.woff') format('woff');
+         url('../font/NanumSquareL.woff2') format('woff2'),
+         url('../font/NanumSquareL.woff') format('woff');
 }
 
 @font-face {
