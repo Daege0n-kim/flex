@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import com.pg.flex.dto.Product;
 import com.pg.flex.dto.Style;
+import com.pg.flex.dto.User;
 import com.pg.flex.service.shop.ShopService;
 import com.pg.flex.service.style.StyleService;
 
@@ -19,6 +20,7 @@ public class LoginController {
 
     @Autowired
     private ShopService shopService;
+    private StyleService service;
 
     @Autowired
     private StyleService service;
