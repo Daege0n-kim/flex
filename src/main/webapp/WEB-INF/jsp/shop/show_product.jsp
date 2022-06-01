@@ -50,19 +50,19 @@
         <ul class="left-menu">
           <span>Category</span>
           <c:forEach var="category" items="${categories}" varStatus="status">
-            <a href=""><li class="left-list-item"><c:out value="${category.categoryName}" /></li></a>
+            <li class="left-list-item" id="${category.categoryIndex}"><c:out value="${category.categoryName}" /></li>
           </c:forEach>
         </ul>
         <ul class="left-menu">
           <span>Brand</span>
           <c:forEach var="brand" items="${brands}" varStatus="status">
-            <a href=""><li class="left-list-item"><c:out value="${brand.brandName}" /></li></a>
+            <li class="left-list-item" id="${brand.brandIndex}"><c:out value="${brand.brandName}" /></li>
           </c:forEach>
         </ul>
         <ul class="left-menu">
           <span>Sex</span>
           <c:forEach var="sex" items="${sex}" varStatus="status">
-            <a href=""><li class="left-list-item"><c:out value="${sex.sex}" /></li></a>
+            <li class="left-list-item" id="${sex.sexIndex}"><c:out value="${sex.sex}" /></li>
           </c:forEach>
         </ul>
       </div>
@@ -134,6 +134,28 @@
   <script>
     $(function() {
       var price = document.querySelector('#item-price');
+      let leftItems = document.querySelectorAll('.left-list-item');
+      let checkedSearchCategoryIndex = [];
+      let checkedSearchCategoryValues = [];
+
+      console.log(leftItems)
+
+      leftItems.forEach((item) => {
+        item.addEventListener("click", () => {
+          if(item.classList.contains("clicked")){ 
+            checkedSearchCategoryIndex.pop(item.getAttribute('id'));
+            checkedSearchCategoryValues.pop(item.innerHTML);
+            item.classList.toggle("clicked");
+          } else {
+            checkedSearchCategoryIndex.push(item.getAttribute('id'));
+            checkedSearchCategoryValues.push(item.innerHTML);
+            item.classList.toggle("clicked");
+          }
+
+          console.log(checkedSearchCategoryValues)
+        });
+
+      });
 
       str = String(price.innerHTML);
       var replacePrice = str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
