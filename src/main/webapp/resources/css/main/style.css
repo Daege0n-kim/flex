@@ -47,3 +47,10 @@ body{position:relative}
 .product-content-container{height:5vw;padding:0.8vw 1.2vw;border-top:0.1vw solid #000;font-family:'Noto Sans KR',sans-serif}
 .product-brand-area p{margin:0;font-size:1vw;text-decoration:underline}
 .product-name-area p{margin:0;font-size:1vw}
+
+.top-btn {
+  position: fixed;
+  bottom: 2vh;
+  right: 2vw;
+  z-index: 100;
+}

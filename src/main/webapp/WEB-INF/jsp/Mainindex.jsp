@@ -39,21 +39,9 @@
 <body>
   <div id="header">
     <header>
-      <a href="/home" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
+      <a href="#" title="Logo"><img src="Img/logo.png" alt="logo"></a>
       <nav>
-        <a href="/style">STYLE</a> <a href="/shop">SHOP</a> <a href="/about">ABOUT</a>
-        <c:set var="name" value="${userName}" />
-        <c:choose>
-          <c:when test="${empty name}">
-            <a href="/sign-in">SIGN IN</a>
-          </c:when>
-          <c:when test="${not empty name}">
-            <a href="/mypageUserImage">MYPAGE</a>
-            <a href="/logout">
-              <li class="header-menu-list-item">SIGN OUT</li>
-            </a>
-          </c:when>
-        </c:choose>
+        <a href="">STYLE</a> <a href="">SHOP</a> <a href="">ABOUT</a> <a href="">SIGN IN</a>
       </nav>
     </header>
   </div>
@@ -63,13 +51,13 @@
       <div class="slide-inner">
         <ul class="slide-area">
           <li>
-            <a href="#"><img src="../../../resources/img/main/nocta.png" alt="img01"></a>
+            <a href="#"><img src="Img/nocta.png" alt="img01"></a>
           </li>
           <li>
-            <a href="#"><img src="../../../resources/img/main/stone.png" alt="img02"></a>
+            <a href="#"><img src="Img/stone.png" alt="img02"></a>
           </li>
           <li>
-            <a href="#"><img src="../../../resources/img/main/adidas.png" alt="img02"></a>
+            <a href="#"><img src="Img/adidas.png" alt="img02"></a>
           </li>
         </ul>
         <a class="prev" href="#">
@@ -91,57 +79,110 @@
     <h4 class="tit" style="margin-top:89px">&lt; STYLE &gt;</h4>
     <div class="card-container">
       <!-- 3개짜리 카드 시작 -->
-
-      <c:forEach var="data" items="${posting}" varStatus="status">
       <div class="post-card-container">
         <div class="post-thumb-container">
-          <img src="${path}" alt="No Image Here" class="post-thumb-img">
+          <img src="" alt="No Image Here" class="post-thumb-img">
         </div>
         <div class="post-content-container">
           <div class="user-id-area">
-            <p><c:out value="${data.userId}"/></p>
+            <p>@mrpark</p>
           </div>
           <div class="post-title-area">
-            <p><c:out value="${data.postContent}"/></p>
+            <p>안드로이드 공부 하다가 한컷 ^-^</p>
           </div>
         </div>
       </div>
+      <!-- 3개짜리 카드 끝 -->
+      <div class="post-card-container">
+        <div class="post-thumb-container">
+          <img src="" alt="No Image Here" class="post-thumb-img">
+        </div>
+        <div class="post-content-container">
+          <div class="user-id-area">
+            <p>@mrpark</p>
+          </div>
+          <div class="post-title-area">
+            <p>안드로이드 공부 하다가 한컷 ^-^</p>
+          </div>
+        </div>
+      </div>
+      <div class="post-card-container">
+        <div class="post-thumb-container">
+          <img src="" alt="No Image Here" class="post-thumb-img">
+        </div>
+        <div class="post-content-container">
+          <div class="user-id-area">
+            <p>@mrpark</p>
+          </div>
+          <div class="post-title-area">
+            <p>안드로이드 공부 하다가 한컷 ^-^</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    </c:forEach>
-      
-    
-    
     <div class="ezkorry-roller"><span>FLEX FOR LIMITED EDITION TRANSACTION </span></div>
-    
 
     <!-- New Arrive -->
     <h4 class="tit">&lt; NEW ARRIVE &gt;</h4>
     <div class="card-container">
       <!-- 4개짜리 카드 시작 -->
-
-      <c:forEach var="data" items="${productList}" varStatus="status">
       <div class="product-card-container">
-
         <div class="product-thumb-container">
-          <img src="${path}" alt="No Image Here" class="product-thumb-img">
+          <img src="" alt="No Image Here" class="product-thumb-img">
         </div>
-        
-      <div class="product-content-container">
+        <div class="product-content-container">
           <div class="product-brand-area">
-            <p><c:out value="${data.productBrand}"/></p>
+            <p>NIKE AIR</p>
           </div>
-
           <div class="product-name-area">
-            <p><c:out value="${data.productName}"/></p>
+            <p>TRAVIS SCOTT</p>
           </div>
         </div>
-
       </div>
-    </c:forEach>
-  
+      <!-- 4개짜리 카드 끝 -->
+      <div class="product-card-container">
+        <div class="product-thumb-container">
+          <img src="" alt="No Image Here" class="product-thumb-img">
+        </div>
+        <div class="product-content-container">
+          <div class="product-brand-area">
+            <p>NIKE AIR</p>
+          </div>
+          <div class="product-name-area">
+            <p>TRAVIS SCOTT</p>
+          </div>
+        </div>
+      </div>
+      <div class="product-card-container">
+        <div class="product-thumb-container">
+          <img src="" alt="No Image Here" class="product-thumb-img">
+        </div>
+        <div class="product-content-container">
+          <div class="product-brand-area">
+            <p>NIKE AIR</p>
+          </div>
+          <div class="product-name-area">
+            <p>TRAVIS SCOTT</p>
+          </div>
+        </div>
+      </div>
+      <div class="product-card-container">
+        <div class="product-thumb-container">
+          <img src="" alt="No Image Here" class="product-thumb-img">
+        </div>
+        <div class="product-content-container">
+          <div class="product-brand-area">
+            <p>NIKE AIR</p>
+          </div>
+          <div class="product-name-area">
+            <p>TRAVIS SCOTT</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <div class="bannerimg"></div>
-
+    <div class="bannerimg"></div>
 
     <!-- MD's Pick -->
     <h4 class="tit">&lt; MD's Pick &gt;</h4>
@@ -202,10 +243,14 @@
       </div>
     </div>
 
+    <div class="top-btn">
+      <img src="resources/img/top-btn.png" alt="">
+    </div>
+
     <!-- Footer -->
     <footer>
       <div class="footer-cont">
-        <img src="../../../resources/img/main/logo.png" alt="footer-logo" style="padding-bottom:50px">
+        <img src="Img/logo.png" alt="footer-logo" style="padding-bottom:50px">
         <p>이용안내 | 검수기준 | 이용정책 | 패널티 정책 | 커뮤니티 가이드라인</p>
         <p>회사소개 인재채용 제휴제안 이용약관 개인정보처리방침</p>
         <a>FLEX 주식회사 · 대표:문동환 사업자등록번호:570-11-012342 사업자정보확인통신판매업: 제 2033-흑석C-0293호<a>
@@ -240,7 +285,15 @@
           }
         }]
       });
+
+      var topBtn = document.querySelector('.top-btn');
+
+      topBtn.addEventListener('click', e => {
+        window.scrollTo(0 ,0);
+      });
+
     };
+    
     Zepto(function ($) {
       $(window).on('load', function () {
         $.each($(".ezkorry-roller"), function (index, item) {
