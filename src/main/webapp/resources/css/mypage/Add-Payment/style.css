@@ -45,3 +45,9 @@ footer{height:585px;margin-top:160px;background:#f9f9f9;padding:50px 0;text-alig
 footer>div{width:1200px;margin:0 auto}
 .footer-cont p{line-height:4em;border-top:1px solid rgba(0,0,0,.3)}
 .footer-cont p:first-child{border-top:none}
+.top-btn {
+    position: fixed;
+    bottom: 2vh;
+    right: 2vw;
+    z-index: 100;
+  }

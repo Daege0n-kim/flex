@@ -18,19 +18,26 @@ body{position:relative}
 .txt{transform:translate(0,107px);position:absolute;right:2rem;writing-mode:vertical-rl;white-space:nowrap;font-size:15.2vw;font-family:'Roboto', sans-serif;font-weight:bold;color:#000;opacity:.12}
 
 .wrapper{display:flex;justify-content:center;align-items:center;min-height:100vh}
-form{width:36.7vw;height:41.7vw;font-size:1rem;border:0.1vw solid #707070;padding:5vw 5vw 3.2vw}
+form{width:36.7vw;font-size:1rem;border:0.1vw solid #707070;padding:5vw}
 .signlogo{display:block;margin:0 auto;margin-bottom:3vw}
 .smform{padding:0 5.9vw}
 .smform-btn{display:table;width:100%;table-layout:fixed}
 .smform-btn a{font-size:.5vw;text-decoration:none;color:#000;display:table-cell;text-align:center}
 .smform-btn a:hover{color:#000}
 
-button{width:100%;height:4.2vw;margin-top:6vw;border:none;border-radius:1vw;background-color:#afafaf;color:#fff;font-size:1.2vw;font-family:'Noto Sans KR',sans-serif}
+button{width:100%;height:4.2vw;margin-top:5vw;border:none;border-radius:1vw;background-color:#afafaf;color:#fff;font-size:1.2vw;font-family:'Noto Sans KR',sans-serif}
 .stbtn:hover{background-color:#000;font-family:'Noto Sans KR',sans-serif}
-button:hover{background-color:#2EEF00;font-family:'Noto Sans KR',sans-serif}
 
 /* footer */
 footer{height:585px;background:#f9f9f9;padding:50px 0;text-align:left;display:flex;align-items:center}
 footer>div{width:1200px;margin:0 auto}
 .footer-cont p{line-height:4em;border-top:1px solid rgba(0,0,0,.3)}
 .footer-cont p:first-child{border-top:none}
+
+
+.top-btn {
+    position: fixed;
+    bottom: 2vh;
+    right: 2vw;
+    z-index: 100;
+  }

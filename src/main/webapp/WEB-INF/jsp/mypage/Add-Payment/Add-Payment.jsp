@@ -14,7 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../../../resources/css/mypage/Add-Payment/style.css">
+    <link rel="stylesheet" href="../../../../resources/css/mypage/Add-Payment/style.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,24 +28,24 @@
 <body>
     <div id="header">
         <header>
-          <a href="/home" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
-          <nav>
-            <a href="/style">STYLE</a> <a href="/shop">SHOP</a> <a href="/about">ABOUT</a>
-            <c:set var="name" value="${userName}" />
-            <c:choose>
-              <c:when test="${empty name}">
-                <a href="/sign-in">SIGN IN</a>
-              </c:when>
-              <c:when test="${not empty name}">
-                <a href="/mypageUserImage">MYPAGE</a>
-                <a href="/logout">
-                  <li class="header-menu-list-item">SIGN OUT</li>
-                </a>
-              </c:when>
-            </c:choose>
-          </nav>
+            <a href="/home" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
+            <nav>
+                <a href="/style">STYLE</a> <a href="/show_products">SHOP</a> <a href="/about">ABOUT</a>
+                <c:set var="name" value="${userName}" />
+                <c:choose>
+                    <c:when test="${empty name}">
+                        <a href="/sign-in">SIGN IN</a>
+                    </c:when>
+                    <c:when test="${not empty name}">
+                        <a href="/mypageUserImage">MYPAGE</a>
+                        <a href="/logout">
+                            <li class="header-menu-list-item">SIGN OUT</li>
+                        </a>
+                    </c:when>
+                </c:choose>
+            </nav>
         </header>
-      </div>
+    </div>
 
     <p class="mypage-text">MYPAGE</p>
 
@@ -94,6 +94,12 @@
             </div>
         </div>
     </div>
+
+    <div class="top-btn">
+        <img src="resources/img/top-btn.png" alt="">
+    </div>
+
+
     <footer>
         <div class="footer-cont">
             <img src="../../../resources/img/main/logo.png" alt="footer-logo" style="padding-bottom:50px">
@@ -110,6 +116,14 @@
         </div>
     </footer>
     <script>
+
+        var topBtn = document.querySelector('.top-btn');
+
+        topBtn.addEventListener('click', e => {
+            window.scrollTo(0, 0);
+        });
+
+
         var header = $('header');
 
         $(window).scroll(function (e) {

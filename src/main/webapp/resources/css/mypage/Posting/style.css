@@ -31,7 +31,8 @@ body{position:relative}
 
 /* profile-card */
 .main-top-container .profile-card-container{width:65vw;height:32.5vw;margin-left:3vw;margin-right:6vw;border:0.1vw solid #707070;display:flex;flex-direction:row;z-index:2}
-.main-top-container .profile-thumb-container{flex:1}
+.main-top-container .profile-thumb-container{flex:1;position:relative}
+.main-top-container .profile-thumb-container img{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:100%;height:auto;padding:4rem 4rem}
 .main-top-container .profile-content-container{border-left:0.1vw solid #707070;flex:1;display:flex;flex-direction:column}
 .main-top-container .content-top-container{padding:1.5vw;flex:1}
 .main-top-container .content-bottom-container{padding:1.5vw;flex:1;display:flex;flex-direction:column}
@@ -58,8 +59,10 @@ li{list-style:none}
 /* follow & following */
 .follw-number{margin:0;font-size:2.2vw}
 .follow-card-row-bundle-container{width:100%;margin-top:4.5vw;display:flex;justify-content:space-evenly}
+.follow-card-row-bundle-container:first-child{margin-top:3vw}
 .follow-card-bundle-container .profile-card-container{width:35vw;height:17.5vw;text-align:left;display:flex;flex-direction:row;border:0.1vw solid #707070}
-.follow-card-bundle-container .profile-thumb-container{flex:1}
+.follow-card-bundle-container .profile-thumb-container{flex:1;position:relative;overflow:hidden}
+.follow-card-bundle-container .profile-thumb-container img{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:100%}
 .follow-card-bundle-container .profile-content-container{border-left:0.1vw solid #707070;flex:1;display:flex;flex-direction:column}
 .follow-card-bundle-container .content-top-container{padding:1.2vw;flex:1}
 .follow-card-bundle-container .content-bottom-container{padding:1.2vw;flex:1;display:flex;flex-direction:column}
@@ -72,18 +75,32 @@ li{list-style:none}
 /* posting */
 .posting-number{margin:0;font-size:2.2vw}
 .posting-card-row-bundle-container{width:100%;margin-top:4.5vw;display:flex;justify-content:space-evenly}
+.posting-card-row-bundle-container:first-child{margin-top:3vw}
 .post-card-container{width:19.4vw;text-align:left;border:0.1vw solid #000;z-index:2}
-.post-thumb-container{height:19.4vw}
+.post-thumb-container{height:19.4vw;position:relative;overflow:hidden}
+.post-thumb-container img{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:100%}
 .post-content-container{height:10vw;padding:0.3vw 0.6vw;border-top:0.1vw solid #000}
 .post-card-container .user-id-area p{margin:0}
 .post-title-area p{margin:0;font-size:1vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.post-response-area p{margin:0}
-.post-card-container .user-id-area, .post-response-area{font-size:0.8vw;}
-.product-img-container{display:flex;justify-content:space-between}
-.product-thumb-container{width:4.2vw;height:4.2vw;margin-top:0.9vw;border-radius:0.6vw;border:0.1vw solid #000}
+.post-response-area{flex:1;display:flex;flex-direction:row;justify-content:flex-start;align-items:flex-end}
+.post-like-container, .post-comment-container{display:flex;align-items:center}
+.post-like-amount-container{margin-left:.1vw}
+.post-comment-container{margin-left:.5vw}
+.post-response-area img{width:20px}
+.post-response-area p{margin:0;margin-left:.1vw;}
+.post-card-container .user-id-area, .post-response-area{font-size:0.8vw}
+.product-img-container{display:flex;justify-content:space-between;vertical-align:sub}
+.product-thumb-container{width:4.2vw;height:4.2vw;margin-top:0.9vw;border-radius:0.6vw;border:0.1vw solid #000;position:relative}
+.product-thumb-container img{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:100%;height:auto;padding:.5rem .5rem}
 
 /* footer */
 footer{height:585px;margin-top:278px;background:#f9f9f9;padding:50px 0;text-align:left;display:flex;align-items:center}
 footer>div{width:1200px;margin:0 auto}
 .footer-cont p{line-height:4em;border-top:1px solid rgba(0,0,0,.3)}
 .footer-cont p:first-child{border-top:none}
+.top-btn {
+    position: fixed;
+    bottom: 2vh;
+    right: 2vw;
+    z-index: 100;
+  }

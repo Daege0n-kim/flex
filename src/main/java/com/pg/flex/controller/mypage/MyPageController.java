@@ -28,8 +28,6 @@ public class MyPageController {
   @Value("${upload.file.path}")
   private String UPLOAD_FILE_PATH;
 
-  
-
   @GetMapping(value = "/post_mypage")
   public String postMyPage() {
     return "/mypage/post_mypage";
@@ -38,7 +36,7 @@ public class MyPageController {
   @GetMapping(value = "/mypageUserImage")
   public String mypageUserImage(HttpSession session, Model model) {
 
-    String userId = (String)session.getAttribute("loginId");
+    String userId = (String) session.getAttribute("loginId");
     UserDetail userDetail = myPageService.getUserDetail(userId);
 
     String path = "/mypage/uploadfile/" + userDetail.getSavedFileName();
@@ -48,26 +46,70 @@ public class MyPageController {
     return "/mypage/mypageUserImage";
   }
 
-
-
   @GetMapping(value = "/post_board")
   public String postBoard() {
     return "/mypage/post_board";
   }
 
-  @GetMapping(value = "/shopping")
+  @GetMapping(value = "/Add-Payment")
+  public String addPayment() {
+    return "/mypage/Add-Payment/Add-Payment";
+  }
+
+  @GetMapping(value = "/Add-Shipping")
+  public String AddShipping() {
+    return "/mypage/Add-Shipping/Add-Shipping";
+  }
+
+  @GetMapping(value = "/Baguni")
+  public String postBaguni() {
+    return "/mypage/Baguni/Baguni";
+  }
+
+  @GetMapping(value = "/Like")
+  public String postLike() {
+    return "/mypage/Like/Like";
+  }
+
+  @GetMapping(value = "/Payment")
+  public String postPayment() {
+    return "/mypage/Payment/Payment";
+  }
+
+  @GetMapping(value = "/Posting")
+  public String postPosting() {
+    return "/mypage/Posting/Posting";
+  }
+
+  @GetMapping(value = "/Purchase-History")
+  public String PurchaseHistory() {
+    return "/mypage/Purchase-History/Purchase-History";
+  }
+
+  @GetMapping(value = "/Related_post")
+  public String RelatedPost() {
+    return "/mypage/Related_Post/Related_post";
+  }
+
+  @GetMapping(value = "/SelectProduct")
+  public String SelectProduct() {
+    return "/mypage/SelectProduct/SelectProduct";
+  }
+
+  @GetMapping(value = "/Shipping")
   public String postShopping() {
-    return "/mypage/shopping";
+    return "/mypage/Shipping/Shipping";
   }
 
   @PostMapping(value = "/post_mypage")
   public String postMyInfrom(HttpSession session, @RequestParam("myImage") MultipartFile multipartFile) {
 
-    String prefix = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1, multipartFile.getOriginalFilename().length());
+    String prefix = multipartFile.getOriginalFilename().substring(
+        multipartFile.getOriginalFilename().lastIndexOf(".") + 1, multipartFile.getOriginalFilename().length());
     String fileName = UUID.randomUUID().toString() + "." + prefix;
     String pathName = UPLOAD_FILE_PATH + "/user-image" + fileName;
 
-    String userId = (String)session.getAttribute("loginId");
+    String userId = (String) session.getAttribute("loginId");
     String originalFileName = multipartFile.getOriginalFilename();
     String savedFileName = fileName;
 

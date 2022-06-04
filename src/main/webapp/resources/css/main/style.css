@@ -11,19 +11,20 @@ body{position:relative}
 
 /* side-text */
 .side-txt{position:absolute;width:25%;height:calc(100% - 585px);z-index:1;overflow:hidden;top:0;right:0}
-.txt{position:absolute;right:2rem;writing-mode:vertical-rl;white-space:nowrap;font-size:15.2vw;font-family:'Roboto', sans-serif;font-weight:bold;color:#000;opacity:.12}
+.txt{transform:translate(0,740px);position:absolute;right:2rem;writing-mode:vertical-rl;white-space:nowrap;font-size:15.2vw;font-family:'Roboto', sans-serif;font-weight:bold;color:#000;opacity:.12}
 
 /* main-container */
 .content{background:#fff;overflow:hidden}
 
 /* content-tit */
-.tit{margin:5vw 0 4vw;text-align:center;font-size:2.6vw;font-family:'Noto Sans KR',sans-serif}
+.tit{margin:3vw 0 4vw;text-align:center;font-size:2.6vw;font-family:'Noto Sans KR',sans-serif}
 
 /* main-banner */
 .main-visual{z-index:2}
 
 /* banner */
-.bannerimg{width:100%;height:28.4vw;margin-bottom:9vw;background-image:url("../Img/nike.png");position:relative;z-index:2;display:flex;align-items:center}
+.bannerimg{width:100%;height:28.4vw;margin-bottom:5vw;position:relative;z-index:2}
+.bannerimg img{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:100%}
 
 /* text-scroll */
 .ezkorry-roller{overflow:hidden;white-space:nowrap;font-family:'Roboto', sans-serif;font-weight:700}
@@ -31,26 +32,29 @@ body{position:relative}
 .ezkorry-roller span{position:relative;font-size:15.2vw}
 
 /* .card-container */
-.card-container{margin-bottom:9vw;display:flex;justify-content:space-evenly}
+.card-container{margin-bottom:2vw;display:flex;justify-content:space-evenly}
 
 /* 3-card */
-.post-card-container{width:25vw;border:0.1vw solid #000}
-.post-thumb-container{height:25vw}
+.post-card-container{width:27vw;border:0.1vw solid #000}
+.post-thumb-container{height:27vw;position:relative}
+.post-thumb-container img{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:100%;height:auto;padding:1rem 1rem}
 .post-content-container{height:5.8vw;padding:1vw 1.7vw;border-top:0.1vw solid #000;font-family:'Noto Sans KR',sans-serif}
 .user-id-area p{margin:0;font-size:0.85vw;text-decoration:underline}
 .post-title-area p{margin:0;font-size:1.3vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 
 /* 4-card */
-.product-card-container{width:19.8vw;border:0.1vw solid #000}
-.product-thumb-container{height:19.8vw}
+.product-card-container{width:21vw;border:0.1vw solid #000}
+.product-thumb-container{height:21vw;position:relative}
+.product-thumb-container img{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:100%;height:auto;padding:1rem 1rem}
 .product-content-container{height:5vw;padding:0.8vw 1.2vw;border-top:0.1vw solid #000;font-family:'Noto Sans KR',sans-serif}
 .product-brand-area p{margin:0;font-size:1vw;text-decoration:underline}
 .product-name-area p{margin:0;font-size:1vw}
 
+
 .top-btn {
-  position: fixed;
-  bottom: 2vh;
-  right: 2vw;
-  z-index: 100;
-}
+    position: fixed;
+    bottom: 2vh;
+    right: 2vw;
+    z-index: 100;
+  }

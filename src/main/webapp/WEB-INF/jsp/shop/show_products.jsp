@@ -26,12 +26,24 @@
 <body>
   <div id="header">
     <header>
-      <a href="#" title="Logo"><img src="../../../resources/img/main/logo.png" class="header-logo"></a>
+        <a href="/home" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
         <nav>
-          <a href="">STYLE</a> <a href="">SHOP</a> <a href="">ABOUT</a> <a href="">SIGN IN</a>
+            <a href="/style">STYLE</a> <a href="/show_products">SHOP</a> <a href="/about">ABOUT</a>
+            <c:set var="name" value="${userName}" />
+            <c:choose>
+                <c:when test="${empty name}">
+                    <a href="/sign-in">SIGN IN</a>
+                </c:when>
+                <c:when test="${not empty name}">
+                    <a href="/mypageUserImage">MYPAGE</a>
+                    <a href="/logout">
+                        <li class="header-menu-list-item">SIGN OUT</li>
+                    </a>
+                </c:when>
+            </c:choose>
         </nav>
     </header>
-  </div>
+</div>
 
   <p class="shop-text">station</p>
   
@@ -93,6 +105,12 @@
 
     </div>
   </div>
+
+  <div class="top-btn">
+    <img src="resources/img/top-btn.png" alt="">
+</div>
+
+
   
   <footer>
     <div class="footer-cont">

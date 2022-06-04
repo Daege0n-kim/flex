@@ -29,7 +29,7 @@ public class StyleController {
 
     @GetMapping("/related")
     public String Related(){
-        return "/Related_Post/Related_post";
+        return "/mypage/Related_Post/Related_post";
     }
     
 }

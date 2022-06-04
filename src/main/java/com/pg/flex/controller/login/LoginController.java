@@ -20,7 +20,6 @@ public class LoginController {
 
     @Autowired
     private ShopService shopService;
-    private StyleService service;
 
     @Autowired
     private StyleService service;
