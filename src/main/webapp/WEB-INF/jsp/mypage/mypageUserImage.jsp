@@ -24,6 +24,7 @@
             <link
                 href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
                 rel="stylesheet">
+                <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
         </head>
 
         <body>
@@ -474,7 +475,7 @@
                         </div>
                         <!-- following -->
                         <div id="con3" class="conBox">
-                            <p class="follw-number">73047명</p>
+                            <p class="follw-number">747명</p>
                             <div class="follow-card-bundle-container">
                                 <!-- 카드 한 줄 시작 -->
                                 <div class="follow-card-row-bundle-container">

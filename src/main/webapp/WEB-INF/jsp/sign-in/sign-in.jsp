@@ -78,7 +78,7 @@
                             <a href="/sign-up">회원가입</a><a href="#">아이디 찾기</a><a href="#">비밀번호 찾기</a>
                         </div>
                     </div>
-                    <button class="stbtn">Start FLEX</button>
+                    <button class="stbtn" onclick="MoveMainPage()">Start FLEX</button>
                 </form>
             </div>
             <footer>
@@ -122,6 +122,13 @@
                         header.removeClass('shadow');
                     }
                 });
+
+
+                function MoveMainPage(){
+
+                    location.href="/home";
+
+                }
             </script>
         </body>
 

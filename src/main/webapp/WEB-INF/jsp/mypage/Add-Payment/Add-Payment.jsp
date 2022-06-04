@@ -89,7 +89,7 @@
                     <input type="checkbox"><label>기본 결제수단으로 추가</label>
                 </div>
                 <div class="btn-area">
-                    <button class="add-btn">추가하기</button>
+                    <button class="add-btn" onclick="MovePayment()">추가하기</button>
                 </div>
             </div>
         </div>
@@ -135,6 +135,12 @@
                 header.removeClass('shadow');
             }
         });
+
+
+        function MovePayment(){
+
+            location.href="/Payment";
+        }
     </script>
 </body>
 

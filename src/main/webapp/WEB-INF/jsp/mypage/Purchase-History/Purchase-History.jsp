@@ -62,16 +62,16 @@
                         <div class="shopping-info-container">
                             <div class="shopping-info-area">
                                 <p>쇼핑정보</p>
-                                <a href="" class="shopping-purchased">구매내역<br></a>
-                                <a href="" class="shopping-cart">장바구니<br></a>
-                                <a href="" class="shopping-like">좋아요</a>
+                                <a href="/Purchase-History" class="shopping-purchased">구매내역<br></a>
+                                <a href="/Baguni" class="shopping-cart">장바구니<br></a>
+                                <a href="/Like" class="shopping-like">좋아요</a>
                             </div>
                         </div>
                         <div class="member-info-container">
                             <div class="member-info-area">
                                 <p>회원정보</p>
-                                <a href="" class="member-delivery">배송지관리<br></a>
-                                <a href="" class="member-payment">결제수단관리</a>
+                                <a href="/Shipping" class="member-delivery">배송지관리<br></a>
+                                <a href="/Payment" class="member-payment">결제수단관리</a>
                             </div>
                         </div>
                     </div>
@@ -94,8 +94,9 @@
                                     <p>1231,213,304 &#8361;</p>
                                 </div>
                                 <div class="profile-btn-area">
-                                    <button class="profile-edit-btn">프로필 수정하기</button>
-                                    <button clss="writing-btn">글쓰기</button>
+                                    <button class="profile-edit-btn" onclick="MovePageSujeong()">프로필 수정하기</button>
+                                   <button class="writing-btn" onclick="moveWritePage()" >글쓰기</button>
+
                                 </div>
                             </div>
                         </div>
@@ -200,6 +201,18 @@
                         header.removeClass('shadow');
                     }
                 });
+
+                function moveWritePage(){
+
+                    location.href="/SelectProduct";
+                }
+
+
+                function MovePageSujeong(){
+
+                location.href="";
+
+            }
             </script>
         </body>
 

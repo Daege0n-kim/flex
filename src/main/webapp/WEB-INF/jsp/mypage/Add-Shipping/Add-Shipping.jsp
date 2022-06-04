@@ -81,7 +81,7 @@
                             <input type="checkbox"><label>기본 배송지로 추가</label>
                         </div>
                         <div class="btn-area">
-                            <button class="add-btn">추가하기</button>
+                            <button class="add-btn" onclick="MoveShipping()">추가하기</button>
                         </div>
                     </div>
                 </div>
@@ -127,6 +127,12 @@
                         header.removeClass('shadow');
                     }
                 });
+
+
+                function MoveShipping(){
+                    
+                    location.href="/Shipping";
+                }
             </script>
         </body>
 

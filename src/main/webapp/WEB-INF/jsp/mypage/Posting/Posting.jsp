@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
         <!DOCTYPE html>
         <html lang="en">
@@ -95,8 +95,9 @@
                                     <p>1231,213,304 &#8361;</p>
                                 </div>
                                 <div class="profile-btn-area">
-                                    <button class="profile-edit-btn">프로필 수정하기</button>
-                                    <button clss="writing-btn">글쓰기</button>
+                                    <button class="profile-edit-btn" onclick="MovePageSujeong()">프로필 수정하기</button>
+                                    <button class="writing-btn" onclick="moveWritePage()">글쓰기</button>
+
                                 </div>
                             </div>
                         </div>
@@ -638,6 +639,18 @@
                         $("#" + $(this).data('id')).addClass('on');
                     });
                 });
+
+                function moveWritePage() {
+
+                    location.href = "/SelectProduct";
+                }
+
+
+                function MovePageSujeong() {
+
+                    location.href = "";
+
+                }
             </script>
         </body>
 
