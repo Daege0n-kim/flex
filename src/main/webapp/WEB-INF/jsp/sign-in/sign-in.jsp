@@ -29,10 +29,10 @@
         <body>
             <div id="header">
                 <header>
-                    <a href="/home" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
+                    <a href="/" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
                     <nav>
                         <a href="/style">STYLE</a> <a href="/show_products">SHOP</a> <a href="/about">ABOUT</a>
-                        <c:set var="name" value="${userName}" />
+                        <c:set var="name" value="${searchId}" />
                         <c:choose>
                             <c:when test="${empty name}">
                                 <a href="/sign-in">SIGN IN</a>
@@ -57,21 +57,21 @@
             </div>
 
             <div class="wrapper">
-                <form action="/login" method="post">
+                <form action="/login" method="post" id="signInForm">
                     <img src="../../../resources/img/main/logo.png" class="signlogo">
                     <div class="smform">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label"
                                 style="font-family:'Noto Sans KR',sans-serif">이메일 주소</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1"
-                                aria-describedby="emailHelp" name="login_id"
+                            <input type="id" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" name="loginId"
                                 style="height:2vw;border:none;border-bottom:0.1vw solid #afafaf;border-radius:0">
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label"
                                 style="font-family:'Noto Sans KR',sans-serif">비밀번호</label>
                             <input type="password" class="form-control" id="exampleInputPassword1"
-                                name="login_password"
+                                name="loginPw"
                                 style="height:2vw;border:none;border-bottom:0.1vw solid #afafaf;border-radius:0">
                         </div>
                         <div class="smform-btn">
@@ -123,11 +123,8 @@
                     }
                 });
 
-
-                function MoveMainPage(){
-
-                    location.href="/home";
-
+                function MoveMainPage() {
+                    document.querySelector('#signInForm').submit();
                 }
             </script>
         </body>

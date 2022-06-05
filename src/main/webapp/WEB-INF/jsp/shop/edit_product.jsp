@@ -19,7 +19,7 @@
       <span>Detail : </span><input type="file" name="detail" value="Detail">
     </div>
     <div class="brand">
-      <select name="brandIndex">
+      <select name="brand">
         <c:forEach var="brand" items="${brands}" varStatus="status">
           <option value="${brand.brandIndex}"><c:out value="${brand.brandName}" /></option>
         </c:forEach>
@@ -32,16 +32,16 @@
       <input type="number" name="productPrice">₩
     </div>
     <div class="category">
-      <select name="categoryIndex">
+      <select name="category">
         <c:forEach var="category" items="${categories}" varStatus="status">
           <option value="${category.categoryIndex}"><c:out value="${category.categoryName}" /></option>
         </c:forEach>
       </select>
     </div>
     <div class="sex">
-      <select name="sexIndex">
-        <c:forEach var="sex" items="${sex}" varStatus="status">
-          <option value="${sex.sexIndex}"><c:out value="${sex.sex}" /></option>
+      <select name="gender">
+        <c:forEach var="gender" items="${genders}" varStatus="status">
+          <option value="${gender.genderIndex}"><c:out value="${gender.genderName}" /></option>
         </c:forEach>
       </select>
     </div>

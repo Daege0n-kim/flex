@@ -3,13 +3,13 @@
     PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.pg.flex.dao.TestDao">
+<mapper namespace="com.pg.flex.dao.SignDao">
 
-  <resultMap id="UserResultMap" type="com.pg.flex.dto.User">
+  <resultMap id="UserResultMap" type="com.pg.flex.dto.response.SignUserResponse">
     <result column="login_id" property="loginId" />
-    <result column="login_password" property="loginPassword" />
-    <result column="user_name" property="userName" />
-    <result column="user_id" property="userId" />
+    <result column="login_pw" property="loginPw" />
+    <result column="name" property="name" />
+    <result column="search_id" property="searchId" />
   </resultMap>
 
   <select id="getAllUser" resultType="com.pg.flex.dto.User">
@@ -20,22 +20,22 @@
       
   </select>
 
-  <select id="login" parameterType="com.pg.flex.dto.User" resultMap="UserResultMap">
+  <select id="login" parameterType="com.pg.flex.dto.request.SignUserRequestForm" resultMap="UserResultMap">
     SELECT
       *
     FROM
-      user_info
+      user
     WHERE
       login_id = #{loginId}
     AND
-      login_password = #{loginPassword}
+      login_pw = #{loginPw}
   </select>
 
-  <insert id="signUp">
-    INSERT INTO user_info
-      (login_id, login_password, user_name, user_id)
+  <insert id="signUp" parameterType="com.pg.flex.dto.request.SignUserRequestForm">
+    INSERT INTO user
+      (login_id, login_pw, name, search_id)
     VALUES
-      (#{loginId}, #{loginPassword}, #{userName}, #{userId})
+      (#{loginId}, #{loginPw}, #{name}, #{searchId})
   </insert>
 
   <select id="checkId" parameterType="com.pg.flex.dto.User" resultType="int">

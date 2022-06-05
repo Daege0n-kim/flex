@@ -8,7 +8,14 @@ import lombok.ToString;
 @Getter @Setter
 public class Brand {
 
-private int brandIndex;
-private String brandName;
-    
+  private int brandIndex;
+  private String brandName;
+
+
+  public Brand(int brandIndex, String brandName) {
+    this.brandIndex = brandIndex;
+    this.brandName = brandName;
+  }
+
+  
 }

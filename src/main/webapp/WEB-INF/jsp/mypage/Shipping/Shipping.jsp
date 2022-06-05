@@ -29,10 +29,10 @@
         <body>
             <div id="header">
                 <header>
-                    <a href="/home" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
+                    <a href="/" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
                     <nav>
                         <a href="/style">STYLE</a> <a href="/show_products">SHOP</a> <a href="/about">ABOUT</a>
-                        <c:set var="name" value="${userName}" />
+                        <c:set var="name" value="${searchId}" />
                         <c:choose>
                             <c:when test="${empty name}">
                                 <a href="/sign-in">SIGN IN</a>
@@ -104,30 +104,38 @@
                 </div>
                 <div class="delivery-destination-container">
                     <p class="delivery-destination-text">배송지관리</p>
+
                     <!-- 배송지관리 카드 시작 -->
-                    <div class="delivery-destination-card-container">
-                        <div class="delivery-destination-name-container">
-                            <div class="delivery-destination-nametxt-area">
-                                <p>배송지명</p>
+                    <c:forEach var="data" items="${deliveryList}">
+                        <div class="delivery-destination-card-container">
+                            <div class="delivery-destination-name-container">
+                                <div class="delivery-destination-nametxt-area">
+                                    <p>배송지명</p>
+                                </div>
+                                <div class="delivery-destination-name-area">
+                                    <p><c:out value="${data.addressName}" /></p>
+                                </div>
                             </div>
-                            <div class="delivery-destination-name-area">
-                                <p>The White House</p>
+                            <div class="delivery-destination-info-container">
+                                <div class="adress-text-area">
+                                    <p>주소</p>
+                                </div>
+                                <div class="adress-area">
+                                    <p><c:out value="${data.deliveryAddress}" /></p>
+                                </div>
+                            </div>
+                            <div class="delivery-destination-delete-container">
+                                <!-- <input type="hidden" name="deliveryIndex" value="${data.deliveryIndex}"> -->
+                                <button onclick="deleteDeliveryAddress('${data.deliveryIndex}')">삭제하기</button>
+                                <c:if test="${data.isDefault == 0}">
+                                    <button class="change-btn" onclick="fetchDefaultDeliveryAddress('${data.deliveryIndex}', '${data.addressName}', '${data.deliveryAddress}')">기본배송지 설정</button>
+                                </c:if>
                             </div>
                         </div>
-                        <div class="delivery-destination-info-container">
-                            <div class="adress-text-area">
-                                <p>주소</p>
-                            </div>
-                            <div class="adress-area">
-                                <p>서울시 양천구 흑석동 망치로 133가길 14</p>
-                            </div>
-                        </div>
-                        <div class="delivery-destination-delete-container">
-                            <button>삭제하기</button>
-                        </div>
-                    </div>
+                    </c:forEach>
                     <!-- 배송지관리 카드 끝 -->
-                    <div class="delivery-destination-card-container">
+
+                    <!-- <div class="delivery-destination-card-container">
                         <div class="delivery-destination-name-container">
                             <div class="delivery-destination-nametxt-area">
                                 <p>배송지명</p>
@@ -148,7 +156,7 @@
                             <button>삭제하기</button>
                             <button class="change-btn">기본배송지 설정</button>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="select-area">
                         <button class="add-btn" onclick="MoveShipping()">추가하기</button>
                     </div>
@@ -176,16 +184,12 @@
                 </div>
             </footer>
             <script>
-
+                /* variable */
                 var topBtn = document.querySelector('.top-btn');
-
-                topBtn.addEventListener('click', e => {
-                    window.scrollTo(0, 0);
-                });
-
-
                 var header = $('header');
-
+                /* variable */
+            
+                /* Computed */
                 $(window).scroll(function (e) {
                     if (header.offset().top !== 0) {
                         if (!header.hasClass('shadow')) {
@@ -195,23 +199,58 @@
                         header.removeClass('shadow');
                     }
                 });
+                /* Computed */
 
-
+                /* Methods */
                 function MoveShipping() {
                     location.href = "/Add-Shipping";
                 }
-
                 function moveWritePage() {
-
+                    
                     location.href = "/SelectProduct";
                 }
-
-
                 function MovePageSujeong() {
-
                     location.href = "";
-
                 }
+                topBtn.addEventListener('click', e => {
+                    window.scrollTo(0, 0);
+                });
+                function deleteDeliveryAddress(deliveryIndex) {
+                    $.ajax({
+                        url: "/delete_delivery_address",
+                        type: "post",
+                        data: {
+                            deliveryIndex : deliveryIndex
+                        },
+                        dataType: "json",
+                        success: () => {
+                            location.href="/Shipping"
+                        }, 
+                        error: () => {
+                            location.href="/Shipping"
+                        }
+                    })
+                }
+                function fetchDefaultDeliveryAddress(deliveryIndex, deliveryName, deliveryAddress) {
+                    $.ajax({
+                        url: "/update_delivery_address",
+                        type: "post",
+                        data: {
+                            deliveryIndex: deliveryIndex,
+                            addressName: deliveryName,
+                            deliveryAddress: deliveryAddress,
+                            isDefault: 1
+                        },
+                        dataType: "json",
+                        success: () => {
+                            location.href="/Shipping"
+                        },
+                        error: () => {
+                            location.href="/Shipping"
+                        }
+                    })
+                }
+                /* Methods */
             </script>
         </body>
 

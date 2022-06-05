@@ -3,26 +3,28 @@ package com.pg.flex.dao.shop;
 import java.util.HashMap;
 import java.util.List;
 
+import com.pg.flex.dto.Brand;
+import com.pg.flex.dto.Category;
+import com.pg.flex.dto.Gender;
 import com.pg.flex.dto.Product;
-import com.pg.flex.dto.ProductBrand;
-import com.pg.flex.dto.ProductCategory;
 import com.pg.flex.dto.ProductEditRequest;
 import com.pg.flex.dto.ProductImage;
 import com.pg.flex.dto.ProductRequest;
-import com.pg.flex.dto.ProductSex;
+import com.pg.flex.dto.query.ProductQuery;
+import com.pg.flex.dto.response.ProductResponse;
 
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface ShopDao {
 
-  List<Product> getProducts();
+  List<ProductResponse> getProducts();
 
-  List<ProductCategory> getCategories();
+  List<Category> getCategories();
 
-  List<ProductSex> getSex();
+  List<Gender> getGender();
 
-  List<ProductBrand> getProductBrands();
+  List<Brand> getBrands();
 
   int addProduct(ProductEditRequest productEditRequest);
 
@@ -30,6 +32,8 @@ public interface ShopDao {
 
   List<ProductImage> getProductImageByProductImage(int productIndex);
 
-  Product getProductByProductIndex(int productIndex);
+  ProductResponse getProductByProductIndex(int productIndex);
+
+  void postProduct(ProductQuery query);
   
 }

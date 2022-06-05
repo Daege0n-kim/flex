@@ -2,12 +2,22 @@ package com.pg.flex.controller.mypage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.http.HttpResponse;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.pg.flex.dto.UserDetail;
 import com.pg.flex.dto.UserImage;
+import com.pg.flex.dto.request.DeliveryAddressRequestForm;
+import com.pg.flex.dto.request.PaymentRequestForm;
+import com.pg.flex.dto.response.DeliveryResponse;
+import com.pg.flex.dto.response.PaymentResponse;
+import com.pg.flex.dto.response.SignUserResponse;
+import com.pg.flex.dto.response.UserDetailResponse;
 import com.pg.flex.service.mypage.MyPageService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +28,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 
 @Controller
 public class MyPageController {
@@ -37,11 +48,11 @@ public class MyPageController {
   public String mypageUserImage(HttpSession session, Model model) {
 
     String userId = (String) session.getAttribute("loginId");
-    UserDetail userDetail = myPageService.getUserDetail(userId);
+    UserDetailResponse userDetail = myPageService.getUserDetail(userId);
 
-    String path = "/mypage/uploadfile/" + userDetail.getSavedFileName();
+    // String path = "/mypage/uploadfile/" + userDetail.getSavedFileName();
 
-    model.addAttribute("path", path);
+    // model.addAttribute("path", path);
     model.addAttribute("userDetail", userDetail);
     return "/mypage/mypageUserImage";
   }
@@ -49,16 +60,6 @@ public class MyPageController {
   @GetMapping(value = "/post_board")
   public String postBoard() {
     return "/mypage/post_board";
-  }
-
-  @GetMapping(value = "/Add-Payment")
-  public String addPayment() {
-    return "/mypage/Add-Payment/Add-Payment";
-  }
-
-  @GetMapping(value = "/Add-Shipping")
-  public String AddShipping() {
-    return "/mypage/Add-Shipping/Add-Shipping";
   }
 
   @GetMapping(value = "/Baguni")
@@ -69,11 +70,6 @@ public class MyPageController {
   @GetMapping(value = "/Like")
   public String postLike() {
     return "/mypage/Like/Like";
-  }
-
-  @GetMapping(value = "/Payment")
-  public String postPayment() {
-    return "/mypage/Payment/Payment";
   }
 
   @GetMapping(value = "/Posting")
@@ -94,11 +90,6 @@ public class MyPageController {
   @GetMapping(value = "/SelectProduct")
   public String SelectProduct() {
     return "/mypage/SelectProduct/SelectProduct";
-  }
-
-  @GetMapping(value = "/Shipping")
-  public String postShopping() {
-    return "/mypage/Shipping/Shipping";
   }
 
   @PostMapping(value = "/post_mypage")
@@ -125,4 +116,56 @@ public class MyPageController {
 
     return "redirect:/mypage";
   }
+
+  /* 배송지 관련 API */
+  @GetMapping(value = "/Shipping")
+  public String postShopping(HttpSession session, Model model) {
+    String userId = (String)session.getAttribute("loginId");
+
+    List<DeliveryResponse> deliveryList = myPageService.getDeliveryAddress(userId);
+
+    if(!Objects.isNull(deliveryList)) {
+      model.addAttribute("deliveryList", deliveryList);
+    }
+    return "/mypage/Shipping/Shipping";
+  }
+
+  @GetMapping(value = "/Add-Shipping")
+  public String AddShipping() {
+    return "/mypage/Add-Shipping/Add-Shipping";
+  }
+
+  @PostMapping(value = "/add-delivery-address")
+  public void AddDeliveryAddress(HttpServletResponse response, HttpSession session, DeliveryAddressRequestForm requestForm) throws IOException {
+    requestForm.setUserId((String)session.getAttribute("loginId"));
+    myPageService.postDeliveryAddress(requestForm);
+
+    response.sendRedirect("/Shipping");
+  }
+  /* 배송지 관련 API */
+
+  /* 결제수단 관련 API */
+  @GetMapping(value = "/Payment")
+  public String movePaymentPage(HttpSession session, Model model) {
+
+    List<PaymentResponse> paymentList = myPageService.getPaymentsByUserId((String)session.getAttribute("loginId"));
+
+    model.addAttribute("payments", paymentList);
+    return "/mypage/Payment/Payment";
+  }
+
+  @GetMapping(value = "/Add-Payment")
+  public String moveAddPaymentPage() {
+    return "/mypage/Add-Payment/Add-Payment";
+  }
+
+  @PostMapping(value = "/add-payment")
+  public void postPayment(HttpServletResponse response, HttpSession session, PaymentRequestForm requestForm) throws IOException {
+
+    requestForm.setUserId((String)session.getAttribute("loginId"));
+    myPageService.postPayment(requestForm);
+
+    response.sendRedirect("/Payment");
+  }
+  /* 결제수단 관련 API */
 }

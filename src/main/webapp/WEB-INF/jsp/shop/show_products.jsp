@@ -26,10 +26,10 @@
 <body>
   <div id="header">
     <header>
-        <a href="/home" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
+        <a href="/" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
         <nav>
             <a href="/style">STYLE</a> <a href="/show_products">SHOP</a> <a href="/about">ABOUT</a>
-            <c:set var="name" value="${userName}" />
+            <c:set var="name" value="${searchId}" />
             <c:choose>
                 <c:when test="${empty name}">
                     <a href="/sign-in">SIGN IN</a>
@@ -68,14 +68,14 @@
         </ul>
         <ul class="left-menu-list">
           <p class="left-list-title">브랜드</p>
-          <c:forEach var="brand" items="${brands}" varStatus="status">
-            <a href=""><li class="left-list-item"><c:out value="${brand.brandName}" /></li></a>
+          <c:forEach var="data" items="${brand}" varStatus="status">
+            <a href=""><li class="left-list-item"><c:out value="${data.brandName}" /></li></a>
           </c:forEach>
         </ul>
         <ul class="left-menu-list">
           <p class="left-list-title">성별</p>
-          <c:forEach var="sex" items="${sex}" varStatus="status">
-            <a href=""><li class="left-list-item"><c:out value="${sex.sex}" /></li></a>
+          <c:forEach var="data" items="${gender}" varStatus="status">
+            <a href=""><li class="left-list-item"><c:out value="${data.genderName}" /></li></a>
           </c:forEach>
         </ul>
       </div>
@@ -83,14 +83,14 @@
 
       <div class="product-container">
         <!-- Data 가져오는 부분 from brand, product, product_image -->
-        <c:forEach var="product" items="${productResponse}" varStatus="status">
+        <c:forEach var="product" items="${products}" varStatus="status">
           <a href="/show_product?productIndex=${product.productIndex}">
           <div class="card">
             <input type="hidden" name="productIndex" value="${product.productIndex}">
-            <img src="/resources/product-image/${product.thumbSrc}" alt="" class="card-thumb">
+            <img src="/resources/product-image/${product.thumbSavedFileName}" alt="" class="card-thumb">
             <div class="card-inform">
               <div class="item-inform">
-                <p class="item-brand"><c:out value="${product.productBrand}" /></p>
+                <p class="item-brand"><c:out value="${product.brandName}" /></p>
                 <p class="item-name"><c:out value="${product.productName}" /></p>
               </div>
               <div class="item-price-area">

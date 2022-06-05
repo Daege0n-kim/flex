@@ -5,24 +5,30 @@
 
 <mapper namespace="com.pg.flex.dao.shop.ShopDao">
 
-  <resultMap id="ProductResultMap" type="com.pg.flex.dto.Product">
+  <resultMap id="ProductResultMap" type="com.pg.flex.dto.response.ProductResponse">
     <result column="product_index" property="productIndex" />
     <result column="product_name" property="productName" />
-    <result column="brand_name" property="productBrand" />
     <result column="product_price" property="productPrice" />
+    <result column="thumb_saved_file_name" property="thumbSavedFileName" />
+    <result column="detail_saved_file_name" property="detailSavedFileName" />
+    <result column="category_index" property="categoryIndex" />
+    <result column="brand_index" property="brandIndex" />
+    <result column="gender_index" property="genderIndex" />
     <result column="category_name" property="categoryName" />
+    <result column="brand_name" property="brandName" />
+    <result column="gender_name" property="genderName" />
   </resultMap>
 
-  <resultMap id="BrandResultMap" type="com.pg.flex.dto.ProductBrand">
+  <resultMap id="BrandResultMap" type="com.pg.flex.dto.Brand">
     <result column="brand_index" property="brandIndex" />
     <result column="brand_name" property="brandName" />
   </resultMap>
 
-  <resultMap id="SexResultMap" type="com.pg.flex.dto.ProductSex">
-    <result column="sex_index" property="sexIndex" />
-    <result column="sex" property="sex" />
+  <resultMap id="GenderResultMap" type="com.pg.flex.dto.Gender">
+    <result column="gender_index" property="genderIndex" />
+    <result column="gender_name" property="genderName" />
   </resultMap>
-  <resultMap id="CategoryResultMap" type="com.pg.flex.dto.ProductCategory">
+  <resultMap id="CategoryResultMap" type="com.pg.flex.dto.Category">
     <result column="category_index" property="categoryIndex" />
     <result column="category_name" property="categoryName" />
   </resultMap>
@@ -39,19 +45,29 @@
     SELECT
       p.product_index,
       p.product_name,
-      b.brand_name,
       p.product_price,
-      c.category_name
+      P.thumb_saved_file_name,
+      P.detail_saved_file_name,
+      c.category_index,
+      b.brand_index,
+      g.gender_index,
+      c.category_name,
+      b.brand_name,
+      g.gender_name
     FROM
       product AS p
     INNER JOIN
       category AS c
     ON
-      p.category_index = c.category_index
+      p.category = c.category_index
     INNER JOIN
       brand AS b
     ON
-      p.product_brand=b.brand_index
+      p.brand=b.brand_index
+    INNER JOIN
+      gender g
+    ON
+      p.gender = g.gender_index
   </select>
 
   <!-- 상품상세 페이지(1개씩 가져오기) -->
@@ -60,19 +76,29 @@
     SELECT
       p.product_index,
       p.product_name,
-      b.brand_name,
       p.product_price,
-      c.category_name
+      P.thumb_saved_file_name,
+      P.detail_saved_file_name,
+      c.category_index,
+      b.brand_index,
+      g.gender_index,
+      c.category_name,
+      b.brand_name,
+      g.gender_name
     FROM
       product AS p
     INNER JOIN
       category AS c
     ON
-      p.category_index = c.category_index
+      p.category = c.category_index
     INNER JOIN
       brand AS b
     ON
-      p.product_brand=b.brand_index
+      p.brand = b.brand_index
+    INNER JOIN
+      gender g
+    ON
+      p.gender = g.gender_index
     WHERE
       p.product_index = #{productIndex}
   </select>
@@ -101,30 +127,40 @@
 
 <select id="getCategories" resultMap="CategoryResultMap">
   SELECT
-    *
+    category_index,
+    category_name
   FROM
     category
 </select>
 
-<select id="getSex" resultMap="SexResultMap">
+<select id="getGender" resultMap="GenderResultMap">
   SELECT
-    *
+    gender_index,
+    gender_name
   FROM
-    product_sex
+    gender
 </select>
 
-<select id="getProductBrands" resultMap="BrandResultMap">
+<select id="getBrands" resultMap="BrandResultMap">
   SELECT
-    *
+    brand_index,
+    brand_name
   FROM
     brand
 </select>
 
-<insert id="addProduct" parameterType="com.pg.flex.dto.ProductEditRequest" useGeneratedKeys="true" keyColumn="product_index" keyProperty="productIndex">
+<!-- <insert id="addProduct" parameterType="com.pg.flex.dto.ProductEditRequest" useGeneratedKeys="true" keyColumn="product_index" keyProperty="productIndex">
   INSERT INTO 
     product (product_name, product_brand, product_price, category_index, sex)
   VALUES
     (#{productName}, #{brandIndex}, #{productPrice}, #{categoryIndex}, #{sexIndex})
+</insert> -->
+
+<insert id="postProduct" parameterType="com.pg.flex.dto.query.ProductQuery">
+  INSERT INTO
+    product (product_name, product_price, thumb_saved_file_name, detail_saved_file_name, category, brand, gender)
+  VALUES
+    (#{productName}, #{productPrice}, #{thumbSavedFileName}, #{detailSavedFileName}, #{category}, #{brand}, #{gender})
 </insert>
 
 <insert id="postProductImage">
