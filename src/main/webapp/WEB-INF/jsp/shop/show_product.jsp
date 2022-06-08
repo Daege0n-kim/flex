@@ -26,10 +26,10 @@
 <body>
   <div id="header">
     <header>
-        <a href="/home" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
+        <a href="/" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
         <nav>
             <a href="/style">STYLE</a> <a href="/show_products">SHOP</a> <a href="/about">ABOUT</a>
-            <c:set var="name" value="${userName}" />
+            <c:set var="name" value="${searchId}" />
             <c:choose>
                 <c:when test="${empty name}">
                     <a href="/sign-in">SIGN IN</a>
@@ -73,17 +73,17 @@
         </ul>
         <ul class="left-menu">
           <span>Sex</span>
-          <c:forEach var="sex" items="${sex}" varStatus="status">
-            <li class="left-list-item" id="${sex.sexIndex}"><c:out value="${sex.sex}" /></li>
+          <c:forEach var="data" items="${gender}" varStatus="status">
+            <li class="left-list-item" id="${data.genderIndex}"><c:out value="${data.genderName}" /></li>
           </c:forEach>
         </ul>
       </div>
       <div class="item-container">
         <div class="item-info-container">
-          <img src="/resources/product-image/${product.thumbSrc}" alt="" class="product-img">
+          <img src="/resources/product-image/${product.thumbSavedFileName}" alt="" class="product-img">
           <div class="product-info-area">
             <div class="item-info-text">
-              <div class="item-brand"> <c:out value="${product.productBrand}" /> </div>
+              <div class="item-brand"> <c:out value="${product.brandName}" /> </div>
               <div class="item-name"> <c:out value="${product.productName}" /> </div>
             </div>
             <div class="item-ctn-btn">
@@ -102,7 +102,7 @@
           </div>
         </div>
         <div class="item-detail-img-container">
-          <img src="/resources/product-image/${product.detailSrc}" alt="" class="product-detail-img">
+          <img src="/resources/product-image/${product.detailSavedFileName}" alt="" class="product-detail-img">
         </div>
 
         <div class="board-list-container">

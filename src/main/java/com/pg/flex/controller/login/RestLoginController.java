@@ -7,12 +7,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.pg.flex.dto.User;
+import com.pg.flex.dto.request.SignUserRequestForm;
+import com.pg.flex.dto.response.SignUserResponse;
 import com.pg.flex.service.LoginService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,29 +23,23 @@ public class RestLoginController {
     private LoginService service;
 
     @PostMapping("/login")
-    public void login(HttpServletResponse response, HttpSession session, @RequestParam String login_id, @RequestParam String login_password) throws IOException {
+    public void login(HttpServletResponse response, HttpSession session, SignUserRequestForm requestForm) throws IOException {
 
-        User user = new User(login_id, login_password);
+        SignUserResponse userResponse = service.login(requestForm);
 
-        User loginInfo = service.login(user);
-
-        if(Objects.isNull(loginInfo)) {
+        if(Objects.isNull(userResponse)) {
             response.sendRedirect("/sign-in");
         } else {
-            session.setAttribute("loginId", loginInfo.getLoginId());
-            session.setAttribute("userId", loginInfo.getUserId());
-            session.setAttribute("userName", loginInfo.getUserName());
+            session.setAttribute("loginId", userResponse.getLoginId());
+            session.setAttribute("searchId", userResponse.getSearchId());
             response.sendRedirect("/");
         }
-
     }
 
     @PostMapping(value = "/signup")
-    public void signup(HttpServletResponse response, @RequestParam String loginId, @RequestParam String loginPassword, @RequestParam String userName, @RequestParam String userId) throws IOException {
+    public void signup(HttpServletResponse response, SignUserRequestForm requestForm) throws IOException {
 
-        User user = new User(loginId, loginPassword, userName, userId);
-
-        service.signUp(user);
+        service.signUp(requestForm);
         response.sendRedirect("/sign-in");
     }
 

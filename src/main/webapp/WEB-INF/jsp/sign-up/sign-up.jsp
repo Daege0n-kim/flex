@@ -21,10 +21,10 @@
     <body>
       <div id="header">
         <header>
-          <a href="/home" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
+          <a href="/" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
           <nav>
             <a href="/style">STYLE</a> <a href="/show_products">SHOP</a> <a href="/about">ABOUT</a>
-            <c:set var="name" value="${userName}" />
+            <c:set var="name" value="${searchId}" />
             <c:choose>
               <c:when test="${empty name}">
                 <a href="/sign-in">SIGN IN</a>
@@ -49,26 +49,27 @@
       </div>
 
       <div class="wrapper">
-        <form>
+        <form action="/signup" method="post" id="signUpForm">
           <img src="../../../resources/img/main/logo.png" class="signlogo">
           <div class="smform">
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">이메일 주소</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              <input type="email" name="loginId" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                 placeholder="예) kimchi@naver.com"
                 style="height:30px;border:none;border-bottom:1px solid #afafaf;padding:0;border-radius:0">
             </div>
             <div class="mb-3" style="margin-top:3.5vw">
               <label for="exampleInputPassword1" class="form-label">비밀번호</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="영문,숫자,특수문자 조합 8-16자"
+              <input type="password" name="loginPw" class="form-control" id="exampleInputPassword1" placeholder="영문,숫자,특수문자 조합 8-16자"
                 style="height:30px;border:none;border-bottom:1px solid #afafaf;padding:0;border-radius:0">
             </div>
           </div>
-          <label style="margin-top:2vw;display:flex;align-items:center"><input type="checkbox" name="age"
-              value="checkage" style="width:1.5vw;height:1.5vw;margin:0 1vw">[필수] 14세 이상이며 모두 동의합니다.</label>
+          <label style="margin-top:2vw;display:flex;align-items:center">
+            <input type="checkbox" name="age" id="required"
+              value="" style="width:1.5vw;height:1.5vw;margin:0 1vw">[필수] 14세 이상이며 모두 동의합니다.</label>
           <label style="margin-top:2vw;display:flex;align-items:center"><input type="checkbox" name="ad" value="checkad"
               style="width:1.5vw;height:1.5vw;margin:0 1vw">[선택] 광고성 정보수신에 모두 동의합니다.</label>
-          <button>가입하기</button>
+          <button id="signUpBtn">가입하기</button>
         </form>
       </div>
       <footer>
@@ -95,14 +96,18 @@
       <script>
 
         var topBtn = document.querySelector('.top-btn');
+        var signUpForm = $('#signUpForm');
+        var signUpBtn = $('#signUpBtn');
+        var header = $('header');
+        var required = $('#required');
 
         topBtn.addEventListener('click', e => {
           window.scrollTo(0, 0);
         });
 
-
-
-        var header = $('header');
+        required.click( e => {
+          required.toggleClass("checked")
+        })
 
         $(window).scroll(function (e) {
           if (header.offset().top !== 0) {
@@ -113,6 +118,15 @@
             header.removeClass('shadow');
           }
         });
+
+        signUpBtn.click( e => {
+          if(required.hasClass("checked")) {
+            signUpForm.submit()
+          } else {
+            alert("필수항목 체크 요망");
+            e.preventDefault();
+          }
+        })
       </script>
     </body>
 

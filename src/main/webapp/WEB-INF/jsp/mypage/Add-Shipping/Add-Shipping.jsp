@@ -29,10 +29,10 @@
         <body>
             <div id="header">
                 <header>
-                    <a href="/home" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
+                    <a href="/" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
                     <nav>
                         <a href="/style">STYLE</a> <a href="/show_products">SHOP</a> <a href="/about">ABOUT</a>
-                        <c:set var="name" value="${userName}" />
+                        <c:set var="name" value="${searchId}" />
                         <c:choose>
                             <c:when test="${empty name}">
                                 <a href="/sign-in">SIGN IN</a>
@@ -57,34 +57,36 @@
             </div>
 
             <div class="main-container">
-                <div class="add-destination-container">
-                    <div class="container-top">
-                        <div class="form-logo">
-                            <img src="../../../resources/img/main/logo.png" class="form-logo-img">
+                <form action="/add-delivery-address" method="post" id="deliveryAddForm">
+                    <div class="add-destination-container">
+                        <div class="container-top">
+                            <div class="form-logo">
+                                <img src="../../../resources/img/main/logo.png" class="form-logo-img">
+                            </div>
+                            <div class="add-destination-txt">
+                                <p>배송지 추가</p>
+                            </div>
                         </div>
-                        <div class="add-destination-txt">
-                            <p>배송지 추가</p>
+                        <div class="container-middle">
+                            <div class="destination-name">
+                                <p>배송지 이름</p>
+                                <input type="text" name="addressName">
+                            </div>
+                            <div class="destination-address">
+                                <p>주소</p>
+                                <input type="text" name="deliveryAddress">
+                            </div>
+                        </div>
+                        <div class="container-bottom">
+                            <div class="add-default-destination">
+                                <input type="checkbox" id="isDefault" name="isDefault" value="0"><label>기본 배송지로 추가</label>
+                            </div>
+                            <div class="btn-area">
+                                <button class="add-btn" onclick="MoveShipping()">추가하기</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="container-middle">
-                        <div class="destination-name">
-                            <p>배송지 이름</p>
-                            <input type="text">
-                        </div>
-                        <div class="destination-address">
-                            <p>주소</p>
-                            <input type="text">
-                        </div>
-                    </div>
-                    <div class="container-bottom">
-                        <div class="add-default-destination">
-                            <input type="checkbox"><label>기본 배송지로 추가</label>
-                        </div>
-                        <div class="btn-area">
-                            <button class="add-btn" onclick="MoveShipping()">추가하기</button>
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
 
             <div class="top-btn">
@@ -128,11 +130,19 @@
                     }
                 });
 
-
                 function MoveShipping(){
-                    
-                    location.href="/Shipping";
+                    document.querySelector('#deliveryAddForm').submit();
                 }
+
+                var checkbox = $('#isDefault')
+
+                checkbox.change(e => {
+                    if(checkbox.attr("value") == 0) {
+                        checkbox.attr("value", 1)
+                    } else {
+                        checkbox.attr("value", 0)
+                    }
+                })
             </script>
         </body>
 

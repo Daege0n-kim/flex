@@ -6,13 +6,13 @@ import lombok.ToString;
 
 @ToString
 @Getter @Setter
-public class ProductCategory {
+public class Category {
 
   private int categoryIndex;
   private String categoryName;
   
 
-  public ProductCategory(int categoryIndex, String categoryName) {
+  public Category(int categoryIndex, String categoryName) {
     this.categoryIndex = categoryIndex;
     this.categoryName = categoryName;
   }

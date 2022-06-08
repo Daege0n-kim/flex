@@ -26,22 +26,6 @@ public class LoginController {
 
     @GetMapping("/")
     public String main(HttpSession session, Model model) {
-
-        List<Product> result =  shopService.getProducts();
-        List<Style> result2 = service.getMainPosts();
-
-        model.addAttribute("productList", result);
-        model.addAttribute("posting", result2);
-        
-        
-    return "/Mainindex";
-
-
-
-    }
-
-    @GetMapping("/home")
-    public String homeIndex() {
         return "/Mainindex";
     }
 
@@ -53,7 +37,7 @@ public class LoginController {
     @GetMapping(value = "/logout")
     public String logout(HttpSession session) {
 
-        session.removeAttribute("userName");
+        session.removeAttribute("searchId");
         return "redirect:/";
     }
 

@@ -15,7 +15,7 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
                 crossorigin="anonymous"></script>
-            <link rel="stylesheet" href="../../../resources/css/mypage/UserImage/style.css">
+            <link rel="stylesheet" href="../../../resources/css/mypage/userImage/style.css">
             <script type="text/javascript" src="../../../resources/js/main/jquery.jdSlider-latest.min.js"></script>
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,10 +30,10 @@
         <body>
             <div id="header">
                 <header>
-                    <a href="/home" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
+                    <a href="/" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
                     <nav>
                         <a href="/style">STYLE</a> <a href="/show_products">SHOP</a> <a href="/about">ABOUT</a>
-                        <c:set var="name" value="${userName}" />
+                        <c:set var="name" value="${searchId}" />
                         <c:choose>
                             <c:when test="${empty name}">
                                 <a href="/sign-in">SIGN IN</a>
@@ -85,19 +85,19 @@
                             <div class="content-top-container">
                                 <div class="user-name-area">
                                     <p>
-                                        <c:out value="${userDetail.userName}" />
+                                        <c:out value="${userDetail.name}" />
                                     </p>
                                 </div>
                                 <div class="user-id-area">
                                     <p>
-                                        <c:out value="${userDetail.userId}" />
+                                        @<c:out value="${userDetail.searchId}" />
                                     </p>
                                 </div>
                             </div>
                             <div class="content-bottom-container">
                                 <div class="purchace-amount-area">
                                     <p>
-                                        <c:out value="${userDetail.totalPrice}" />
+                                        <!-- <c:out value="${userDetail.totalPrice}" /> -->
                                     </p>
                                 </div>
                                 <div class="profile-btn-area">

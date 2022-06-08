@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
         <!DOCTYPE html>
         <html lang="en">
@@ -29,10 +29,10 @@
         <body>
             <div id="header">
                 <header>
-                    <a href="/home" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
+                    <a href="/" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
                     <nav>
                         <a href="/style">STYLE</a> <a href="/show_products">SHOP</a> <a href="/about">ABOUT</a>
-                        <c:set var="name" value="${userName}" />
+                        <c:set var="name" value="${searchId}" />
                         <c:choose>
                             <c:when test="${empty name}">
                                 <a href="/sign-in">SIGN IN</a>
@@ -105,50 +105,33 @@
                 <div class="payment-container">
                     <p class="payment-text">결제수단관리</p>
                     <!-- 배송지관리 카드 시작 -->
-                    <div class="payment-card-container">
-                        <div class="card-name-container">
-                            <div class="card-nametxt-area">
-                                <p>카드</p>
+                    <c:forEach var="data" items="${payments}">
+                        <div class="payment-card-container">
+                            <div class="card-name-container">
+                                <div class="card-nametxt-area">
+                                    <p>카드</p>
+                                </div>
+                                <div class="card-name-area">
+                                    <p><c:out value="${data.paymentBank}" /></p>
+                                </div>
                             </div>
-                            <div class="card-name-area">
-                                <p>카카오뱅크</p>
+                            <div class="card-info-container">
+                                <div class="card-numtxt-area">
+                                    <p>카드번호</p>
+                                </div>
+                                <div class="card-number-area">
+                                    <p><c:out value="${data.account}" /></p>
+                                </div>
+                            </div>
+                            <div class="card-delete-container">
+                                <button onclick="deletePayment('${data.paymentIndex}')">삭제하기</button>
+                                <c:if test="${data.isDefault == 0}">
+                                    <button class="change-btn" onclick="updateDefaultPayment('${data.paymentIndex}', '${data.userId}')">기본결제수단설정</button>
+                                </c:if>
                             </div>
                         </div>
-                        <div class="card-info-container">
-                            <div class="card-numtxt-area">
-                                <p>카드번호</p>
-                            </div>
-                            <div class="card-number-area">
-                                <p>1234-****-2345</p>
-                            </div>
-                        </div>
-                        <div class="card-delete-container">
-                            <button>삭제하기</button>
-                        </div>
-                    </div>
+                    </c:forEach>
                     <!-- 배송지관리 카드 끝 -->
-                    <div class="payment-card-container">
-                        <div class="card-name-container">
-                            <div class="card-nametxt-area">
-                                <p>카드</p>
-                            </div>
-                            <div class="card-name-area">
-                                <p>BC카드</p>
-                            </div>
-                        </div>
-                        <div class="card-info-container">
-                            <div class="card-numtxt-area">
-                                <p>카드번호</p>
-                            </div>
-                            <div class="card-number-area">
-                                <p>3643-****-5252</p>
-                            </div>
-                        </div>
-                        <div class="card-delete-container">
-                            <button>삭제하기</button>
-                            <button class="change-btn">기본결제수단설정</button>
-                        </div>
-                    </div>
                     <div class="select-area">
                         <button class="add-btn" onclick="MovePayment()">추가하기</button>
                     </div>
@@ -211,6 +194,41 @@
 
                     location.href = "";
 
+                }
+
+                function deletePayment(paymentIndex) {
+                    $.ajax({
+                        url: "/delete_payment",
+                        type: "post",
+                        data: {
+                            paymentIndex: paymentIndex
+                        },
+                        success: () => {
+                            location.href = '/Payment'
+                        },
+                        error: () => {
+                            location.href = '/Payment'
+                        }
+                    })
+                }
+
+                function updateDefaultPayment(paymentIndex, userId) {
+                    $.ajax({
+                        url: "/update_default_payment",
+                        type: "post",
+                        data: {
+                            paymentIndex: paymentIndex,
+                            userId      : userId,
+                            isDefault   : 1
+                        },
+                        dataType: "json",
+                        success: () => {
+                            location.href = "/Payment"
+                        }, 
+                        error: () => {
+                            location.href = "/Payment"
+                        }
+                    })
                 }
             </script>
 

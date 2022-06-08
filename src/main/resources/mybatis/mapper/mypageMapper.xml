@@ -5,15 +5,42 @@
 
 <mapper namespace="com.pg.flex.dao.mypage.MyPage">
 
-<resultMap id="ProductResultMap" type="com.pg.flex.dto.UserDetail">
+<resultMap id="ProductResultMap" type="com.pg.flex.dto.response.UserDetailResponse">
+  <result column="login_id" property="loginId" />
+  <result column="name" property="name" />
+  <result column="search_id" property="searchId" />
   <result column="saved_file_name" property="savedFileName" />
-  <result column="user_id" property="userId" />
-  <result column="user_name" property="userName" />
   <result column="total_price" property="totalPrice" />
+</resultMap>
+
+<resultMap id="DeliveryResponseMap" type="com.pg.flex.dto.response.DeliveryResponse">
+  <result column="delivery_index" property="deliveryIndex" />
+  <result column="delivery_address" property="deliveryAddress" />
+  <result column="user_id" property="userId" />
+  <result column="address_name" property="addressName" />
+  <result column="is_default" property="isDefault" />
+</resultMap>
+
+<resultMap id="PaymentResponseMap" type="com.pg.flex.dto.response.PaymentResponse">
+  <result column="payment_index" property="paymentIndex" />
+  <result column="payment_bank" property="paymentBank" />
+  <result column="account" property="account" />
+  <result column="is_default" property="isDefault" />
+  <result column="user_id" property="userId" />
+  <result column="cvc" property="cvc" />
 </resultMap>
 
 <select id="getUserDetail" parameterType="string" resultMap="ProductResultMap">
   SELECT
+    login_id,
+    name,
+    search_id,
+    saved_file_name
+  FROM
+    user
+  WHERE
+    login_id = #{loginId}
+  <!-- SELECT
     ui.saved_file_name,
     u.user_id,
     u.user_name,
@@ -34,7 +61,96 @@
 	ON 
     ui.user_id=u.login_id
   WHERE
-    u.login_id=#{userId}
+    u.login_id=#{userId} -->
   </select>
+
+
+  <!-- Delivery -->
+  <select id="getDeliveryAddress" parameterType="string" resultMap="DeliveryResponseMap">
+    SELECT
+      delivery_index,
+      delivery_address,
+      user_id,
+      address_name,
+      is_default
+    FROM
+      delivery_address
+    WHERE
+      user_id = #{userId}
+  </select>
+
+  <insert id="postDeliveryAddress" parameterType="com.pg.flex.dto.request.DeliveryAddressRequestForm">
+    INSERT INTO
+      delivery_address (delivery_address, user_id, address_name, is_default)
+    VALUES
+      (#{deliveryAddress}, #{userId}, #{addressName}, #{isDefault})
+  </insert>
+
+  <update id="fetchDeliveryAddress" parameterType="com.pg.flex.dto.request.DeliveryAddressRequestForm">
+    UPDATE 
+      delivery_address
+    SET
+      is_default = #{isDefault}
+    WHERE
+      delivery_index = #{deliveryIndex}
+  </update>
+
+  <update id="updateDeliveryAddress" parameterType="com.pg.flex.dto.request.DeliveryAddressRequestForm">
+    UPDATE
+      delivery_address
+    SET
+      is_default = 1
+    WHERE
+      delivery_index = #{deliveryIndex}
+  </update>
+
+  <delete id="deleteDeliveryAddress">
+    DELETE FROM
+      delivery_address
+    WHERE
+      delivery_index = #{deliveryIndex}
+  </delete>
+
+  <!-- Delivery -->
+
+
+  <!-- Payment -->
+  <select id="getPaymentsByUserId" parameterType="string" resultMap="PaymentResponseMap">
+    SELECT
+      payment_index,
+      payment_bank,
+      account,
+      is_default,
+      user_id,
+      cvc
+    FROM
+      payment
+    WHERE 
+      user_id = #{userId}
+  </select>
+
+  <insert id="postPayment" parameterType="com.pg.flex.dto.request.PaymentRequestForm">
+    INSERT INTO
+      payment (payment_bank, account, is_default, user_id, cvc)
+    VALUES
+      (#{paymentBank}, #{account}, #{isDefault}, #{userId}, #{cvc})
+  </insert>
+
+  <delete id="deletePayment" parameterType="com.pg.flex.dto.request.PaymentRequestForm">
+    DELETE FROM
+      payment
+    WHERE
+      payment_index = #{paymentIndex}
+  </delete>
+
+  <update id="fetchPayment" parameterType="com.pg.flex.dto.request.PaymentRequestForm">
+    UPDATE
+      payment
+    SET
+      is_default = #{isDefault}
+    WHERE
+      payment_index = #{paymentIndex}
+  </update>
+  <!-- Payment -->
 
 </mapper>

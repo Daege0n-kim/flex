@@ -20,10 +20,10 @@ public class StyleController {
     @GetMapping("/style")
     public String Style(Model model){
 
-        List<Style> result = service.getPosts();
+        // List<Style> result = service.getPosts();
 
 
-        model.addAttribute("posts", result);
+        // model.addAttribute("posts", result);
         return "/style/StyleMain";
     }
 

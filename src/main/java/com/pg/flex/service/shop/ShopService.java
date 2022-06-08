@@ -8,13 +8,16 @@ import java.util.List;
 import java.util.UUID;
 
 import com.pg.flex.dao.shop.ShopDao;
+import com.pg.flex.dto.Brand;
+import com.pg.flex.dto.Category;
+import com.pg.flex.dto.Gender;
 import com.pg.flex.dto.Product;
-import com.pg.flex.dto.ProductBrand;
-import com.pg.flex.dto.ProductCategory;
 import com.pg.flex.dto.ProductEditRequest;
 import com.pg.flex.dto.ProductImage;
 import com.pg.flex.dto.ProductRequest;
-import com.pg.flex.dto.ProductSex;
+import com.pg.flex.dto.query.ProductQuery;
+import com.pg.flex.dto.request.ProductRequestForm;
+import com.pg.flex.dto.response.ProductResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,11 +33,8 @@ public class ShopService {
   @Value("${upload.file.path}")
   private String UPLOAD_FILE_PATH;
 
-  public List<Product> getProducts() {
-
-    List<Product> result = dao.getProducts();
-
-    return result;
+  public List<ProductResponse> getProducts() {
+    return dao.getProducts();
   }
 
   public int addProduct(ProductEditRequest productEditRequest) {
@@ -42,31 +42,19 @@ public class ShopService {
     return productEditRequest.getProductIndex();
   }
 
-  public List<ProductCategory> getCategories() {
-    List<ProductCategory> list = dao.getCategories();
-    List<ProductCategory> returnData = new ArrayList<>();
-    for (ProductCategory data : list) {
-      returnData.add(data);
-    }
-    return returnData;
+  public List<Category> getCategories() {
+    List<Category> list = dao.getCategories();
+    return list;
   }
 
-  public List<ProductSex> getSex() {
-    List<ProductSex> list = dao.getSex();
-    List<ProductSex> returnData = new ArrayList<>();
-    for (ProductSex data : list) {
-      returnData.add(data);
-    }
-    return returnData;
+  public List<Gender> getSex() {
+    List<Gender> list = dao.getGender();
+    return list;
   }
 
-  public List<ProductBrand> getProductBrands() {
-    List<ProductBrand> list = dao.getProductBrands();
-    List<ProductBrand> returnData = new ArrayList<>();
-    for (ProductBrand data : list) {
-      returnData.add(data);
-    }
-    return returnData;
+  public List<Brand> getProductBrands() {
+    List<Brand> list = dao.getBrands();
+    return list;
   }
 
   public void addProductImage(int productIndex, List<MultipartFile> list) {
@@ -109,8 +97,53 @@ public class ShopService {
     return dao.getProductImageByProductImage(productIndex);
   }
 
-  public Product getProductByProductIndex(int productIndex) {
+  public ProductResponse getProductByProductIndex(int productIndex) {
 
     return dao.getProductByProductIndex(productIndex);
+  } 
+
+  public void postProduct(ProductRequestForm requestForm) {
+
+    // 1. 파일을 등록한다. 로컬에 등록이 됐을 때 저장된 파일명을 가져와서 디비에 저장
+    String thumbSavedFileName = saveImagesOnLocal(requestForm.getThumb());
+    String detailSavedFileName = saveImagesOnLocal(requestForm.getDetail());
+
+    // 2. 1번에서 작업한 파일명을 쿼리 객체에 등록 → 쿼리 객체를 생성 (쿼리 객체란 마이바티스에 들어갈 파라미터) clear
+    ProductQuery query = generateProductQuery(requestForm, thumbSavedFileName, detailSavedFileName);
+
+    // 3. 2번에서 디비에 등록 할 값을 설정을 완료했으니 DAO를 호출 clear
+    dao.postProduct(query);
+  }
+
+  public String saveImagesOnLocal(MultipartFile file) {
+      String prefix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1, file.getOriginalFilename().length());
+      String fileName = UUID.randomUUID().toString() + "." + prefix;
+      String pathName = UPLOAD_FILE_PATH + "product-image/" + fileName;
+
+      String savedFileName = fileName;
+  
+      File dest = new File(pathName);
+  
+      try {
+        file.transferTo(dest);
+      } catch (IllegalStateException | IOException e) {
+        e.printStackTrace();
+      }
+    return savedFileName;
+  }
+
+  public ProductQuery generateProductQuery(ProductRequestForm requestForm, String thumb, String detail) {
+
+    ProductQuery query = new ProductQuery(
+      requestForm.getProductName(),
+      requestForm.getProductPrice(),
+      thumb,
+      detail,
+      requestForm.getCategory(),
+      requestForm.getBrand(),
+      requestForm.getGender()
+    );
+
+    return query;
   }  
 }

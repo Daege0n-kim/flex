@@ -28,10 +28,10 @@
 <body>
     <div id="header">
         <header>
-            <a href="/home" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
+            <a href="/" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
             <nav>
                 <a href="/style">STYLE</a> <a href="/show_products">SHOP</a> <a href="/about">ABOUT</a>
-                <c:set var="name" value="${userName}" />
+                <c:set var="name" value="${searchId}" />
                 <c:choose>
                     <c:when test="${empty name}">
                         <a href="/sign-in">SIGN IN</a>
@@ -56,43 +56,43 @@
     </div>
 
     <div class="main-container">
-        <div class="add-destination-container">
-            <div class="container-top">
-                <div class="form-logo">
-                    <img src="../../../resources/img/main/logo.png" class="form-logo-img">
-                </div>
-                <div class="add-payment-txt">
-                    <p>결제수단 추가</p>
-                </div>
-            </div>
-            <div class="container-middle">
-                <div class="card-campany">
-                    <p>카드사</p>
-                    <input type="text">
-                </div>
-                <div class="card-number">
-                    <p>카드번호</p>
-                    <div class="card-num-input">
-                        <input type="text" name="card-num1" maxlength="4"><label>-</label>
-                        <input type="text" name="card-num2" maxlength="4"><label>-</label>
-                        <input type="text" name="card-num3" maxlength="4"><label>-</label>
-                        <input type="text" name="card-num4" maxlength="4">
+        <form action="/add-payment" method="post" id="paymentAddForm">
+            <div class="add-destination-container">
+                <div class="container-top">
+                    <div class="form-logo">
+                        <img src="../../../resources/img/main/logo.png" class="form-logo-img">
+                    </div>
+                    <div class="add-payment-txt">
+                        <p>결제수단 추가</p>
                     </div>
                 </div>
-                <div class="cvc-number">
-                    <p>CVC</p>
-                    <input type="text" maxlength="3">
+                    <div class="container-middle">
+                        <div class="card-campany">
+                            <p>카드사</p>
+                            <input type="text" name="paymentBank">
+                        </div>
+                        <div class="card-number">
+                            <p>카드번호</p>
+                            <div class="card-num-input">
+                                <input type="text" maxlength="12" name="account" placeholder="-제외 입력">
+                            </div>
+                        </div>
+                        <div class="cvc-number">
+                            <p>CVC</p>
+                            <input type="text" maxlength="3" name="cvc">
+                        </div>
+                    </div>
+                
+                <div class="container-bottom">
+                    <div class="add-default-payment">
+                        <input type="checkbox" id="isDefault" name="isDefault" value="0"><label>기본 결제수단으로 추가</label>
+                    </div>
+                    <div class="btn-area">
+                        <button class="add-btn" onclick="MovePayment()">추가하기</button>
+                    </div>
                 </div>
             </div>
-            <div class="container-bottom">
-                <div class="add-default-payment">
-                    <input type="checkbox"><label>기본 결제수단으로 추가</label>
-                </div>
-                <div class="btn-area">
-                    <button class="add-btn" onclick="MovePayment()">추가하기</button>
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
 
     <div class="top-btn">
@@ -138,9 +138,17 @@
 
 
         function MovePayment(){
-
-            location.href="/Payment";
+            document.querySelector('#paymentAddForm').submit();
         }
+
+        var checkbox = $('#isDefault')
+        checkbox.change(e => {
+            if(checkbox.attr("value") == 0) {
+                checkbox.attr("value", 1)
+            } else {
+                checkbox.attr("value", 0)
+            }
+        })
     </script>
 </body>
 

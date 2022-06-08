@@ -29,10 +29,10 @@
         <body>
             <div id="header">
                 <header>
-                    <a href="/home" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
+                    <a href="/" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
                     <nav>
                         <a href="/style">STYLE</a> <a href="/show_products">SHOP</a> <a href="/about">ABOUT</a>
-                        <c:set var="name" value="${userName}" />
+                        <c:set var="name" value="${searchId}" />
                         <c:choose>
                             <c:when test="${empty name}">
                                 <a href="/sign-in">SIGN IN</a>
