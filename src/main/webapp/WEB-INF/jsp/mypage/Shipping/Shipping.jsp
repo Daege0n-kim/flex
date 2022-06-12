@@ -104,36 +104,37 @@
                 </div>
                 <div class="delivery-destination-container">
                     <p class="delivery-destination-text">배송지관리</p>
-
-                    <!-- 배송지관리 카드 시작 -->
-                    <c:forEach var="data" items="${deliveryList}">
-                        <div class="delivery-destination-card-container">
-                            <div class="delivery-destination-name-container">
-                                <div class="delivery-destination-nametxt-area">
-                                    <p>배송지명</p>
+                    <div class="card-container">
+                        <!-- 배송지관리 카드 시작 -->
+                        <c:forEach var="data" items="${deliveryList}">
+                            <div class="delivery-destination-card-container">
+                                <div class="delivery-destination-name-container">
+                                    <div class="delivery-destination-nametxt-area">
+                                        <p>배송지명</p>
+                                    </div>
+                                    <div class="delivery-destination-name-area">
+                                        <p><c:out value="${data.addressName}" /></p>
+                                    </div>
                                 </div>
-                                <div class="delivery-destination-name-area">
-                                    <p><c:out value="${data.addressName}" /></p>
+                                <div class="delivery-destination-info-container">
+                                    <div class="adress-text-area">
+                                        <p>주소</p>
+                                    </div>
+                                    <div class="adress-area">
+                                        <p><c:out value="${data.deliveryAddress}" /></p>
+                                    </div>
+                                </div>
+                                <div class="delivery-destination-delete-container">
+                                    <!-- <input type="hidden" name="deliveryIndex" value="${data.deliveryIndex}"> -->
+                                    <button onclick="deleteDeliveryAddress('${data.deliveryIndex}')">삭제하기</button>
+                                    <c:if test="${data.isDefault == 0}">
+                                        <button class="change-btn" onclick="fetchDefaultDeliveryAddress('${data.deliveryIndex}', '${data.addressName}', '${data.deliveryAddress}')">기본배송지 설정</button>
+                                    </c:if>
                                 </div>
                             </div>
-                            <div class="delivery-destination-info-container">
-                                <div class="adress-text-area">
-                                    <p>주소</p>
-                                </div>
-                                <div class="adress-area">
-                                    <p><c:out value="${data.deliveryAddress}" /></p>
-                                </div>
-                            </div>
-                            <div class="delivery-destination-delete-container">
-                                <!-- <input type="hidden" name="deliveryIndex" value="${data.deliveryIndex}"> -->
-                                <button onclick="deleteDeliveryAddress('${data.deliveryIndex}')">삭제하기</button>
-                                <c:if test="${data.isDefault == 0}">
-                                    <button class="change-btn" onclick="fetchDefaultDeliveryAddress('${data.deliveryIndex}', '${data.addressName}', '${data.deliveryAddress}')">기본배송지 설정</button>
-                                </c:if>
-                            </div>
-                        </div>
-                    </c:forEach>
-                    <!-- 배송지관리 카드 끝 -->
+                        </c:forEach>
+                        <!-- 배송지관리 카드 끝 -->
+                    </div>
 
                     <!-- <div class="delivery-destination-card-container">
                         <div class="delivery-destination-name-container">

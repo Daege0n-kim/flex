@@ -82,16 +82,16 @@
                         <div class="profile-content-container">
                             <div class="content-top-container">
                                 <div class="user-name-area">
-                                    <p>김대건 님</p>
+                                    <p><c:out value="${userDetail.name}" /> 님</p>
                                 </div>
                                 <div class="user-id-area">
-                                    <p>@kimdaigun</p>
+                                    <p>@<c:out value="${userDetail.searchId}" /></p>
                                 </div>
                             </div>
                             <div class="content-bottom-container">
                                 <div class="purchace-amount-area">
                                     <p>총 구매금액</p>
-                                    <p>1231,213,304 &#8361;</p>
+                                    <p id="productPrice"><c:out value="${userDetail.totalPrice}" /> &#8361;</p>
                                 </div>
                                 <div class="profile-btn-area">
                                     <button class="profile-edit-btn" onclick="MovePageSujeong()">프로필 수정하기</button>
@@ -105,68 +105,43 @@
                 <div class="cart-container">
                     <p class="cart-text">장바구니</p>
                     <!-- 구매내역 카드 시작 -->
-                    <div class="check-cart-container">
-                        <input type="checkbox">
-                        <div class="cart-card-container">
-                            <div class="product-thumb-container">
-                                <img src="" alt="No Image Here" class="profile-thumb-img">
-                            </div>
-                            <div class="product-content-container">
-                                <div class="product-brand-area">
-                                    <p>NIKE</p>
+                    <c:forEach var="cart" items="${cartLike}" varStatus="status">
+                        <div class="check-cart-container">
+                            <input type="checkbox">
+                            <div class="cart-card-container">
+                                <div class="product-thumb-container">
+                                    <img src="/resources/product-image/${cart.thumbSavedFileName}" alt="No Image Here" class="profile-thumb-img">
                                 </div>
-                                <div class="product-name-area">
-                                    <p>TRAVIS SCOTT</p>
-                                </div>
-                                <div class="purchase-price-container">
-                                    <div class="purchace-amount-area">
-                                        <p>213,304 &#8361;</p>
+                                <div class="product-content-container">
+                                    <div class="product-brand-area">
+                                        <p><c:out value="${cart.productBrand}" /></p>
+                                    </div>
+                                    <div class="product-name-area">
+                                        <p> <c:out value="${cart.productName}" /> </p>
+                                    </div>
+                                    <div class="purchase-price-container">
+                                        <div class="purchace-amount-area">
+                                            <p class="pr${cart.cartIndex}" id="productPrice">
+                                                <c:out value="${cart.productPrice * cart.cartCount}" /> &#8361;
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="quantity-container">
-                                <a href="" class="minus">-</a>
-                                <p>1개</p>
-                                <a href="">+</a>
-                            </div>
-                            <div class="delete-container">
-                                <button class="delete-btn">삭제하기</button>
+                                <div class="quantity-container">
+                                    <a onclick="decrease(`${cart.cartIndex}`, `${cart.productPrice}`)" class="minus">-</a>
+                                    <p id="num${cart.cartIndex}"><c:out value="${cart.cartCount}" /></p>
+                                    <a onclick="increase(`${cart.cartIndex}`, `${cart.productPrice}`)">+</a>
+                                </div>
+                                <div class="delete-container">
+                                    <button class="delete-btn" onclick="deleteCart(`${cart.cartIndex}`)">삭제하기</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </c:forEach>
                     <!-- 구매내역 카드 끝 -->
-                    <div class="check-cart-container">
-                        <input type="checkbox">
-                        <div class="cart-card-container">
-                            <div class="product-thumb-container">
-                                <img src="" alt="No Image Here" class="profile-thumb-img">
-                            </div>
-                            <div class="product-content-container">
-                                <div class="product-brand-area">
-                                    <p>NIKE</p>
-                                </div>
-                                <div class="product-name-area">
-                                    <p>TRAVIS SCOTT</p>
-                                </div>
-                                <div class="purchase-price-container">
-                                    <div class="purchace-amount-area">
-                                        <p>213,304 &#8361;</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="quantity-container">
-                                <a href="" class="minus">-</a>
-                                <p>1개</p>
-                                <a href="">+</a>
-                            </div>
-                            <div class="delete-container">
-                                <button class="delete-btn">삭제하기</button>
-                            </div>
-                        </div>
-                    </div>
                     <div class="select-area">
                         <input type="checkbox"><label>전체상품 선택</label>
-                        <button class="ordering-btn">주문하기</button>
+                        <button class="ordering-btn" onclick="purchase()">주문하기</button>
                     </div>
                 </div>
             </div>
@@ -192,6 +167,13 @@
                 </div>
             </footer>
             <script>
+                $(function(){
+                    let prices = document.querySelectorAll('#productPrice');
+
+                    prices.forEach(ele => {
+                        ele.innerHTML = priceNumberFormat(ele.innerHTML)
+                    })
+                })
 
                 var topBtn = document.querySelector('.top-btn');
 
@@ -211,15 +193,71 @@
                 });
 
                 function moveWritePage() {
-
                     location.href = "/SelectProduct";
                 }
 
 
                 function MovePageSujeong() {
-
                     location.href = "";
+                }
 
+                function deleteCart(cartIndex) {
+                    $.ajax({
+                        url: "/deleteCart",
+                        type: "get",
+                        data: {
+                            cartIndex: cartIndex
+                        },
+                        success: () => {
+                            location.href = "/Baguni"
+                        },
+                        error: () => {
+                            location.href = "/Baguni"
+                        }
+                    })
+                }
+
+                function increase(cartIndex, productPrice) {
+                    let count = document.querySelector("#num" + cartIndex)
+                    let itemPrice = document.querySelector(".pr" + cartIndex)
+
+                    $.ajax({
+                        url: "increaseCart",
+                        type: "get",
+                        data: {
+                            cartIndex: cartIndex
+                        },
+                        success: res => {
+                            count.innerHTML = res
+                            itemPrice.innerHTML = priceNumberFormat(res * productPrice) + "₩"
+                        }
+                    })
+                }
+
+                function decrease(cartIndex, productPrice) {
+                    let count = document.querySelector("#num" + cartIndex)
+                    let itemPrice = document.querySelector(".pr" + cartIndex)
+
+                    $.ajax({
+                        url: "decreaseCart",
+                        type: "get",
+                        data: {
+                            cartIndex: cartIndex
+                        },
+                        success: res => {
+                            count.innerHTML = res
+                            itemPrice.innerHTML = priceNumberFormat(res * productPrice) + "₩"
+                        }
+                    })
+                }
+
+                function purchase() {
+
+                }
+
+                function priceNumberFormat(price) {
+                    let formattedPrice = price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
+                    return formattedPrice;
                 }
             </script>
         </body>

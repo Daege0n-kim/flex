@@ -4,7 +4,9 @@ import com.pg.flex.dao.mypage.MyPage;
 import com.pg.flex.dto.UserImage;
 import com.pg.flex.dto.request.DeliveryAddressRequestForm;
 import com.pg.flex.dto.request.PaymentRequestForm;
+import com.pg.flex.dto.response.Cart;
 import com.pg.flex.dto.response.DeliveryResponse;
+import com.pg.flex.dto.response.Like;
 import com.pg.flex.dto.response.PaymentResponse;
 import com.pg.flex.dto.response.UserDetailResponse;
 
@@ -148,5 +150,31 @@ public class MyPageService {
     }
     /* Payment */
 
-  
+    public List<Cart> getCartList(String userId) {
+      return myPageDao.getCartList(userId);
+    }
+
+    public void deleteCart(int cartIndex) {
+      myPageDao.deleteCart(cartIndex);
+    }
+
+    public int increaseCart(int cartIndex) {
+      return myPageDao.increaseCart(cartIndex);
+    }
+    
+    public int decreaseCart(int cartIndex) {
+      return myPageDao.decreaseCart(cartIndex);
+    }
+
+    public int getCartCount(int cartIndex) {
+      return myPageDao.getCartCount(cartIndex);
+    }
+
+    public List<Like> getLikesByUserId(String userId) {
+      return myPageDao.getLikesByUserId(userId);
+    }
+
+    public void deleteFromLike(int likeIndex) {
+      myPageDao.deleteFromLike(likeIndex);
+    }
 }

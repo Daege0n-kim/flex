@@ -28,6 +28,7 @@
     <result column="gender_index" property="genderIndex" />
     <result column="gender_name" property="genderName" />
   </resultMap>
+
   <resultMap id="CategoryResultMap" type="com.pg.flex.dto.Category">
     <result column="category_index" property="categoryIndex" />
     <result column="category_name" property="categoryName" />
@@ -39,6 +40,12 @@
     <result column="original_file_name" property="originalFileName" />
     <result column="saved_file_name" property="savedFileName" />
     <result column="is_thumb" property="isThumb" />
+  </resultMap>
+
+  <resultMap id="IsLikedResponse" type="com.pg.flex.dto.response.IsLikedResponse">
+    <result column="like_index" property="likeIndex" />
+    <result column="product_index" property="productIndex" />
+    <result column="user_id" property="userId" />
   </resultMap>
 
   <select id="getProducts" resultMap="ProductResultMap">
@@ -178,5 +185,37 @@
   WHERE
     product_index = #{productIndex}
 </select>
+
+<select id="isLiked" parameterType="com.pg.flex.dto.request.IsLiked" resultMap="IsLikedResponse">
+  SELECT
+    *
+  FROM
+    product_like
+  WHERE
+    product_index = #{productIndex}
+  AND
+    user_id = #{userId}
+</select>
+
+<insert id="addLike" parameterType="com.pg.flex.dto.request.IsLiked">
+  INSERT INTO
+    product_like (product_index, user_id)
+  VALUES
+    (#{productIndex}, #{userId})
+</insert>
+
+<delete id="deleteLike" parameterType="com.pg.flex.dto.response.IsLikedResponse">
+  DELETE FROM
+    product_like
+  WHERE
+    like_index = #{likeIndex}
+</delete>
+
+<insert id="addToCart" parameterType="com.pg.flex.dto.request.IsLiked">
+  INSERT INTO
+    cart (product_index, user_id)
+  VALUES
+    (#{productIndex}, #{userId})
+</insert>
 
 </mapper>

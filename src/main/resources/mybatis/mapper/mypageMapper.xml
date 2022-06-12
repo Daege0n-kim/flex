@@ -30,6 +30,25 @@
   <result column="cvc" property="cvc" />
 </resultMap>
 
+<resultMap id="CartMap" type="com.pg.flex.dto.response.Cart">
+  <result column="cart_index" property="cartIndex"/>
+  <result column="product_index" property="productIndex"/>
+  <result column="thumb_saved_file_name" property="thumbSavedFileName"/>
+  <result column="product_brand" property="productBrand"/>
+  <result column="product_name" property="productName"/>
+  <result column="product_price" property="productPrice"/>
+  <result column="cart_count" property="cartCount"/>
+</resultMap>
+
+<resultMap id="LikeMap" type="com.pg.flex.dto.response.Like">
+  <result column="like_index" property="likeIndex"/>
+  <result column="product_index" property="productIndex"/>
+  <result column="thumb_saved_file_name" property="thumbSavedFileName"/>
+  <result column="brand_name" property="brandName"/>
+  <result column="product_name" property="productName"/>
+  <result column="product_price" property="productPrice"/>
+</resultMap>
+
 <select id="getUserDetail" parameterType="string" resultMap="ProductResultMap">
   SELECT
     login_id,
@@ -153,4 +172,100 @@
   </update>
   <!-- Payment -->
 
+  <select id="getCartList" parameterType="String" resultMap="CartMap"> 
+    SELECT
+      c.cart_index, 
+      p.product_index, 
+      p.thumb_saved_file_name, 
+      b.brand_name AS product_brand, 
+      p.product_name, 
+      p.product_price, 
+      c.cart_count 
+    FROM 
+      cart c 
+    INNER JOIN
+      user u 
+    ON 
+      c.user_id = u.login_id 
+    INNER JOIN
+      product p 
+    ON 
+      c.product_index = p.product_index
+    INNER JOIN
+      brand b 
+    ON 
+      p.brand = b.brand_index 
+    WHERE
+      u.login_id = #{userId}
+  </select>
+
+  <delete id="deleteCart" parameterType="int">
+    DELETE FROM
+      cart
+    WHERE
+      cart_index = #{cartIndex}
+  </delete>
+
+  <update id="increaseCart" parameterType="int">
+    UPDATE 
+      cart
+    SET
+      cart_count = cart_count + 1
+    WHERE
+      cart_index = #{cart_index}
+  </update>
+
+  <update id="decreaseCart" parameterType="int">
+    UPDATE 
+      cart
+    SET
+      cart_count = cart_count - 1
+    WHERE
+      cart_index = #{cart_index}
+  </update>
+
+  <select id="getCartCount" parameterType="int" resultType="int">
+    SELECT
+      cart_count
+    FROM
+      cart
+    WHERE
+      cart_index = #{cartIndex}
+  </select>
+
+  <select id="getLikesByUserId" parameterType="string" resultMap="LikeMap">
+    SELECT
+      l.like_index, 
+      p.product_index,
+      p.thumb_saved_file_name, 
+      b.brand_name, 
+      p.product_name, 
+      p.product_name, 
+      p.product_price
+    FROM
+      product_like l 
+    INNER JOIN
+      product p 
+    ON 
+      l.product_index = p.product_index 
+    INNER JOIN
+      brand b 
+    ON 
+      p.brand = b.brand_index 
+    INNER JOIN 
+      user u 
+    ON 
+      l.user_id = u.login_id 
+    WHERE 
+      l.user_id = #{userId}
+  </select>
+
+  <delete id="deleteFromLike" parameterType="int">
+    DELETE FROM
+      product_like
+    WHERE
+      like_index = #{likeIndex}
+  </delete>
+
 </mapper>
+    

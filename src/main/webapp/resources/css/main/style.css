@@ -10,8 +10,8 @@ nav a:hover{border-bottom:3px solid #282a35;padding-bottom:31px;color:#000000}
 body{position:relative}
 
 /* side-text */
-.side-txt{position:absolute;width:25%;height:calc(100% - 585px);z-index:1;overflow:hidden;top:0;right:0}
-.txt{transform:translate(0,740px);position:absolute;right:2rem;writing-mode:vertical-rl;white-space:nowrap;font-size:15.2vw;font-family:'Roboto', sans-serif;font-weight:bold;color:#000;opacity:.12}
+.side-txt{position:absolute;width:25%;height:calc(100% - (107px + 640px + 585px));z-index:1;transform: translateY(calc(100vh-(107px - 640px)));right:0;overflow: hidden;}
+.txt{position:absolute;right:2rem;writing-mode:vertical-rl;white-space:nowrap;font-size:15.2vw;font-family:'Roboto', sans-serif;font-weight:bold;color:#000;opacity:.12;}
 
 /* main-container */
 .content{background:#fff;overflow:hidden}

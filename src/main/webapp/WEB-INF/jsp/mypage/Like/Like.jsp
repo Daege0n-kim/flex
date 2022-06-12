@@ -82,16 +82,16 @@
                         <div class="profile-content-container">
                             <div class="content-top-container">
                                 <div class="user-name-area">
-                                    <p>김대건 님</p>
+                                    <p><c:out value="${userDetail.name}" /> 님</p>
                                 </div>
                                 <div class="user-id-area">
-                                    <p>@kimdaigun</p>
+                                    <p>@<c:out value="${userDetail.searchId}" /></p>
                                 </div>
                             </div>
                             <div class="content-bottom-container">
                                 <div class="purchace-amount-area">
                                     <p>총 구매금액</p>
-                                    <p>1231,213,304 &#8361;</p>
+                                    <p id="productPrice"><c:out value="${userDetail.totalPrice}" /> &#8361;</p>
                                 </div>
                                 <div class="profile-btn-area">
                                     <button class="profile-edit-btn" onclick="MovePageSujeong()">프로필 수정하기</button>
@@ -105,61 +105,36 @@
                 <div class="cart-container">
                     <p class="like-text">좋아요</p>
                     <!-- 구매내역 카드 시작 -->
-                    <div class="check-cart-container">
-                        <input type="checkbox">
-                        <div class="cart-card-container">
-                            <div class="product-thumb-container">
-                                <img src="" alt="No Image Here" class="profile-thumb-img">
-                            </div>
-                            <div class="product-content-container">
-                                <div class="product-brand-area">
-                                    <p>NIKE</p>
+                    <c:forEach var="like" items="${likes}" varStatus="status">
+                        <div class="check-cart-container">
+                            <input type="checkbox">
+                            <div class="cart-card-container">
+                                <div class="product-thumb-container">
+                                    <img src="/resources/product-image/${like.thumbSavedFileName}" alt="No Image Here" class="profile-thumb-img">
                                 </div>
-                                <div class="product-name-area">
-                                    <p>TRAVIS SCOTT</p>
-                                </div>
-                                <div class="purchase-price-container">
-                                    <div class="purchace-amount-area">
-                                        <p>213,304 &#8361;</p>
+                                <div class="product-content-container">
+                                    <div class="product-brand-area">
+                                        <p><c:out value="${like.brandName}" /></p>
+                                    </div>
+                                    <div class="product-name-area">
+                                        <p><c:out value="${like.productName}" /></p>
+                                    </div>
+                                    <div class="purchase-price-container">
+                                        <div class="purchace-amount-area">
+                                            <p id="productPrice"><c:out value="${like.productPrice}" /> &#8361;</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="put-cart-container">
-                                <button class="cart-btn">장바구니 담기</button>
-                            </div>
-                            <div class="delete-container">
-                                <button class="delete-btn">삭제하기</button>
+                                <div class="put-cart-container">
+                                    <button class="cart-btn" onclick="addToCart(`${like.likeIndex}`, `${like.productIndex}`)">장바구니 담기</button>
+                                </div>
+                                <div class="delete-container">
+                                    <button class="delete-btn" onclick="deleteFromLike(`${like.likeIndex}`)">삭제하기</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </c:forEach>
                     <!-- 구매내역 카드 끝 -->
-                    <div class="check-cart-container">
-                        <input type="checkbox">
-                        <div class="cart-card-container">
-                            <div class="product-thumb-container">
-                                <img src="" alt="No Image Here" class="profile-thumb-img">
-                            </div>
-                            <div class="product-content-container">
-                                <div class="product-brand-area">
-                                    <p>NIKE</p>
-                                </div>
-                                <div class="product-name-area">
-                                    <p>TRAVIS SCOTT</p>
-                                </div>
-                                <div class="purchase-price-container">
-                                    <div class="purchace-amount-area">
-                                        <p>213,304 &#8361;</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="put-cart-container">
-                                <button class="cart-btn">장바구니 담기</button>
-                            </div>
-                            <div class="delete-container">
-                                <button class="delete-btn">삭제하기</button>
-                            </div>
-                        </div>
-                    </div>
                     <div class="select-area">
                         <input type="checkbox"><label>전체상품 선택</label>
                         <button class="overall-cart-btn">장바구니 담기</button>
@@ -188,6 +163,14 @@
                 </div>
             </footer>
             <script>
+
+                $(function(){
+                    let prices = document.querySelectorAll('#productPrice');
+
+                    prices.forEach(ele => {
+                        ele.innerHTML = priceNumberFormat(ele.innerHTML)
+                    })
+                })
 
                 var topBtn = document.querySelector('.top-btn');
 
@@ -218,6 +201,45 @@
 
                     location.href = "";
 
+                }
+
+                function priceNumberFormat(price) {
+                    let formattedPrice = price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
+                    return formattedPrice;
+                }
+
+                function deleteFromLike(likeIndex) {
+                    $.ajax({
+                        url: "/deleteFromLike",
+                        type: "get",
+                        data: {
+                            likeIndex: likeIndex
+                        },
+                        success: () => {
+                            location.href = "/Like"
+                        },
+                        error: () => {
+                            location.href = "/Like"
+                        }
+                    })
+                }
+
+                function addToCart(likeIndex, productIndex) {
+                    $.ajax({
+                        url: "/addToCartFromLike",
+                        type: "post",
+                        data: {
+                            likeIndex: likeIndex,
+                            productIndex: productIndex
+                        },
+                        dataType: 'json',
+                        success: () => {
+                            location.href = "/Baguni"
+                        },
+                        error: () => {
+                            location.href = "/Baguni"
+                        }
+                    })
                 }
             </script>
         </body>
