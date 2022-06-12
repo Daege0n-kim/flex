@@ -16,7 +16,9 @@ import com.pg.flex.dto.ProductEditRequest;
 import com.pg.flex.dto.ProductImage;
 import com.pg.flex.dto.ProductRequest;
 import com.pg.flex.dto.query.ProductQuery;
+import com.pg.flex.dto.request.IsLiked;
 import com.pg.flex.dto.request.ProductRequestForm;
+import com.pg.flex.dto.response.IsLikedResponse;
 import com.pg.flex.dto.response.ProductResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,4 +148,20 @@ public class ShopService {
 
     return query;
   }  
+
+  public IsLikedResponse isLiked(IsLiked isLiked) {
+    return dao.isLiked(isLiked);
+  }
+
+  public void addLike(IsLiked isLiked) {
+    dao.addLike(isLiked);
+  }
+
+  public void deleteLike(IsLikedResponse isLiked) {
+    dao.deleteLike(isLiked);
+  }
+
+  public void addToCart(IsLiked addToCart) {
+    dao.addToCart(addToCart);
+  }
 }

@@ -14,7 +14,9 @@ import com.pg.flex.dto.UserDetail;
 import com.pg.flex.dto.UserImage;
 import com.pg.flex.dto.request.DeliveryAddressRequestForm;
 import com.pg.flex.dto.request.PaymentRequestForm;
+import com.pg.flex.dto.response.Cart;
 import com.pg.flex.dto.response.DeliveryResponse;
+import com.pg.flex.dto.response.Like;
 import com.pg.flex.dto.response.PaymentResponse;
 import com.pg.flex.dto.response.SignUserResponse;
 import com.pg.flex.dto.response.UserDetailResponse;
@@ -49,9 +51,9 @@ public class MyPageController {
 
     String userId = (String) session.getAttribute("loginId");
     UserDetailResponse userDetail = myPageService.getUserDetail(userId);
-
+    
     // String path = "/mypage/uploadfile/" + userDetail.getSavedFileName();
-
+    
     // model.addAttribute("path", path);
     model.addAttribute("userDetail", userDetail);
     return "/mypage/mypageUserImage";
@@ -63,12 +65,27 @@ public class MyPageController {
   }
 
   @GetMapping(value = "/Baguni")
-  public String postBaguni() {
+  public String postBaguni(HttpSession session, Model model) {
+
+    String userId = (String)session.getAttribute("loginId");
+
+    UserDetailResponse userDetail = myPageService.getUserDetail(userId);
+    List<Cart> cartList = myPageService.getCartList(userId);
+    
+    model.addAttribute("userDetail", userDetail);
+    model.addAttribute("cartLike", cartList);
     return "/mypage/Baguni/Baguni";
   }
 
   @GetMapping(value = "/Like")
-  public String postLike() {
+  public String postLike(HttpSession session, Model model) {
+    String userId = (String)session.getAttribute("loginId");
+    UserDetailResponse userDetail = myPageService.getUserDetail(userId);
+
+    List<Like> likes = myPageService.getLikesByUserId(userId);
+    
+    model.addAttribute("likes", likes);
+    model.addAttribute("userDetail", userDetail);
     return "/mypage/Like/Like";
   }
 
@@ -78,7 +95,11 @@ public class MyPageController {
   }
 
   @GetMapping(value = "/Purchase-History")
-  public String PurchaseHistory() {
+  public String PurchaseHistory(HttpSession session, Model model) {
+    String userId = (String)session.getAttribute("loginId");
+    UserDetailResponse userDetail = myPageService.getUserDetail(userId);
+
+    model.addAttribute("userDetail", userDetail);
     return "/mypage/Purchase-History/Purchase-History";
   }
 

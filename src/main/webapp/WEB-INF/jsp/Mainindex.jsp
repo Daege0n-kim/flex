@@ -76,15 +76,17 @@
             </a>
           </div>
         </section>
-
         <div class="side-txt">
           <div class="txt">
             FLEX FOR LIMITED EDITION TRANSACTION
           </div>
         </div>
+        
 
         <!-- Style -->
-        <h4 class="tit" style="margin-top:89px">&lt; STYLE &gt;</h4>
+        <h4 class="tit" style="margin-top:89px">
+          &lt; STYLE &gt;
+        </h4>
         <div class="card-container">
           <!-- 3개짜리 카드 시작 -->
 
@@ -307,6 +309,7 @@
           });
 
         };
+
         Zepto(function ($) {
           $(window).on('load', function () {
             $.each($(".ezkorry-roller"), function (index, item) {

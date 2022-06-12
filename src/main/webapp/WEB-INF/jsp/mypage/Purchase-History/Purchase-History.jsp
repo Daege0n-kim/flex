@@ -82,16 +82,16 @@
                         <div class="profile-content-container">
                             <div class="content-top-container">
                                 <div class="user-name-area">
-                                    <p>김대건 님</p>
+                                    <p><c:out value="${userDetail.name}" /> 님</p>
                                 </div>
                                 <div class="user-id-area">
-                                    <p>@kimdaigun</p>
+                                    <p>@<c:out value="${userDetail.searchId}" /></p>
                                 </div>
                             </div>
                             <div class="content-bottom-container">
                                 <div class="purchace-amount-area">
                                     <p>총 구매금액</p>
-                                    <p>1231,213,304 &#8361;</p>
+                                    <p><c:out value="${userDetail.totalPrice}" /> &#8361;</p>
                                 </div>
                                 <div class="profile-btn-area">
                                     <button class="profile-edit-btn" onclick="MovePageSujeong()">프로필 수정하기</button>

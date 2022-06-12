@@ -11,6 +11,8 @@ import com.pg.flex.dto.ProductEditRequest;
 import com.pg.flex.dto.ProductImage;
 import com.pg.flex.dto.ProductRequest;
 import com.pg.flex.dto.query.ProductQuery;
+import com.pg.flex.dto.request.IsLiked;
+import com.pg.flex.dto.response.IsLikedResponse;
 import com.pg.flex.dto.response.ProductResponse;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -35,5 +37,11 @@ public interface ShopDao {
   ProductResponse getProductByProductIndex(int productIndex);
 
   void postProduct(ProductQuery query);
+
+  IsLikedResponse isLiked(IsLiked isLiked);
+  void addLike(IsLiked isLiked);
+  void deleteLike(IsLikedResponse isLiked);
+
+  void addToCart(IsLiked addToCart);
   
 }

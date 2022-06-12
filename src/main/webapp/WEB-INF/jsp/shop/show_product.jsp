@@ -90,15 +90,15 @@
               <div class="item-price"> <span id="item-price"><c:out value="${product.productPrice}" /></span> ₩ </div>
               <div class="btn-group">
                 <span class="span-btn">입찰하기</span>
-                <span class="span-btn">구매하기</span>
+                <span class="span-btn" id="purchase" onclick="purchase(`${product.productIndex}`)">구매하기</span>
               </div>
             </div>
           </div>
         </div>
         <div class="sub-btn-container">
           <div class="sub-btn-group">
-            <span class="span-btn">장바구니</span>
-            <span class="span-btn">좋아요</span>
+            <span class="span-btn" onclick="addToCart(`${product.productIndex}`)">장바구니</span>
+            <span class="span-btn" id="likeBtn" onclick="addLike(`${product.productIndex}`)">좋아요</span>
           </div>
         </div>
         <div class="item-detail-img-container">
@@ -154,8 +154,6 @@
       let checkedSearchCategoryIndex = [];
       let checkedSearchCategoryValues = [];
 
-      console.log(leftItems)
-
       leftItems.forEach((item) => {
         item.addEventListener("click", () => {
           if(item.classList.contains("clicked")){ 
@@ -177,6 +175,51 @@
       var replacePrice = str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
       price.innerHTML = replacePrice;
     })
+
+    function purchase(productIndex) {
+      location.href="/purchase?productIndex=" + productIndex
+    }
+
+    function addLike(productIndex) {
+      let likeBtn = document.querySelector('#likeBtn');
+
+      $.ajax({
+        url: "/addLike",
+        type: "get",
+        data: {
+          productIndex: productIndex
+        },
+        success: (res) => {
+          switch (res) {
+            case 'liked':
+              likeBtn.classList.add(res)
+              break;
+              case 'unLike':
+                likeBtn.classList.remove('liked')
+              break;
+            default:
+              alert(res)
+              break;
+          }
+        },
+        error: () => {
+          alert("fail");
+        }
+      })
+    }
+
+    function addToCart(productIndex) {
+      $.ajax({
+        url: "/addToCart",
+        type: "get",
+        data: {
+          productIndex: productIndex
+        },
+        success: res => {
+          location.href = "/Baguni"
+        }
+      })
+    }
   </script>
 </body>
 </html>

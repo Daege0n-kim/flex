@@ -1,6 +1,5 @@
 package com.pg.flex.controller.shop;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -8,21 +7,16 @@ import javax.servlet.http.HttpSession;
 import com.pg.flex.dto.Brand;
 import com.pg.flex.dto.Category;
 import com.pg.flex.dto.Gender;
-import com.pg.flex.dto.Product;
-import com.pg.flex.dto.ProductEditRequest;
-import com.pg.flex.dto.ProductImage;
 import com.pg.flex.dto.request.ProductRequestForm;
 import com.pg.flex.dto.response.ProductResponse;
 import com.pg.flex.service.shop.ShopService;
 
-import org.apache.logging.log4j.message.ReusableMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class ShopController {
@@ -113,6 +107,11 @@ public class ShopController {
     }
 
     return changedBrandName;
+  }
+
+  @GetMapping("/purchase")
+  public String purchase() {
+    return "/shop/purchase";
   }
 
 }

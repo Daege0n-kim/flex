@@ -1,6 +1,7 @@
 package com.pg.flex.controller.mypage;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -11,15 +12,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pg.flex.dto.request.AddToCartFromLike;
 import com.pg.flex.dto.request.DeliveryAddressRequestForm;
+import com.pg.flex.dto.request.IsLiked;
 import com.pg.flex.dto.request.PaymentRequestForm;
+import com.pg.flex.dto.response.IsLikedResponse;
 import com.pg.flex.service.mypage.MyPageService;
+import com.pg.flex.service.shop.ShopService;
 
 @RestController
 public class RestMyPageController {
 
   @Autowired
   private MyPageService myPageService;
+
+  @Autowired
+  private ShopService shopService;
 
   /* Delivery */
   @PostMapping("/delete_delivery_address")
@@ -56,5 +64,53 @@ public class RestMyPageController {
     response.sendRedirect("/Payment");
   }
   /* Payment */
+
+  @GetMapping(value = "/deleteCart")
+  public void deleteCart(HttpServletResponse response, @RequestParam("cartIndex") int cartIndex) throws IOException {
+    myPageService.deleteCart(cartIndex);
+    
+    response.sendRedirect("/Baguni");
+  }
+
+  @GetMapping(value = "increaseCart")
+  public int increaseCart(@RequestParam("cartIndex") int cartIndex) {
+    int result = myPageService.increaseCart(cartIndex);
+    int count = 0;
+
+    if(result > 0) {
+      count = myPageService.getCartCount(cartIndex);
+    }
+
+    return count;
+  }
+
+  @GetMapping(value = "decreaseCart")
+  public int decreaseCart(@RequestParam("cartIndex") int cartIndex) {
+    int result = myPageService.decreaseCart(cartIndex);
+    int count = 0;
+
+    if(result > 0) {
+      count = myPageService.getCartCount(cartIndex);
+    }
+
+    return count;
+  }
+
+  @GetMapping(value = "/deleteFromLike")
+  public void deleteFromLike(@RequestParam("likeIndex") int likeIndex) {
+    myPageService.deleteFromLike(likeIndex);
+  }
+
+  @PostMapping(value = "/addToCartFromLike")
+  public void addToCartFromLike(HttpSession session, AddToCartFromLike requestForm) {
+
+      IsLiked addToCart = new IsLiked(requestForm.getProductIndex(), (String)session.getAttribute("loginId"));
+      shopService.addToCart(addToCart);
+
+      IsLikedResponse deleteLike = new IsLikedResponse();
+      deleteLike.setLikeIndex(requestForm.getLikeIndex());
+      shopService.deleteLike(deleteLike);
+
+  }
   
 }

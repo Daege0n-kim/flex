@@ -170,6 +170,10 @@ body{position:relative}
 }
 /* Item Container */
 
+.liked {
+  background: #cccccc;
+}
+
 /* footer */ 
 footer{height:585px;margin-top:278px;background:#f9f9f9;padding:50px 0;text-align:left;display:flex;align-items:center}
 footer>div{width:1200px;margin:0 auto}
