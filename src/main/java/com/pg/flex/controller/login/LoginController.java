@@ -1,28 +1,13 @@
 package com.pg.flex.controller.login;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
-import com.pg.flex.dto.Product;
-import com.pg.flex.dto.Style;
-import com.pg.flex.dto.User;
-import com.pg.flex.service.shop.ShopService;
-import com.pg.flex.service.style.StyleService;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class LoginController {
-
-    @Autowired
-    private ShopService shopService;
-
-    @Autowired
-    private StyleService service;
 
     @GetMapping("/")
     public String main(HttpSession session, Model model) {

@@ -49,6 +49,12 @@
   <result column="product_price" property="productPrice"/>
 </resultMap>
 
+<resultMap id="LikeResponseMap" type="com.pg.flex.dto.response.LikeResponse">
+  <result column="like_index" property="likeIndex"/>
+  <result column="product_index" property="productIndex"/>
+  <result column="user_id" property="userId"/>
+</resultMap>
+
 <select id="getUserDetail" parameterType="string" resultMap="ProductResultMap">
   SELECT
     login_id,
@@ -265,6 +271,32 @@
       product_like
     WHERE
       like_index = #{likeIndex}
+  </delete>
+
+  <select id="getLikesByListIndex" parameterType="com.pg.flex.dto.request.AddToCartFromLike" resultMap="LikeResponseMap">
+    SELECT
+      like_index,
+      product_index,
+      user_id
+    FROM
+      product_like
+    WHERE
+      like_index 
+    IN
+      <foreach collection="list" item="item" open="(" close=")" separator=",">
+        #{item.likeIndex}
+      </foreach>
+  </select>
+
+  <delete id="deleteFromLikeAll" parameterType="com.pg.flex.dto.request.AddToCartFromLike">
+    DELETE FROM
+      product_like
+    WHERE
+      like_index 
+    IN
+      <foreach collection="list" item="item" open="(" close=")" separator=",">
+        #{item.likeIndex}
+      </foreach>
   </delete>
 
 </mapper>

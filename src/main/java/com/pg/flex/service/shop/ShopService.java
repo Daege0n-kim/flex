@@ -3,6 +3,7 @@ package com.pg.flex.service.shop;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -16,10 +17,18 @@ import com.pg.flex.dto.ProductEditRequest;
 import com.pg.flex.dto.ProductImage;
 import com.pg.flex.dto.ProductRequest;
 import com.pg.flex.dto.query.ProductQuery;
+import com.pg.flex.dto.request.AddCartRequest;
+import com.pg.flex.dto.request.AddToCartFromLike;
+import com.pg.flex.dto.request.GetProductWithLike;
 import com.pg.flex.dto.request.IsLiked;
 import com.pg.flex.dto.request.ProductRequestForm;
+import com.pg.flex.dto.request.UpdateCartCount;
+import com.pg.flex.dto.response.Cart;
+import com.pg.flex.dto.response.CartResponse;
 import com.pg.flex.dto.response.IsLikedResponse;
+import com.pg.flex.dto.response.LikeResponse;
 import com.pg.flex.dto.response.ProductResponse;
+import com.pg.flex.service.mypage.MyPageService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +40,9 @@ public class ShopService {
 
   @Autowired
   private ShopDao dao;
+
+  @Autowired
+  private MyPageService myPageService;
 
   @Value("${upload.file.path}")
   private String UPLOAD_FILE_PATH;
@@ -99,9 +111,9 @@ public class ShopService {
     return dao.getProductImageByProductImage(productIndex);
   }
 
-  public ProductResponse getProductByProductIndex(int productIndex) {
+  public ProductResponse getProductByProductIndex(GetProductWithLike query) {
 
-    return dao.getProductByProductIndex(productIndex);
+    return dao.getProductByProductIndex(query);
   } 
 
   public void postProduct(ProductRequestForm requestForm) {
@@ -163,5 +175,28 @@ public class ShopService {
 
   public void addToCart(IsLiked addToCart) {
     dao.addToCart(addToCart);
+  }
+
+  public void addToCartAll(List<AddToCartFromLike> requestForm) {
+
+    List<LikeResponse> likes =  myPageService.getLikesByLikeIndex(requestForm);
+    List<CartResponse> cartResponse = dao.getCartListByProductIndexAndUserId(likes);
+
+    List<AddCartRequest> update = new ArrayList<>();
+    List<AddCartRequest> add = new ArrayList<>();
+
+    for(LikeResponse like: likes) {
+      AddCartRequest request = new AddCartRequest(like.getProductIndex(), like.getUserId());
+      boolean flag = cartResponse.stream().anyMatch(item -> item.getProductIndex() == like.getProductIndex());
+
+      if(flag) {
+        update.add(request);
+      } else {
+        add.add(request);
+      }
+    }
+
+    if(update.size() > 0) dao.updateCartCount(update);
+    if(add.size() > 0) dao.addToCartFromLike(add);
   }
 }

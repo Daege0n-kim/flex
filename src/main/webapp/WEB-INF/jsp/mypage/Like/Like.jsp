@@ -96,7 +96,6 @@
                                 <div class="profile-btn-area">
                                     <button class="profile-edit-btn" onclick="MovePageSujeong()">프로필 수정하기</button>
                                     <button class="writing-btn" onclick="moveWritePage()">글쓰기</button>
-
                                 </div>
                             </div>
                         </div>
@@ -107,7 +106,8 @@
                     <!-- 구매내역 카드 시작 -->
                     <c:forEach var="like" items="${likes}" varStatus="status">
                         <div class="check-cart-container">
-                            <input type="checkbox">
+                            <input type="checkbox" id="checkBx" onchange="addToList(`${like.likeIndex}`)">
+                            <input type="hidden" id="hiddenVal" value="${like.likeIndex}">
                             <div class="cart-card-container">
                                 <div class="product-thumb-container">
                                     <img src="/resources/product-image/${like.thumbSavedFileName}" alt="No Image Here" class="profile-thumb-img">
@@ -136,8 +136,8 @@
                     </c:forEach>
                     <!-- 구매내역 카드 끝 -->
                     <div class="select-area">
-                        <input type="checkbox"><label>전체상품 선택</label>
-                        <button class="overall-cart-btn">장바구니 담기</button>
+                        <input type="checkbox" onclick="checkAll()"><label>전체상품 선택</label>
+                        <button class="overall-cart-btn" onclick="addToCartAll()">장바구니 담기</button>
                     </div>
                 </div>
             </div>
@@ -163,9 +163,15 @@
                 </div>
             </footer>
             <script>
-
+                let addCartArray = []
+                let checkFlag = false
                 $(function(){
                     let prices = document.querySelectorAll('#productPrice');
+                    let checkBxs = document.querySelectorAll('#checkBx');
+                    
+                    checkBxs.forEach(item => {
+                        console.log(item.checked)
+                    })
 
                     prices.forEach(ele => {
                         ele.innerHTML = priceNumberFormat(ele.innerHTML)
@@ -234,6 +240,74 @@
                         },
                         dataType: 'json',
                         success: () => {
+                            location.href = "/Baguni"
+                        },
+                        error: () => {
+                            location.href = "/Baguni"
+                        }
+                    })
+                }
+
+                function addToList(likeIndex) {
+                    let r = addCartArray.find(item => {
+                        return item === likeIndex
+                    }) 
+
+                    if(typeof r == "undefined" || r == null || r == "") addCartArray.push(likeIndex)
+                    else addCartArray.pop(likeIndex)
+
+                    console.log(addCartArray)
+                }
+
+                function checkAll() {
+                    let likes = document.querySelectorAll('#hiddenVal')
+                    let checkBxs = document.querySelectorAll('#checkBx');
+
+                    if(checkFlag) {
+                        checkBxs.forEach(item => {
+                            item.checked = false
+                        })
+                        addCartArray.length = 0;
+                        checkFlag = false
+                    } else {
+                        likes.forEach( (item, index) => {
+                            checkBxs[index].checked = true
+                            let flag = addCartArray.includes(item.value)
+                            if(flag) {
+                                return
+                            } else {
+                                addCartArray.push(item.value)
+                            }
+                        })
+                        checkFlag = true
+                    }
+
+                    console.log(addCartArray)
+                }
+
+                function addToCartAll() {
+                    let requestData = []
+
+                    if(requestData.length === 0) {
+                        alert("선택된 상품이 없습니다.")
+                        return
+                    }
+
+                    addCartArray.forEach(item => {
+                        requestData.push({
+                            likeIndex: item
+                        })
+                    })
+
+                    let requestForm = JSON.stringify(requestData)
+
+                    $.ajax({
+                        url: "/addToCartAll",
+                        type: "post",
+                        data: requestForm,
+                        contentType:'application/json; charset=UTF-8',
+                        dataType:"json",
+                        success: (res) => {
                             location.href = "/Baguni"
                         },
                         error: () => {

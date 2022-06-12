@@ -11,8 +11,12 @@ import com.pg.flex.dto.ProductEditRequest;
 import com.pg.flex.dto.ProductImage;
 import com.pg.flex.dto.ProductRequest;
 import com.pg.flex.dto.query.ProductQuery;
+import com.pg.flex.dto.request.AddCartRequest;
+import com.pg.flex.dto.request.GetProductWithLike;
 import com.pg.flex.dto.request.IsLiked;
+import com.pg.flex.dto.response.CartResponse;
 import com.pg.flex.dto.response.IsLikedResponse;
+import com.pg.flex.dto.response.LikeResponse;
 import com.pg.flex.dto.response.ProductResponse;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -34,7 +38,7 @@ public interface ShopDao {
 
   List<ProductImage> getProductImageByProductImage(int productIndex);
 
-  ProductResponse getProductByProductIndex(int productIndex);
+  ProductResponse getProductByProductIndex(GetProductWithLike query);
 
   void postProduct(ProductQuery query);
 
@@ -43,5 +47,10 @@ public interface ShopDao {
   void deleteLike(IsLikedResponse isLiked);
 
   void addToCart(IsLiked addToCart);
-  
+  void addToCartAll(List<LikeResponse> requestForm);
+
+  List<CartResponse> getCartListByProductIndexAndUserId(List<LikeResponse> requestForm);
+
+  void updateCartCount(List<AddCartRequest> requestForm);
+  void addToCartFromLike(List<AddCartRequest> requestForm);
 }
