@@ -98,7 +98,12 @@
         <div class="sub-btn-container">
           <div class="sub-btn-group">
             <span class="span-btn" onclick="addToCart(`${product.productIndex}`)">장바구니</span>
-            <span class="span-btn" id="likeBtn" onclick="addLike(`${product.productIndex}`)">좋아요</span>
+            <c:if test="${product.likeIndex == -1}">
+              <span class="span-btn" id="likeBtn" onclick="addLike(`${product.productIndex}`)">좋아요</span>
+            </c:if>
+            <c:if test="${product.likeIndex != -1}">
+              <span class="span-btn liked" id="likeBtn" onclick="addLike(`${product.productIndex}`)">좋아요</span>
+            </c:if>
           </div>
         </div>
         <div class="item-detail-img-container">

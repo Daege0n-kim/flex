@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import com.pg.flex.dto.Brand;
 import com.pg.flex.dto.Category;
 import com.pg.flex.dto.Gender;
+import com.pg.flex.dto.request.GetProductWithLike;
 import com.pg.flex.dto.request.ProductRequestForm;
 import com.pg.flex.dto.response.ProductResponse;
 import com.pg.flex.service.shop.ShopService;
@@ -67,10 +68,20 @@ public class ShopController {
   }
 
   @GetMapping(value = "/show_product")
-  public String showProduct(@RequestParam("productIndex") int productIndex, Model model) {
+  public String showProduct(HttpSession session, @RequestParam("productIndex") int productIndex, Model model) {
 
     // 1. 상품의 기본키를 기준으로 상품 하나를 가져옴
-    ProductResponse productResponse = service.getProductByProductIndex(productIndex);
+    ProductResponse productResponse;
+    try {
+      String userId = (String)session.getAttribute("loginId");
+      GetProductWithLike query = new GetProductWithLike(productIndex, userId);
+      
+      productResponse = service.getProductByProductIndex(query);
+    } catch (Exception e) {
+
+      GetProductWithLike query = new GetProductWithLike(productIndex);
+      productResponse = service.getProductByProductIndex(query);
+    }
 
     // 1-1 한글로 된 촌스러운 브랜드 이름 바꿔버리기
     String changedBrandName = changeBrandName(productResponse.getBrandName());

@@ -2,6 +2,7 @@ package com.pg.flex.controller.mypage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +19,7 @@ import com.pg.flex.dto.request.DeliveryAddressRequestForm;
 import com.pg.flex.dto.request.IsLiked;
 import com.pg.flex.dto.request.PaymentRequestForm;
 import com.pg.flex.dto.response.IsLikedResponse;
+import com.pg.flex.dto.response.LikeResponse;
 import com.pg.flex.service.mypage.MyPageService;
 import com.pg.flex.service.shop.ShopService;
 
@@ -110,6 +113,14 @@ public class RestMyPageController {
       IsLikedResponse deleteLike = new IsLikedResponse();
       deleteLike.setLikeIndex(requestForm.getLikeIndex());
       shopService.deleteLike(deleteLike);
+
+  }
+
+  @PostMapping(value = "/addToCartAll")
+  public void addToCartAll(@RequestBody List<AddToCartFromLike> requestForm) {
+
+    shopService.addToCartAll(requestForm);
+    myPageService.deleteFromLikeAll(requestForm);
 
   }
   

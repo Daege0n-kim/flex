@@ -17,6 +17,7 @@
     <result column="category_name" property="categoryName" />
     <result column="brand_name" property="brandName" />
     <result column="gender_name" property="genderName" />
+    <result column="like_index" property="likeIndex" />
   </resultMap>
 
   <resultMap id="BrandResultMap" type="com.pg.flex.dto.Brand">
@@ -44,6 +45,12 @@
 
   <resultMap id="IsLikedResponse" type="com.pg.flex.dto.response.IsLikedResponse">
     <result column="like_index" property="likeIndex" />
+    <result column="product_index" property="productIndex" />
+    <result column="user_id" property="userId" />
+  </resultMap>
+
+  <resultMap id="CartResponseMap" type="com.pg.flex.dto.response.CartResponse">
+    <result column="cart_index" property="cartIndex" />
     <result column="product_index" property="productIndex" />
     <result column="user_id" property="userId" />
   </resultMap>
@@ -79,7 +86,7 @@
 
   <!-- 상품상세 페이지(1개씩 가져오기) -->
 
-  <select id="getProductByProductIndex" parameterType="int" resultMap="ProductResultMap">
+  <select id="getProductByProductIndex" parameterType="com.pg.flex.dto.request.GetProductWithLike" resultMap="ProductResultMap">
     SELECT
       p.product_index,
       p.product_name,
@@ -91,7 +98,21 @@
       g.gender_index,
       c.category_name,
       b.brand_name,
-      g.gender_name
+      g.gender_name,
+      IFNULL(
+        (
+        SELECT
+          like_index
+        FROM
+          product_like
+        WHERE
+          product_index = #{productIndex}
+        AND
+          user_id = #{userId}
+        ),
+        -1
+      )
+      AS like_index
     FROM
       product AS p
     INNER JOIN
@@ -216,6 +237,64 @@
     cart (product_index, user_id)
   VALUES
     (#{productIndex}, #{userId})
+</insert>
+
+<insert id="addToCartAll" parameterType="com.pg.flex.dto.response.LikeResponse">
+  INSERT INTO
+    cart (product_index, user_id)
+  VALUES
+    <foreach collection="list" item="item" separator=",">
+      (#{item.productIndex}, #{item.userId})
+    </foreach>
+</insert>
+
+<select id="getCartListByProductIndexAndUserId" parameterType="com.pg.flex.dto.response.LikeResponse" resultMap="CartResponseMap">
+  SELECT
+    cart_index,
+    product_index,
+    user_id
+  FROM
+    cart
+  WHERE
+    product_index
+  IN
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+      #{item.productIndex}
+    </foreach>
+  AND
+    user_id
+  IN
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+      #{item.userId}
+    </foreach>
+</select>
+
+<update id="updateCartCount" parameterType="com.pg.flex.dto.request.AddCartRequest">
+  UPDATE 
+    cart
+  SET
+    cart_count = cart_count + 1
+  WHERE
+    product_index
+  IN
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+      #{item.productIndex}
+    </foreach>
+  AND
+    user_id
+  IN
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+      #{item.userId}
+    </foreach>
+</update>
+
+<insert id="addToCartFromLike" parameterType="com.pg.flex.dto.request.AddCartRequest">
+  INSERT INTO
+    cart (product_index, user_id)
+  VALUES
+    <foreach collection="list" item="item" separator=",">
+      (#{item.productIndex}, #{item.userId})
+    </foreach>
 </insert>
 
 </mapper>
