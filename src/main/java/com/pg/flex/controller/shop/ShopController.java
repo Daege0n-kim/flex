@@ -9,7 +9,9 @@ import com.pg.flex.dto.Category;
 import com.pg.flex.dto.Gender;
 import com.pg.flex.dto.request.GetProductWithLike;
 import com.pg.flex.dto.request.ProductRequestForm;
+import com.pg.flex.dto.response.PaymentResponse;
 import com.pg.flex.dto.response.ProductResponse;
+import com.pg.flex.service.mypage.MyPageService;
 import com.pg.flex.service.shop.ShopService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class ShopController {
 
   @Autowired
   private ShopService service;
+
+  @Autowired
+  private MyPageService myPageService;
 
   @GetMapping("/shop")
   public String Shop(){
@@ -121,7 +126,20 @@ public class ShopController {
   }
 
   @GetMapping("/purchase")
-  public String purchase() {
+  public String purchase(@RequestParam int totalPrice, Model model, HttpSession session) {
+
+    String userId = (String)session.getAttribute("loginId");
+
+    List<PaymentResponse> payments = myPageService.getPaymentsByUserId(userId);
+
+    for(PaymentResponse item: payments) {
+      if(item.getIsDefault() == 1) {
+        model.addAttribute("defaultPayment", item);
+      }
+    }
+    
+    model.addAttribute("payments", payments);
+    model.addAttribute("totalPrice", totalPrice);
     return "/shop/purchase";
   }
 

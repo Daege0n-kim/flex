@@ -55,6 +55,13 @@
   <result column="user_id" property="userId"/>
 </resultMap>
 
+<resultMap id="CartResponseMap" type="com.pg.flex.dto.response.CartResponseWithPrice">
+  <result column="cart_index" property="cartIndex" />
+  <result column="product_index" property="productIndex" />
+  <result column="user_id" property="userId" />
+  <result column="product_price" property="productPrice" />
+</resultMap>
+
 <select id="getUserDetail" parameterType="string" resultMap="ProductResultMap">
   SELECT
     login_id,
@@ -298,6 +305,26 @@
         #{item.likeIndex}
       </foreach>
   </delete>
+
+  <select id="getCartListByCartIndex" parameterType="com.pg.flex.dto.request.CartIndexForPurchase" resultMap="CartResponseMap">
+    SELECT
+      c.cart_index,
+      c.product_index,
+      c.user_id,
+      p.product_price
+    FROM
+      cart c
+    INNER JOIN
+      product p
+    ON
+      c.product_index = p.product_index
+    WHERE
+      c.cart_index
+    IN
+      <foreach collection="list" item="item" open="(" close=")" separator=",">
+        #{item.cartIndex}
+      </foreach>
+  </select>
 
 </mapper>
     

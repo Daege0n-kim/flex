@@ -3,9 +3,12 @@ package com.pg.flex.service.mypage;
 import com.pg.flex.dao.mypage.MyPage;
 import com.pg.flex.dto.UserImage;
 import com.pg.flex.dto.request.AddToCartFromLike;
+import com.pg.flex.dto.request.CartIndexForPurchase;
 import com.pg.flex.dto.request.DeliveryAddressRequestForm;
 import com.pg.flex.dto.request.PaymentRequestForm;
 import com.pg.flex.dto.response.Cart;
+import com.pg.flex.dto.response.CartResponse;
+import com.pg.flex.dto.response.CartResponseWithPrice;
 import com.pg.flex.dto.response.DeliveryResponse;
 import com.pg.flex.dto.response.Like;
 import com.pg.flex.dto.response.LikeResponse;
@@ -189,5 +192,9 @@ public class MyPageService {
 
     public void deleteFromLikeAll(List<AddToCartFromLike> requestForm) {
       myPageDao.deleteFromLikeAll(requestForm);
+    }
+
+    public List<CartResponseWithPrice> getCartListByCartIndex(List<CartIndexForPurchase> requestForm) {
+      return myPageDao.getCartListByCartIndex(requestForm);
     }
 }
