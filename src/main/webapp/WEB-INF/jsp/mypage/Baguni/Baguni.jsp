@@ -107,7 +107,8 @@
                     <!-- 구매내역 카드 시작 -->
                     <c:forEach var="cart" items="${cartLike}" varStatus="status">
                         <div class="check-cart-container">
-                            <input type="checkbox">
+                            <input type="checkbox" class="chx${cart.cartIndex}" id="checkBx" onclick="checkItem(`${cart.cartIndex}`, `${cart.productPrice}`)">
+                            <input type="hidden" id="hiddenVal" id="${cart.cartIndex}" value="${cart.cartIndex}">
                             <div class="cart-card-container">
                                 <div class="product-thumb-container">
                                     <img src="/resources/product-image/${cart.thumbSavedFileName}" alt="No Image Here" class="profile-thumb-img">
@@ -122,6 +123,7 @@
                                     <div class="purchase-price-container">
                                         <div class="purchace-amount-area">
                                             <p class="pr${cart.cartIndex}" id="productPrice">
+                                                <input type="hidden" id="hiddenItemPrice" value="${cart.productPrice * cart.cartCount}">
                                                 <c:out value="${cart.productPrice * cart.cartCount}" /> &#8361;
                                             </p>
                                         </div>
@@ -129,7 +131,7 @@
                                 </div>
                                 <div class="quantity-container">
                                     <a onclick="decrease(`${cart.cartIndex}`, `${cart.productPrice}`)" class="minus">-</a>
-                                    <p id="num${cart.cartIndex}"><c:out value="${cart.cartCount}" /></p>
+                                    <p class="itemPrice" id="num${cart.cartIndex}"><c:out value="${cart.cartCount}" /></p>
                                     <a onclick="increase(`${cart.cartIndex}`, `${cart.productPrice}`)">+</a>
                                 </div>
                                 <div class="delete-container">
@@ -140,7 +142,7 @@
                     </c:forEach>
                     <!-- 구매내역 카드 끝 -->
                     <div class="select-area">
-                        <input type="checkbox"><label>전체상품 선택</label>
+                        <input type="checkbox" onclick="checkAllItem()"><label>전체상품 선택</label>
                         <button class="ordering-btn" onclick="purchase()">주문하기</button>
                     </div>
                 </div>
@@ -167,6 +169,10 @@
                 </div>
             </footer>
             <script>
+                let addCartArray = []
+                let checkAllFlag = false
+                let totalPrice = 0
+
                 $(function(){
                     let prices = document.querySelectorAll('#productPrice');
 
@@ -220,6 +226,12 @@
                 function increase(cartIndex, productPrice) {
                     let count = document.querySelector("#num" + cartIndex)
                     let itemPrice = document.querySelector(".pr" + cartIndex)
+                    let box = document.querySelector('.chx' + cartIndex)
+
+                    if (box.checked) {
+                        alert("수량 수정은 체크박스를 풀고 해주세요.")
+                        return
+                    }
 
                     $.ajax({
                         url: "increaseCart",
@@ -237,7 +249,17 @@
                 function decrease(cartIndex, productPrice) {
                     let count = document.querySelector("#num" + cartIndex)
                     let itemPrice = document.querySelector(".pr" + cartIndex)
+                    let box = document.querySelector('.chx' + cartIndex)
 
+                    if (box.checked) {
+                        alert("수량 수정은 체크박스를 풀고 해주세요.")
+                        return
+                    }
+
+                    if(count.innerHTML == 1) {
+                        alert("최소수량은 1개 입니다.")
+                        return
+                    }
                     $.ajax({
                         url: "decreaseCart",
                         type: "get",
@@ -252,12 +274,94 @@
                 }
 
                 function purchase() {
+                    let requestData = []
 
+                    if(requestData === 0) {
+                        alert("선택된 상품이 없습니다.")
+                        return
+                    }
+
+                    addCartArray.forEach(item => {
+                        requestData.push({
+                            cartIndex: item
+                        })
+                    })
+                    
+                    if(!confirm(`총 가격은 ${totalPrice}원 입니다. 결제진행하시겠습니까?`)) {
+                        alert('결제 취소')
+                    } else {
+                        let requestForm = JSON.stringify(requestData)
+                        $.ajax({
+                            url: "/purchaseAll",
+                            type: "post",
+                            data: requestForm,
+                            contentType:'application/json; charset=UTF-8',
+                            dataType:"json",
+                            success: (res) => {
+                                location.href = "/purchase?totalPrice=" + res
+                            }, 
+                            error: () => {
+                                location.href = "/purchase"
+                            }
+                        })
+                    }
                 }
 
                 function priceNumberFormat(price) {
                     let formattedPrice = price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
                     return formattedPrice;
+                }
+
+                function checkItem(cartIndex, productPrice) {
+                    let count = document.querySelector('#num' + cartIndex)
+                    let r = addCartArray.find(item => {
+                        return item === cartIndex
+                    }) 
+
+                    if(typeof r == "undefined" || r == null || r == "") {
+                        addCartArray.push(cartIndex)
+                        totalPrice += (productPrice * count.innerHTML)
+                        console.log(totalPrice)
+                    } else {
+                        addCartArray.pop(cartIndex)
+                        totalPrice -= (productPrice * count.innerHTML)
+                        console.log(totalPrice)
+                    }
+                }
+
+                function checkAllItem() {
+                    let cartItems = document.querySelectorAll('#hiddenVal')
+                    let checkBxs = document.querySelectorAll('#checkBx')
+                    let prices = document.querySelectorAll('#hiddenItemPrice')
+
+                    let localTotalPrice = 0
+                    prices.forEach(item => {
+                        let price = item.value
+
+                        const priceRemoveComma = price.replace(/,/g, "");
+                        localTotalPrice += Number(priceRemoveComma)
+                    })
+
+                    if(checkAllFlag) {
+                        checkBxs.forEach(item => {
+                            item.checked = false
+                        })
+                        addCartArray.length = 0;
+                        checkAllFlag = false
+                        totalPrice = 0
+                    } else {
+                        cartItems.forEach( (item, index) => {
+                            checkBxs[index].checked = true
+                            let flag = addCartArray.includes(item.value)
+                            if(flag) {
+                                return
+                            } else {
+                                addCartArray.push(item.value)
+                            }
+                        })
+                        checkAllFlag = true
+                        totalPrice = localTotalPrice
+                    }
                 }
             </script>
         </body>

@@ -55,31 +55,48 @@
             </div>
             <div class="container-middle">
                 <div style="margin-bottom: 3rem;">
-                    <p>가격 : </p>
+                    <p>가격 : <span id="totalPrice"><c:out value="${totalPrice}" /></span> </p>
                 </div>
                 <div class="card-select">
                     <p>결제수단 선택</p>
                     <select name="job">
-                        <option value="">직업선택</option>
-                        <option value="">1</option>
-                        <option value="">2</option>
-                        <option value="">3</option>
+                        <c:forEach var="payment" items="${payments}" varStatus="status">
+                            <option ><c:out value="${payment.paymentBank}" /></option>
+                        </c:forEach>
                     </select>
                 </div>
-                <div class="card-campany">
-                    <p>카드사</p>
-                    <input type="text">
-                </div>
-                <div class="card-number">
-                    <p>카드번호</p>
-                    <div class="card-num-input">
-                        <input type="text" maxlength="12" name="account" placeholder="-제외 입력">
+                <c:if test="${not empty defaultPayment}">
+                    <div class="card-campany">
+                        <p>카드사</p>
+                        <input type="text" value="${defaultPayment.paymentBank}">
                     </div>
-                </div>
-                <div class="cvc-number">
-                    <p>CVC</p>
-                    <input type="text" maxlength="3">
-                </div>
+                    <div class="card-number">
+                        <p>카드번호</p>
+                        <div class="card-num-input">
+                            <input type="text" maxlength="12" name="account" placeholder="-제외 입력" value="${defaultPayment.account}">
+                        </div>
+                    </div>
+                    <div class="cvc-number">
+                        <p>CVC</p>
+                        <input type="text" maxlength="3" value="${defaultPayment.cvc}">
+                    </div>
+                </c:if>
+                <c:if test="${empty defaultPayment}">
+                    <div class="card-campany">
+                        <p>카드사</p>
+                        <input type="text">
+                    </div>
+                    <div class="card-number">
+                        <p>카드번호</p>
+                        <div class="card-num-input">
+                            <input type="text" maxlength="12" name="account" placeholder="-제외 입력">
+                        </div>
+                    </div>
+                    <div class="cvc-number">
+                        <p>CVC</p>
+                        <input type="text" maxlength="3">
+                    </div>
+                </c:if>
             </div>
             <div class="container-bottom">
                 <div class="add-default-payment">
@@ -109,6 +126,14 @@
     <script>
         var header = $('header');
 
+        $(function(){
+            const totalPrice = document.querySelector("#totalPrice")
+
+            let priceFormat = priceNumberFormat(totalPrice.innerHTML)
+
+            totalPrice.innerHTML = priceFormat
+        })
+
         $(window).scroll(function (e) {
             if (header.offset().top !== 0) {
                 if (!header.hasClass('shadow')) {
@@ -118,6 +143,11 @@
                 header.removeClass('shadow');
             }
         });
+
+        function priceNumberFormat(price) {
+            let formattedPrice = price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
+            return formattedPrice;
+        }
     </script>
 </body>
 
