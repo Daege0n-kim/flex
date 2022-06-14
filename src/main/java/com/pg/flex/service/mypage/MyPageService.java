@@ -2,30 +2,41 @@ package com.pg.flex.service.mypage;
 
 import com.pg.flex.dao.mypage.MyPage;
 import com.pg.flex.dto.UserImage;
+import com.pg.flex.dto.query.AddTotalPrice;
+import com.pg.flex.dto.query.UpdateUserInformQuery;
 import com.pg.flex.dto.request.AddToCartFromLike;
 import com.pg.flex.dto.request.CartIndexForPurchase;
 import com.pg.flex.dto.request.DeliveryAddressRequestForm;
 import com.pg.flex.dto.request.PaymentRequestForm;
+import com.pg.flex.dto.request.UpdateUserInfoRequestForm;
 import com.pg.flex.dto.response.Cart;
-import com.pg.flex.dto.response.CartResponse;
 import com.pg.flex.dto.response.CartResponseWithPrice;
 import com.pg.flex.dto.response.DeliveryResponse;
 import com.pg.flex.dto.response.Like;
 import com.pg.flex.dto.response.LikeResponse;
+import com.pg.flex.dto.response.OrderedResponse;
 import com.pg.flex.dto.response.PaymentResponse;
 import com.pg.flex.dto.response.UserDetailResponse;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class MyPageService {
 
   @Autowired
   private MyPage myPageDao;
+
+  @Value("${upload.file.path}")
+  private String UPLOAD_FILE_PATH;
 
   public UserDetailResponse getUserDetail(String userId) {
     return myPageDao.getUserDetail(userId);
@@ -197,4 +208,56 @@ public class MyPageService {
     public List<CartResponseWithPrice> getCartListByCartIndex(List<CartIndexForPurchase> requestForm) {
       return myPageDao.getCartListByCartIndex(requestForm);
     }
+
+    public PaymentResponse selectPaymentByPaymentIndex(int paymentIndex) {
+      return myPageDao.selectPaymentByPaymentIndex(paymentIndex);
+    }
+
+    public void addTotalPrice(AddTotalPrice query) {
+      myPageDao.addTotalPrice(query);
+    }
+
+    public void insertPurchaseHistory(List<CartIndexForPurchase> requestForm) {
+      myPageDao.insertPurchaseHistory(requestForm);
+    }
+
+    public List<OrderedResponse> getOrderedList(String userId) {
+      return myPageDao.getOrderedList(userId);
+    }
+
+    public void updateUserInform(UpdateUserInfoRequestForm requestForm) {
+    String savedFileName = saveImagesOnLocal(requestForm.getSavedFileName());
+    UpdateUserInformQuery query = generateUserQuery(requestForm, savedFileName);
+    myPageDao.updateUserInform(query);
+
+    }
+
+    public String saveImagesOnLocal(MultipartFile file) {
+      String prefix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1, file.getOriginalFilename().length());
+      String fileName = UUID.randomUUID().toString() + "." + prefix;
+      String pathName = UPLOAD_FILE_PATH + "user-images/" + fileName;
+
+      String savedFileName = fileName;
+  
+      File dest = new File(pathName);
+  
+      try {
+        file.transferTo(dest);
+      } catch (IllegalStateException | IOException e) {
+        e.printStackTrace();
+      }
+    return savedFileName;
+  }
+
+  public UpdateUserInformQuery generateUserQuery(UpdateUserInfoRequestForm requestForm, String savedFileName) {
+
+    UpdateUserInformQuery query = new UpdateUserInformQuery(
+      requestForm.getLoginId(),
+      requestForm.getName(),
+      requestForm.getSearchId(),
+      savedFileName
+    );
+
+    return query;
+  }  
 }

@@ -77,21 +77,21 @@
                     </div>
                     <div class="profile-card-container">
                         <div class="profile-thumb-container">
-                            <img src="" alt="No Image Here" class="profile-thumb-img">
+                            <img src="resources/user-images/${userDetail.savedFileName}" alt="No Image Here" class="profile-thumb-img">
                         </div>
                         <div class="profile-content-container">
                             <div class="content-top-container">
                                 <div class="user-name-area">
-                                    <p>김대건 님</p>
+                                    <p> <c:out value="${userDetail.name}" /> 님</p>
                                 </div>
                                 <div class="user-id-area">
-                                    <p>@kimdaigun</p>
+                                    <p>@ <c:out value="${userDetail.searchId}" /> </p>
                                 </div>
                             </div>
                             <div class="content-bottom-container">
                                 <div class="purchace-amount-area">
                                     <p>총 구매금액</p>
-                                    <p>1231,213,304 &#8361;</p>
+                                    <p> <span id="productPrice"> <c:out value="${userDetail.totalPrice}" /> </span> &#8361;</p>
                                 </div>
                                 <div class="profile-btn-area">
                                     <button class="profile-edit-btn" onclick="MovePageSujeong()">프로필 수정하기</button>
@@ -189,6 +189,14 @@
                 var topBtn = document.querySelector('.top-btn');
                 var header = $('header');
                 /* variable */
+
+                $(function(){
+                    let prices = document.querySelectorAll('#productPrice');
+
+                    prices.forEach(ele => {
+                        ele.innerHTML = priceNumberFormat(ele.innerHTML)
+                    })
+                })
             
                 /* Computed */
                 $(window).scroll(function (e) {
@@ -211,7 +219,7 @@
                     location.href = "/SelectProduct";
                 }
                 function MovePageSujeong() {
-                    location.href = "";
+                    location.href = "/edit-profile";
                 }
                 topBtn.addEventListener('click', e => {
                     window.scrollTo(0, 0);
@@ -252,6 +260,11 @@
                     })
                 }
                 /* Methods */
+
+                function priceNumberFormat(price) {
+                    let formattedPrice = price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
+                    return formattedPrice;
+                }
             </script>
         </body>
 

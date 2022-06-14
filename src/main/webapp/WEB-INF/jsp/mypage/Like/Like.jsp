@@ -77,7 +77,7 @@
                     </div>
                     <div class="profile-card-container">
                         <div class="profile-thumb-container">
-                            <img src="" alt="No Image Here" class="profile-thumb-img">
+                            <img src="resources/user-images/${userDetail.savedFileName}" alt="No Image Here" class="profile-thumb-img">
                         </div>
                         <div class="profile-content-container">
                             <div class="content-top-container">
@@ -205,7 +205,7 @@
 
                 function MovePageSujeong() {
 
-                    location.href = "";
+                    location.href = "/edit-profile";
 
                 }
 

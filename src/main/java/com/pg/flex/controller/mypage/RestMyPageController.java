@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pg.flex.dto.query.AddTotalPrice;
 import com.pg.flex.dto.request.AddToCartFromLike;
 import com.pg.flex.dto.request.CartIndexForPurchase;
 import com.pg.flex.dto.request.DeliveryAddressRequestForm;
@@ -23,6 +24,7 @@ import com.pg.flex.dto.response.Cart;
 import com.pg.flex.dto.response.CartResponse;
 import com.pg.flex.dto.response.CartResponseWithPrice;
 import com.pg.flex.dto.response.IsLikedResponse;
+import com.pg.flex.dto.response.PaymentResponse;
 import com.pg.flex.dto.response.PurchaseResponse;
 import com.pg.flex.service.mypage.MyPageService;
 import com.pg.flex.service.shop.ShopService;
@@ -127,17 +129,47 @@ public class RestMyPageController {
   }
 
   @PostMapping(value = "/purchaseAll")
-  public int purchaseAll(HttpServletResponse response, @RequestBody List<CartIndexForPurchase> requestForm, Model model) throws IOException {
+  public int purchaseAll(@RequestBody List<CartIndexForPurchase> requestForm, HttpSession session, HttpServletResponse response, Model model) throws IOException {
+
+    String userId = (String)session.getAttribute("loginId");
 
     List<CartResponseWithPrice> lists = myPageService.getCartListByCartIndex(requestForm);
-
     int totalPrice = 0;
-
     for(CartResponseWithPrice item : lists) {
       totalPrice += item.getProductPrice();
     }
 
+    for(CartIndexForPurchase item : requestForm) {
+      item.setUserId(userId);
+    }
+    myPageService.insertPurchaseHistory(requestForm);
+
     return totalPrice;
+  }
+
+  @PostMapping(value = "/selectPaymentByPaymentIndex")
+  public PaymentResponse selectPaymentByPaymentIndex(@RequestParam int paymentIndex) {
+    return myPageService.selectPaymentByPaymentIndex(paymentIndex);
+  }
+
+  @PostMapping(value = "/getDefaultPayment")
+  public PaymentResponse getDefaultPayment(HttpSession session) {
+    String userId = (String)session.getAttribute("loginId");
+    List<PaymentResponse> lists = myPageService.getPaymentsByUserId(userId);
+
+    for(PaymentResponse response : lists) {
+      if(response.getIsDefault() == 1) return response;
+    }
+
+    return null;
+  }
+
+  @PostMapping(value = "/addTotalPrice")
+  public void addTotalPrice(HttpSession session, @RequestParam int totalPrice) {
+    String userId = (String)session.getAttribute("loginId");
+
+    AddTotalPrice query = new AddTotalPrice(userId, totalPrice);
+    myPageService.addTotalPrice(query);
   }
   
 }

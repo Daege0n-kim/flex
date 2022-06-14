@@ -7,5 +7,8 @@ import lombok.ToString;
 @ToString
 @Getter @Setter
 public class CartIndexForPurchase {
-  private int cartIndex;
+  private int    cartIndex;
+  private int    productIndex;
+  private int    count;
+  private String userId;
 }
