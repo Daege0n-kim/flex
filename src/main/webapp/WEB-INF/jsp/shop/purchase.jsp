@@ -59,26 +59,27 @@
                 </div>
                 <div class="card-select">
                     <p>결제수단 선택</p>
-                    <select name="job">
+                    <select name="payment" id="paymentWay" onchange="changePayment()">
                         <c:forEach var="payment" items="${payments}" varStatus="status">
-                            <option ><c:out value="${payment.paymentBank}" /></option>
+                            <option value="${payment.paymentIndex}"><c:out value="${payment.paymentBank}" /></option>
                         </c:forEach>
                     </select>
                 </div>
                 <c:if test="${not empty defaultPayment}">
+                    <input type="hidden" id="hiddenPaymentIndexValue" value="${defaultPayment.paymentIndex}">
                     <div class="card-campany">
                         <p>카드사</p>
-                        <input type="text" value="${defaultPayment.paymentBank}">
+                        <input type="text" id="bank" value="${defaultPayment.paymentBank}">
                     </div>
                     <div class="card-number">
                         <p>카드번호</p>
                         <div class="card-num-input">
-                            <input type="text" maxlength="12" name="account" placeholder="-제외 입력" value="${defaultPayment.account}">
+                            <input type="text" id="cardNumber" maxlength="12" name="account" placeholder="-제외 입력" value="${defaultPayment.account}">
                         </div>
                     </div>
                     <div class="cvc-number">
                         <p>CVC</p>
-                        <input type="text" maxlength="3" value="${defaultPayment.cvc}">
+                        <input type="text" maxlength="3" id="cvc" value="${defaultPayment.cvc}">
                     </div>
                 </c:if>
                 <c:if test="${empty defaultPayment}">
@@ -100,10 +101,10 @@
             </div>
             <div class="container-bottom">
                 <div class="add-default-payment">
-                    <input type="checkbox"><label>기본 결제수단으로 결제</label>
+                    <input type="checkbox" id="defaultPayment" onchange="checkDefaultPayment()"><label>기본 결제수단으로 결제</label>
                 </div>
                 <div class="btn-area">
-                    <button class="add-btn">결제하기</button>
+                    <button class="add-btn" onclick="purchase()">결제하기</button>
                 </div>
             </div>
         </div>
@@ -125,8 +126,14 @@
     </footer>
     <script>
         var header = $('header');
+        let defaultPaymentIndex = -1;
 
         $(function(){
+            let paymentWayTextArea = $("#paymentWay")
+            defaultPaymentIndex = $("#hiddenPaymentIndexValue").val()
+
+            paymentWayTextArea.val(defaultPaymentIndex).prop("selected", true)
+
             const totalPrice = document.querySelector("#totalPrice")
 
             let priceFormat = priceNumberFormat(totalPrice.innerHTML)
@@ -147,6 +154,75 @@
         function priceNumberFormat(price) {
             let formattedPrice = price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
             return formattedPrice;
+        }
+
+        function changePayment() {
+            let paymentWayTextArea = $("#paymentWay");
+            let paymentWay = $("#paymentWay option:selected").val()
+            let defaultPayment = $("#defaultPayment")
+            let bank = $("#bank")
+            let cardNumber = $("#cardNumber")
+            let cvc = $("#cvc")
+
+            if(defaultPayment.is(':checked')) {
+                alert("기본 결제수단 체크를 해제해주세요.");
+                paymentWayTextArea.val(defaultPaymentIndex).prop("selected", true)
+                return
+            } else {
+                $.ajax({
+                    url: "/selectPaymentByPaymentIndex",
+                    type: "post",
+                    data: {
+                        paymentIndex: paymentWay
+                    },
+                    success: res => {
+                        bank.val(res.paymentBank)
+                        cardNumber.val(res.account)
+                        cvc.val(res.cvc)
+                    },
+                    error: () => {
+                        alert("e")
+                    }
+                })
+            }
+        }
+
+        function checkDefaultPayment() {
+            let paymentWayTextArea = $("#paymentWay")
+            let defaultPayment = $("#defaultPayment")
+            let bank = $("#bank")
+            let cardNumber = $("#cardNumber")
+            let cvc = $("#cvc")
+
+            $.ajax({
+                url: "/getDefaultPayment",
+                type: "post",
+                success: res => {
+                    paymentWayTextArea.val(res.paymentIndex).prop("selected", true)
+                    bank.val(res.paymentBank)
+                    cardNumber.val(res.account)
+                    cvc.val(res.cvc)
+                }
+            })
+        }
+
+        function purchase() {
+            const totalPrice = document.querySelector("#totalPrice")
+            let price = totalPrice.innerHTML.replace(/,/g, "");
+
+            $.ajax({
+                url: "/addTotalPrice",
+                type: "post",
+                data: {
+                    totalPrice: price
+                },
+                success: () => {
+                    location.href = "/Purchase-History"
+                },
+                error: () => {
+                    location.href = "/Purchase-History"
+                }
+            })
         }
     </script>
 </body>

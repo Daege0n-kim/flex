@@ -2,7 +2,6 @@ package com.pg.flex.controller.mypage;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -10,15 +9,15 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.pg.flex.dto.UserDetail;
 import com.pg.flex.dto.UserImage;
 import com.pg.flex.dto.request.DeliveryAddressRequestForm;
 import com.pg.flex.dto.request.PaymentRequestForm;
+import com.pg.flex.dto.request.UpdateUserInfoRequestForm;
 import com.pg.flex.dto.response.Cart;
 import com.pg.flex.dto.response.DeliveryResponse;
 import com.pg.flex.dto.response.Like;
+import com.pg.flex.dto.response.OrderedResponse;
 import com.pg.flex.dto.response.PaymentResponse;
-import com.pg.flex.dto.response.SignUserResponse;
 import com.pg.flex.dto.response.UserDetailResponse;
 import com.pg.flex.service.mypage.MyPageService;
 
@@ -30,7 +29,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 
 @Controller
 public class MyPageController {
@@ -98,7 +96,9 @@ public class MyPageController {
   public String PurchaseHistory(HttpSession session, Model model) {
     String userId = (String)session.getAttribute("loginId");
     UserDetailResponse userDetail = myPageService.getUserDetail(userId);
+    List<OrderedResponse> orders = myPageService.getOrderedList(userId);
 
+    model.addAttribute("orders", orders);
     model.addAttribute("userDetail", userDetail);
     return "/mypage/Purchase-History/Purchase-History";
   }
@@ -144,10 +144,13 @@ public class MyPageController {
     String userId = (String)session.getAttribute("loginId");
 
     List<DeliveryResponse> deliveryList = myPageService.getDeliveryAddress(userId);
+    UserDetailResponse response = myPageService.getUserDetail(userId);
 
     if(!Objects.isNull(deliveryList)) {
       model.addAttribute("deliveryList", deliveryList);
-    }
+
+  }
+    model.addAttribute("userDetail", response);
     return "/mypage/Shipping/Shipping";
   }
 
@@ -168,9 +171,12 @@ public class MyPageController {
   /* 결제수단 관련 API */
   @GetMapping(value = "/Payment")
   public String movePaymentPage(HttpSession session, Model model) {
+    String userId = (String)session.getAttribute("loginId");
 
     List<PaymentResponse> paymentList = myPageService.getPaymentsByUserId((String)session.getAttribute("loginId"));
+    UserDetailResponse response = myPageService.getUserDetail(userId);
 
+    model.addAttribute("userDetail", response);
     model.addAttribute("payments", paymentList);
     return "/mypage/Payment/Payment";
   }
@@ -189,4 +195,21 @@ public class MyPageController {
     response.sendRedirect("/Payment");
   }
   /* 결제수단 관련 API */
+
+  @GetMapping(value = "/edit-profile")
+  public String editProfile(HttpSession session, Model model) {
+    String userId = (String)session.getAttribute("loginId");
+
+    UserDetailResponse response = myPageService.getUserDetail(userId);
+
+    model.addAttribute("userDetail", response);
+    return "/mypage/EditProfile/index";
+  }
+
+  @PostMapping(value = "/update-user-inform")
+  public void updateUserInform(HttpServletResponse response, UpdateUserInfoRequestForm requestForm) throws IOException {
+    myPageService.updateUserInform(requestForm);
+
+    response.sendRedirect("/mypageUserImage");
+  }
 }

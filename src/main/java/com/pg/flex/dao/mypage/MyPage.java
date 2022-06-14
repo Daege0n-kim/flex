@@ -1,7 +1,9 @@
 package com.pg.flex.dao.mypage;
 
 import com.pg.flex.dto.UserImage;
+import com.pg.flex.dto.query.AddTotalPrice;
 import com.pg.flex.dto.query.DeliveryQuery;
+import com.pg.flex.dto.query.UpdateUserInformQuery;
 import com.pg.flex.dto.request.AddToCartFromLike;
 import com.pg.flex.dto.request.CartIndexForPurchase;
 import com.pg.flex.dto.request.DeliveryAddressRequestForm;
@@ -12,6 +14,7 @@ import com.pg.flex.dto.response.CartResponseWithPrice;
 import com.pg.flex.dto.response.DeliveryResponse;
 import com.pg.flex.dto.response.Like;
 import com.pg.flex.dto.response.LikeResponse;
+import com.pg.flex.dto.response.OrderedResponse;
 import com.pg.flex.dto.response.PaymentResponse;
 import com.pg.flex.dto.response.UserDetailResponse;
 
@@ -61,4 +64,14 @@ public interface MyPage {
   public void deleteFromLikeAll(List<AddToCartFromLike> requestForm);
 
   public List<CartResponseWithPrice> getCartListByCartIndex(List<CartIndexForPurchase> requestForm);
+
+  public PaymentResponse selectPaymentByPaymentIndex(int paymentIndex);
+
+  public void addTotalPrice(AddTotalPrice query);
+
+  public void insertPurchaseHistory(List<CartIndexForPurchase> requestForm);
+
+  public List<OrderedResponse> getOrderedList(String userId);
+
+  public void updateUserInform(UpdateUserInformQuery query);
 }

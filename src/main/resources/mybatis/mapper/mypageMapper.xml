@@ -62,38 +62,37 @@
   <result column="product_price" property="productPrice" />
 </resultMap>
 
-<select id="getUserDetail" parameterType="string" resultMap="ProductResultMap">
-  SELECT
-    login_id,
-    name,
-    search_id,
-    saved_file_name
-  FROM
-    user
-  WHERE
-    login_id = #{loginId}
-  <!-- SELECT
-    ui.saved_file_name,
-    u.user_id,
-    u.user_name,
-    (
-      SELECT
-        sum(product_price) FROM product AS p
-      INNER JOIN 
-        order_list AS ol
-      ON 
-        ol.product_index=p.product_index
-      WHERE 
-        ol.user_id = u.login_id
-    ) AS total_price
-  FROM 
-    user_info AS u
-  INNER JOIN 
-    user_image AS ui
-	ON 
-    ui.user_id=u.login_id
-  WHERE
-    u.login_id=#{userId} -->
+<resultMap id="OrderedMap" type="com.pg.flex.dto.response.OrderedResponse">
+  <result column="thumb_saved_file_name" property="thumbSavedFileName" />
+  <result column="brand_name" property="brandName" />
+  <result column="product_name" property="productName" />
+  <result column="count" property="count" />
+  <result column="product_price" property="productPrice" />
+  <result column="status" property="status" />
+  <result column="created_date" property="createdDate" />
+</resultMap>
+
+  <select id="getUserDetail" parameterType="string" resultMap="ProductResultMap">
+    SELECT 
+      user.login_id,
+      user.name,
+      user.search_id,
+      user.saved_file_name,
+      (
+        SUM(product.product_price * purchase.count)
+      ) AS total_price
+    FROM 
+      user AS user
+    INNER JOIN
+      purchase AS purchase
+    ON
+      user.login_id = purchase.user_id
+    INNER JOIN
+      product AS product
+    ON
+      purchase.product_index = product.product_index
+    WHERE 
+      user.login_id = #{loginId}
   </select>
 
 
@@ -326,5 +325,70 @@
       </foreach>
   </select>
 
+  <select id="selectPaymentByPaymentIndex" parameterType="int" resultMap="PaymentResponseMap">
+    SELECT
+      *
+    FROM
+      payment
+    WHERE
+      payment_index = #{paymentIndex}
+  </select>
+
+  <update id="addTotalPrice" parameterType="com.pg.flex.dto.query.AddTotalPrice">
+    UPDATE 
+        user
+      SET
+        total_price = total_price + #{totalPrice}
+      WHERE
+        login_id = #{userId}
+  </update>
+
+  <insert id="insertPurchaseHistory" parameterType="com.pg.flex.dto.request.CartIndexForPurchase">
+    INSERT INTO
+      purchase (product_index, user_id, count)
+    VALUES
+      <foreach collection="list" item="item" separator=",">
+        (#{item.productIndex}, #{item.userId}, #{item.count})
+      </foreach>
+  </insert>
+
+  <select id="getOrderedList" parameterType="string" resultMap="OrderedMap">
+    SELECT 
+      product.thumb_saved_file_name,
+      brand.brand_name,
+      product.product_name,
+      purchase.count,
+      (product.product_price * purchase.count) AS product_price,
+      purchase.status,
+      DATE_FORMAT(purchase.created_date, '%Y.%m.%d') AS created_date
+    FROM 
+      purchase AS purchase
+    INNER JOIN 
+      user AS user
+    ON
+      purchase.user_id = user.login_id
+    INNER JOIN
+      product AS product
+    ON
+      purchase.product_index = product.product_index
+    INNER JOIN 
+      brand AS brand
+    ON 
+      product.brand = brand.brand_index
+    WHERE 
+      user.login_id = #{userId}
+  </select>
+
+  <update id="updateUserInform" parameterType="com.pg.flex.dto.query.UpdateUserInformQuery">
+    UPDATE
+      user
+    SET
+      name = #{name},
+      search_id = #{searchId},
+      saved_file_name = #{savedFileName}
+    WHERE
+      login_id = #{loginId}
+
+  </update>
 </mapper>
     

@@ -77,7 +77,7 @@
                     </div>
                     <div class="profile-card-container">
                         <div class="profile-thumb-container">
-                            <img src="" alt="No Image Here" class="profile-thumb-img">
+                            <img src="resources/user-images/${userDetail.savedFileName}" alt="No Image Here" class="profile-thumb-img">
                         </div>
                         <div class="profile-content-container">
                             <div class="content-top-container">
@@ -106,6 +106,8 @@
                     <p class="cart-text">장바구니</p>
                     <!-- 구매내역 카드 시작 -->
                     <c:forEach var="cart" items="${cartLike}" varStatus="status">
+                        <input type="hidden" class="hiddenProductIndex${cart.cartIndex}" id="hiddenProductIndex" value="${cart.productIndex}">
+                        <input type="hidden" class="hiddenCartCount${cart.cartIndex}" id="hiddenCartCount" value="${cart.cartCount}">
                         <div class="check-cart-container">
                             <input type="checkbox" class="chx${cart.cartIndex}" id="checkBx" onclick="checkItem(`${cart.cartIndex}`, `${cart.productPrice}`)">
                             <input type="hidden" id="hiddenVal" id="${cart.cartIndex}" value="${cart.cartIndex}">
@@ -142,7 +144,7 @@
                     </c:forEach>
                     <!-- 구매내역 카드 끝 -->
                     <div class="select-area">
-                        <input type="checkbox" onclick="checkAllItem()"><label>전체상품 선택</label>
+                        <input type="checkbox" id="checkAllItem" onclick="checkAllItem()"><label>전체상품 선택</label>
                         <button class="ordering-btn" onclick="purchase()">주문하기</button>
                     </div>
                 </div>
@@ -204,7 +206,7 @@
 
 
                 function MovePageSujeong() {
-                    location.href = "";
+                    location.href = "/edit-profile";
                 }
 
                 function deleteCart(cartIndex) {
@@ -282,15 +284,14 @@
                     }
 
                     addCartArray.forEach(item => {
-                        requestData.push({
-                            cartIndex: item
-                        })
+                        requestData.push(item)
                     })
                     
-                    if(!confirm(`총 가격은 ${totalPrice}원 입니다. 결제진행하시겠습니까?`)) {
+                    if(!confirm(`총 가격은 ` + totalPrice + `원 입니다. 결제진행하시겠습니까?`)) {
                         alert('결제 취소')
                     } else {
                         let requestForm = JSON.stringify(requestData)
+                        console.log(requestForm)
                         $.ajax({
                             url: "/purchaseAll",
                             type: "post",
@@ -314,18 +315,41 @@
 
                 function checkItem(cartIndex, productPrice) {
                     let count = document.querySelector('#num' + cartIndex)
+                    let checkAllItemBx = document.querySelector("#checkAllItem")
+                    const hiddenProductIndex = $(".hiddenProductIndex" + cartIndex).val()
+                    const hiddenCartCount = $(".hiddenCartCount" + cartIndex).val()
+
+                    if(checkAllItemBx.checked) {
+                        alert("전체 상품선택을 해제 해주세요.")
+                        return 
+                    } 
+
                     let r = addCartArray.find(item => {
-                        return item === cartIndex
+                        return item.cartIndex === cartIndex
                     }) 
 
+                    let data = {
+                        cartIndex: cartIndex,
+                        productIndex: hiddenProductIndex,
+                        count: hiddenCartCount
+                    }
+
                     if(typeof r == "undefined" || r == null || r == "") {
-                        addCartArray.push(cartIndex)
+                        addCartArray.push(data)
                         totalPrice += (productPrice * count.innerHTML)
-                        console.log(totalPrice)
                     } else {
-                        addCartArray.pop(cartIndex)
+                        let num = 0
+                        addCartArray.forEach(element => {
+                            if(element.cartIndex == cartIndex) return num
+                            num++
+                        });
+
+                        let filtered = addCartArray.filter( ele => {
+                            return ele.cartIndex != cartIndex
+                        })
+
+                        addCartArray = filtered;
                         totalPrice -= (productPrice * count.innerHTML)
-                        console.log(totalPrice)
                     }
                 }
 
@@ -333,6 +357,9 @@
                     let cartItems = document.querySelectorAll('#hiddenVal')
                     let checkBxs = document.querySelectorAll('#checkBx')
                     let prices = document.querySelectorAll('#hiddenItemPrice')
+
+                    let products = document.querySelectorAll("#hiddenProductIndex")
+                    let counts = document.querySelectorAll("#hiddenCartCount")
 
                     let localTotalPrice = 0
                     prices.forEach(item => {
@@ -356,7 +383,12 @@
                             if(flag) {
                                 return
                             } else {
-                                addCartArray.push(item.value)
+                                let data = {
+                                    cartIndex :item.value,
+                                    productIndex : products[index].value,
+                                    count : counts[index].value
+                                }
+                                addCartArray.push(data)
                             }
                         })
                         checkAllFlag = true

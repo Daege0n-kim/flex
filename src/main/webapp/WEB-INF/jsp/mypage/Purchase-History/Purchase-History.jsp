@@ -77,7 +77,7 @@
                     </div>
                     <div class="profile-card-container">
                         <div class="profile-thumb-container">
-                            <img src="" alt="No Image Here" class="profile-thumb-img">
+                            <img src="resources/user-images/${userDetail.savedFileName}" alt="No Image Here" class="profile-thumb-img">
                         </div>
                         <div class="profile-content-container">
                             <div class="content-top-container">
@@ -91,7 +91,7 @@
                             <div class="content-bottom-container">
                                 <div class="purchace-amount-area">
                                     <p>총 구매금액</p>
-                                    <p><c:out value="${userDetail.totalPrice}" /> &#8361;</p>
+                                    <p><span class="totalPrice" id="changeNumber"><c:out value="${userDetail.totalPrice}" /></span> &#8361;</p>
                                 </div>
                                 <div class="profile-btn-area">
                                     <button class="profile-edit-btn" onclick="MovePageSujeong()">프로필 수정하기</button>
@@ -105,60 +105,35 @@
                 <div class="purchase-history-container">
                     <p class="purchase-history-text">구매내역</p>
                     <!-- 구매내역 카드 시작 -->
-                    <div class="purchase-history-card-container">
-                        <div class="product-thumb-container">
-                            <img src="" alt="No Image Here" class="profile-thumb-img">
-                        </div>
-                        <div class="product-content-container">
-                            <div class="product-brand-area">
-                                <p>NIKE</p>
+                    <c:forEach var="item" items="${orders}" varStatus="index">
+                        <div class="purchase-history-card-container">
+                            <div class="product-thumb-container">
+                                <img src="resources/product-image/${item.thumbSavedFileName}" alt="No Image Here" class="profile-thumb-img">
                             </div>
-                            <div class="product-name-area">
-                                <p>TRAVIS SCOTT</p>
-                            </div>
-                            <div class="content-quantity-container">
-                                <div class="purchace-amount-area">
-                                    <p>1개 213,304 &#8361;</p>
+                            <div class="product-content-container">
+                                <div class="product-brand-area">
+                                    <p><c:out value="${item.brandName}" /></p>
+                                </div>
+                                <div class="product-name-area">
+                                    <p><c:out value="${item.productName}" /></p>
+                                </div>
+                                <div class="content-quantity-container">
+                                    <div class="purchace-amount-area">
+                                        <p><c:out value="${item.count}" />개 <span class="productPrice" id="changeNumber"><c:out value="${item.productPrice}" /></span> &#8361;</p>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="delivery-status-container">
+                                <p>배송상태</p>
+                                <p><c:out value="${item.status}" /></p>
+                            </div>
+                            <div class="order-date-container">
+                                <p>주문일</p>
+                                <p><c:out value="${item.createdDate}" /></p>
+                            </div>
                         </div>
-                        <div class="delivery-status-container">
-                            <p>배송상태</p>
-                            <p>배송완료</p>
-                        </div>
-                        <div class="order-date-container">
-                            <p>주문일</p>
-                            <p>2021.03.12</p>
-                        </div>
-                    </div>
+                    </c:forEach>
                     <!-- 구매내역 카드 끝 -->
-                    <div class="purchase-history-card-container">
-                        <div class="product-thumb-container">
-                            <img src="" alt="No Image Here" class="profile-thumb-img">
-                        </div>
-                        <div class="product-content-container">
-                            <div class="product-brand-area">
-                                <p>NIKE</p>
-                            </div>
-                            <div class="product-name-area">
-                                <p>TRAVIS SCOTT</p>
-                            </div>
-                            <div class="content-quantity-container">
-                                <div class="purchace-amount-area">
-                                    <p>1개 213,304 &#8361;</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="delivery-status-container">
-                            <p>배송상태</p>
-                            <p>배송완료</p>
-                        </div>
-                        <div class="order-date-container">
-                            <p>주문일</p>
-                            <p>2021.03.12</p>
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
@@ -184,6 +159,19 @@
             </footer>
             <script>
                 var topBtn = document.querySelector('.top-btn');
+                let totalPrice = document.querySelector('.totalPrice')
+                let productPrices = document.querySelectorAll('.productPrice')
+
+                $(function() {
+                    let changeTotalPrice = priceNumberFormat(totalPrice.innerHTML)
+
+                    totalPrice.innerHTML = changeTotalPrice
+
+                    productPrices.forEach(item => {
+                        let changePrice = priceNumberFormat(item.innerHTML)
+                        item.innerHTML = changePrice
+                    })
+                })
 
                 topBtn.addEventListener('click', e => {
                     window.scrollTo(0, 0);
@@ -210,9 +198,14 @@
 
                 function MovePageSujeong(){
 
-                location.href="";
+                location.href="/edit-profile";
 
-            }
+                }
+
+                function priceNumberFormat(price) {
+                    let formattedPrice = price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");;
+                    return formattedPrice;
+                }
             </script>
         </body>
 
