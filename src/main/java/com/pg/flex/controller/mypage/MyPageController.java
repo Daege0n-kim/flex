@@ -2,6 +2,7 @@ package com.pg.flex.controller.mypage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.pg.flex.dto.UserImage;
 import com.pg.flex.dto.query.PostBoardQueryForm;
+import com.pg.flex.dto.query.RelatedProductQuery;
 import com.pg.flex.dto.request.DeliveryAddressRequestForm;
 import com.pg.flex.dto.request.PaymentRequestForm;
 import com.pg.flex.dto.request.PostingRequestForm;
@@ -21,6 +23,7 @@ import com.pg.flex.dto.response.Like;
 import com.pg.flex.dto.response.OrderedResponse;
 import com.pg.flex.dto.response.PaymentResponse;
 import com.pg.flex.dto.response.ProductResponse;
+import com.pg.flex.dto.response.RelatedResponse;
 import com.pg.flex.dto.response.UserDetailResponse;
 import com.pg.flex.service.mypage.MyPageService;
 import com.pg.flex.service.shop.ShopService;
@@ -291,10 +294,20 @@ public class MyPageController {
     File dest = new File(pathName);
 
     try {
-      requestForm.getPostSavedFile().transferTo(dest);
+      // requestForm.getPostSavedFile().transferTo(dest);
       PostBoardQueryForm query = new PostBoardQueryForm(requestForm.getPostContent(), savedFileName, userId);
       myPageService.postBoard(query);
-    } catch (IllegalStateException | IOException e) {
+      System.out.println(query.getBoardIndex());
+      List<RelatedProductQuery> relatedQurey = new ArrayList<>();
+
+      for(String item: requestForm.getProductIndex()) {
+        int productIndex = Integer.parseInt(item);
+
+        RelatedProductQuery relatedQuery = new RelatedProductQuery(query.getBoardIndex(), productIndex, userId);
+        relatedQurey.add(relatedQuery);
+      }
+      myPageService.postRelatedProduct(relatedQurey);
+    } catch (IllegalStateException e) {
       e.printStackTrace();
     }
 

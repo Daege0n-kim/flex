@@ -177,13 +177,6 @@
     brand
 </select>
 
-<!-- <insert id="addProduct" parameterType="com.pg.flex.dto.ProductEditRequest" useGeneratedKeys="true" keyColumn="product_index" keyProperty="productIndex">
-  INSERT INTO 
-    product (product_name, product_brand, product_price, category_index, sex)
-  VALUES
-    (#{productName}, #{brandIndex}, #{productPrice}, #{categoryIndex}, #{sexIndex})
-</insert> -->
-
 <insert id="postProduct" parameterType="com.pg.flex.dto.query.ProductQuery">
   INSERT INTO
     product (product_name, product_price, thumb_saved_file_name, detail_saved_file_name, category, brand, gender)
