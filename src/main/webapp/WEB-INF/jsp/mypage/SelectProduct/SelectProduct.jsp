@@ -32,16 +32,14 @@
                     <a href="/" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
                     <nav>
                         <a href="/style">STYLE</a> <a href="/show_products">SHOP</a> <a href="/about">ABOUT</a>
-                        <c:set var="name" value="${searchId}" />
+                        <c:set var="name" value="${loginId}" />
                         <c:choose>
                             <c:when test="${empty name}">
                                 <a href="/sign-in">SIGN IN</a>
                             </c:when>
                             <c:when test="${not empty name}">
                                 <a href="/mypageUserImage">MYPAGE</a>
-                                <a href="/logout">
-                                    <li class="header-menu-list-item">SIGN OUT</li>
-                                </a>
+                                <a href="/logout">SIGN OUT</a>
                             </c:when>
                         </c:choose>
                     </nav>
@@ -57,10 +55,10 @@
             </div>
 
             <div class="main-container">
-                <form action="">
+                <form action="/upload-post" method="post" id="form" enctype="multipart/form-data">
                 <div class="big-post-card-container">
                     <div class="big-thumb-container">
-                        <input type="file" id="profileImage" onchange="readImage(this)">
+                        <input type="file" name="postSavedFile" id="profileImage" onchange="readImage(this)">
                         <img src="" id="imageTag"  alt="No Image Here" class="profile-thumb-img">
                     </div>
                     <div class="post-content-container">
@@ -69,23 +67,27 @@
                                 <p>@<c:out value="${userDetail.searchId}" /></p>
                             </div>
                             <div class="enter-phrase-area">
-                                <textarea placeholder="문구입력…." maxlength="50" onfocus="this.placeholder=''"
+                                <textarea placeholder="문구입력…." name="postContent" maxlength="50" onfocus="this.placeholder=''"
                                     onblur="this.placeholder='문구입력….'"></textarea>
                             </div>
                         </div>
                         <div class="content-bottom-container">
                             <div class="product-img-container">
                                 <div class="product-thumb-container">
-                                    <img src="" alt="No Image Here" onerror="this.style.display='none'" class="product-thumb-img">
+                                    <input type="hidden" name="productIndex" id="hiddenPreview">
+                                    <img src="" alt="No Image Here" id="preview" class="product-thumb-img">
                                 </div>
                                 <div class="product-thumb-container">
-                                    <img src="" alt="No Image Here" onerror="this.style.display='none'" class="product-thumb-img">
+                                    <input type="hidden" name="productIndex" id="hiddenPreview">
+                                    <img src="" alt="No Image Here" id="preview" class="product-thumb-img">
                                 </div>
                                 <div class="product-thumb-container">
-                                    <img src="" alt="No Image Here" onerror="this.style.display='none'" class="product-thumb-img">
+                                    <input type="hidden" name="productIndex" id="hiddenPreview">
+                                    <img src="" alt="No Image Here" id="preview" class="product-thumb-img">
                                 </div>
                                 <div class="product-thumb-container">
-                                    <img src="" alt="No Image Here" onerror="this.style.display='none'" class="product-thumb-img">
+                                    <input type="hidden" name="productIndex" id="hiddenPreview">
+                                    <img src="" alt="No Image Here" id="preview" class="product-thumb-img">
                                 </div>
                             </div>
                         </div>
@@ -96,7 +98,7 @@
                         <p>관련 상품 선택</p>
                     </div>
                     <div class="upload-btn-area">
-                        <button class="upload-btn">업로드</button>
+                        <button class="upload-btn" onclick="uploadPost()">업로드</button>
                     </div>
                 </div>
             </form>
@@ -116,7 +118,7 @@
                             <c:forEach var="item" items="${products}" varStatus="index">
                                 <div class="products-add-card-container">
                                     <div class="products-thumb-container">
-                                        <img src="resources/product-image/${item.thumbSavedFileName}" alt="No Image Here" class="product-thumb-img">
+                                        <img src="resources/product-image/${item.thumbSavedFileName}" alt="No Image Here" class="product-thumb-img ${item.productIndex}">
                                     </div>
                                     <div class="products-info-container">
                                         <div class="products-brand-area">
@@ -127,7 +129,7 @@
                                         </div>
                                     </div>
                                     <div class="products-select-container">
-                                        <input type="checkbox">
+                                        <input type="checkbox" id="checkBox${item.productIndex}" onclick="checkItem(this)">
                                     </div>
                                 </div>
                             </c:forEach>
@@ -164,11 +166,21 @@
             <script>
 
                 var topBtn = document.querySelector('.top-btn');
+                let imageArr = []
+                let preViews = []
+                let hiddenPreview = []
+                let preViewIndex = 0;
 
                 topBtn.addEventListener('click', e => {
                     window.scrollTo(0, 0);
                 });
 
+                $(function() {
+                    preViews = document.querySelectorAll("#preview")
+                    hiddenPreview = document.querySelectorAll("#hiddenPreview")
+
+                    console.log(hiddenPreview)
+                })
 
                 var header = $('header');
 
@@ -201,7 +213,7 @@
                                 let data = `
                                     <div class="products-add-card-container">
                                         <div class="products-thumb-container">
-                                            <img src="resources/product-image/` + element.thumbSavedFileName + `" alt="No Image Here" class="product-thumb-img">
+                                            <img src="resources/product-image/` + element.thumbSavedFileName + `" alt="No Image Here" class="product-thumb-img` + element.productIndex + `">
                                         </div>
                                         <div class="products-info-container">
                                             <div class="products-brand-area">
@@ -212,7 +224,7 @@
                                             </div>
                                         </div>
                                         <div class="products-select-container">
-                                            <input type="checkbox">
+                                            <input type="checkbox" id="checkBox` + element.productIndex + `" onclick="checkItem(this)">
                                         </div>
                                     </div>
                                 `;
@@ -244,6 +256,27 @@
                     } else {
                         imgTag.src = ''
                     }
+                }
+
+                function checkItem(target) {
+                    let productIndex = target.id.substr(8)
+                    let image = $('.' + productIndex).attr("src")
+
+                    if(imageArr.length == 4) {
+                        alert('관련 상품은 최대 4개까지 등록 가능합니다.')
+                        return
+                    } else {
+                        preViews[preViewIndex].src = image
+                        hiddenPreview[preViewIndex].setAttribute('value', productIndex)
+                        preViewIndex++
+                    }
+                    
+                }
+
+                function uploadPost() {
+                    const form = document.querySelector("#form")
+
+                    form.submit();
                 }
             </script>
         </body>

@@ -440,5 +440,12 @@
     OR
       c.category_name like CONCAT('%',#{searchKey},'%')
   </select>
+
+  <insert id="postBoard" parameterType="com.pg.flex.dto.query.PostBoardQueryForm">
+    INSERT INTO
+      board (board_content, saved_file_name, created_date, create_user)
+    VALUES
+      (#{boardContent}, #{savedFileName}, now(), #{userId})
+  </insert>
 </mapper>
     

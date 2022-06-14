@@ -3,6 +3,7 @@ package com.pg.flex.service.mypage;
 import com.pg.flex.dao.mypage.MyPage;
 import com.pg.flex.dto.UserImage;
 import com.pg.flex.dto.query.AddTotalPrice;
+import com.pg.flex.dto.query.PostBoardQueryForm;
 import com.pg.flex.dto.query.UpdateUserInformQuery;
 import com.pg.flex.dto.request.AddToCartFromLike;
 import com.pg.flex.dto.request.CartIndexForPurchase;
@@ -264,5 +265,9 @@ public class MyPageService {
 
   public List<ProductResponse> searchProductBySearchKey(String searchKey) {
     return myPageDao.searchProductBySearchKey(searchKey);
+  }
+
+  public void postBoard(PostBoardQueryForm query) {
+    myPageDao.postBoard(query);
   }  
 }

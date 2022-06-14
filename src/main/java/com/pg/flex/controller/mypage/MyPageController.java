@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.pg.flex.dto.UserImage;
+import com.pg.flex.dto.query.PostBoardQueryForm;
 import com.pg.flex.dto.request.DeliveryAddressRequestForm;
 import com.pg.flex.dto.request.PaymentRequestForm;
+import com.pg.flex.dto.request.PostingRequestForm;
 import com.pg.flex.dto.request.UpdateUserInfoRequestForm;
 import com.pg.flex.dto.response.Cart;
 import com.pg.flex.dto.response.DeliveryResponse;
@@ -161,7 +163,7 @@ public class MyPageController {
     String prefix = multipartFile.getOriginalFilename().substring(
         multipartFile.getOriginalFilename().lastIndexOf(".") + 1, multipartFile.getOriginalFilename().length());
     String fileName = UUID.randomUUID().toString() + "." + prefix;
-    String pathName = UPLOAD_FILE_PATH + "/user-image" + fileName;
+    String pathName = UPLOAD_FILE_PATH + "/user-image/" + fileName;
 
     String userId = (String) session.getAttribute("loginId");
     String originalFileName = multipartFile.getOriginalFilename();
@@ -273,5 +275,29 @@ public class MyPageController {
     }
 
     return changedBrandName;
+  }
+
+  @PostMapping(value = "/upload-post")
+  public void uploadPost(HttpSession session, HttpServletResponse response, PostingRequestForm requestForm) throws IOException {
+
+    String prefix = requestForm.getPostSavedFile().getOriginalFilename().substring(
+      requestForm.getPostSavedFile().getOriginalFilename().lastIndexOf(".") + 1, requestForm.getPostSavedFile().getOriginalFilename().length());
+    String fileName = UUID.randomUUID().toString() + "." + prefix;
+    String pathName = UPLOAD_FILE_PATH + "/board-images/" + fileName;
+
+    String userId = (String) session.getAttribute("loginId");
+    String savedFileName = fileName;
+
+    File dest = new File(pathName);
+
+    try {
+      requestForm.getPostSavedFile().transferTo(dest);
+      PostBoardQueryForm query = new PostBoardQueryForm(requestForm.getPostContent(), savedFileName, userId);
+      myPageService.postBoard(query);
+    } catch (IllegalStateException | IOException e) {
+      e.printStackTrace();
+    }
+
+    response.sendRedirect("/style");
   }
 }
