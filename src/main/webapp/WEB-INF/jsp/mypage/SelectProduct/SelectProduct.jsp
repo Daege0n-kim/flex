@@ -57,14 +57,16 @@
             </div>
 
             <div class="main-container">
+                <form action="">
                 <div class="big-post-card-container">
                     <div class="big-thumb-container">
-                        <img src="" alt="No Image Here" class="profile-thumb-img">
+                        <input type="file" id="profileImage" onchange="readImage(this)">
+                        <img src="" id="imageTag"  alt="No Image Here" class="profile-thumb-img">
                     </div>
                     <div class="post-content-container">
                         <div class="content-top-container">
                             <div class="user-id-area">
-                                <p>@moondonghwan</p>
+                                <p>@<c:out value="${userDetail.searchId}" /></p>
                             </div>
                             <div class="enter-phrase-area">
                                 <textarea placeholder="문구입력…." maxlength="50" onfocus="this.placeholder=''"
@@ -74,16 +76,16 @@
                         <div class="content-bottom-container">
                             <div class="product-img-container">
                                 <div class="product-thumb-container">
-                                    <img src="" alt="No Image Here" class="product-thumb-img">
+                                    <img src="" alt="No Image Here" onerror="this.style.display='none'" class="product-thumb-img">
                                 </div>
                                 <div class="product-thumb-container">
-                                    <img src="" alt="No Image Here" class="product-thumb-img">
+                                    <img src="" alt="No Image Here" onerror="this.style.display='none'" class="product-thumb-img">
                                 </div>
                                 <div class="product-thumb-container">
-                                    <img src="" alt="No Image Here" class="product-thumb-img">
+                                    <img src="" alt="No Image Here" onerror="this.style.display='none'" class="product-thumb-img">
                                 </div>
                                 <div class="product-thumb-container">
-                                    <img src="" alt="No Image Here" class="product-thumb-img">
+                                    <img src="" alt="No Image Here" onerror="this.style.display='none'" class="product-thumb-img">
                                 </div>
                             </div>
                         </div>
@@ -97,68 +99,39 @@
                         <button class="upload-btn">업로드</button>
                     </div>
                 </div>
+            </form>
                 <div class="related-products-container">
                     <div class="search-products-container">
                         <div class="search-products-area">
                             <input type="text" placeholder="제품 검색…." onfocus="this.placeholder=''"
-                                onblur="this.placeholder='제품 검색….'">
+                                onblur="this.placeholder='제품 검색….'" id="searchKey">
                         </div>
                         <div class="search-products-btn">
-                            <button>검색하기</button>
+                            <button onclick="searchProduct()">검색하기</button>
                         </div>
                     </div>
                     <div class="products-list-container">
-                        <div class="products-list-bundle-container">
+                        <div class="products-list-bundle-container" id="itemContainer">
                             <!-- 상품 한 개 시작 -->
-                            <div class="products-add-card-container">
-                                <div class="products-thumb-container">
-                                    <img src="" alt="No Image Here" class="product-thumb-img">
-                                </div>
-                                <div class="products-info-container">
-                                    <div class="products-brand-area">
-                                        <p>NIKE</p>
+                            <c:forEach var="item" items="${products}" varStatus="index">
+                                <div class="products-add-card-container">
+                                    <div class="products-thumb-container">
+                                        <img src="resources/product-image/${item.thumbSavedFileName}" alt="No Image Here" class="product-thumb-img">
                                     </div>
-                                    <div class="products-name-area">
-                                        <p>TRAVIS SCOTT</p>
+                                    <div class="products-info-container">
+                                        <div class="products-brand-area">
+                                            <p><c:out value="${item.brandName}" /></p>
+                                        </div>
+                                        <div class="products-name-area">
+                                            <p><c:out value="${item.productName}" /></p>
+                                        </div>
+                                    </div>
+                                    <div class="products-select-container">
+                                        <input type="checkbox">
                                     </div>
                                 </div>
-                                <div class="products-select-container">
-                                    <input type="checkbox">
-                                </div>
-                            </div>
+                            </c:forEach>
                             <!-- 상품 한 개 끝 -->
-                            <div class="products-add-card-container">
-                                <div class="products-thumb-container">
-                                    <img src="" alt="No Image Here" class="product-thumb-img">
-                                </div>
-                                <div class="products-info-container">
-                                    <div class="products-brand-area">
-                                        <p>NIKE</p>
-                                    </div>
-                                    <div class="products-name-area">
-                                        <p>TRAVIS SCOTT</p>
-                                    </div>
-                                </div>
-                                <div class="products-select-container">
-                                    <input type="checkbox">
-                                </div>
-                            </div>
-                            <div class="products-add-card-container">
-                                <div class="products-thumb-container">
-                                    <img src="" alt="No Image Here" class="product-thumb-img">
-                                </div>
-                                <div class="products-info-container">
-                                    <div class="products-brand-area">
-                                        <p>NIKE</p>
-                                    </div>
-                                    <div class="products-name-area">
-                                        <p>TRAVIS SCOTT</p>
-                                    </div>
-                                </div>
-                                <div class="products-select-container">
-                                    <input type="checkbox">
-                                </div>
-                            </div>
                         </div>
                         <div class="select-area">
                             <button class="add-btn">추가하기</button>
@@ -208,6 +181,70 @@
                         header.removeClass('shadow');
                     }
                 });
+
+                function searchProduct() {
+                    let searchKey = $("#searchKey").val()
+
+                    $.ajax({
+                        url: "/searchProductBySearchKey",
+                        type: "post",
+                        dataType:"JSON",
+                        data: {
+                            searchKey: searchKey
+                        },
+                        success: res => {
+                            const itemContainer = $('#itemContainer')
+
+                            itemContainer.get(0).innerHTML = ''
+
+                            res.forEach(element => {
+                                let data = `
+                                    <div class="products-add-card-container">
+                                        <div class="products-thumb-container">
+                                            <img src="resources/product-image/` + element.thumbSavedFileName + `" alt="No Image Here" class="product-thumb-img">
+                                        </div>
+                                        <div class="products-info-container">
+                                            <div class="products-brand-area">
+                                                <p><c:out value="` + element.brandName + `" /></p>
+                                            </div>
+                                            <div class="products-name-area">
+                                                <p><c:out value="` + element.productName + `" /></p>
+                                            </div>
+                                        </div>
+                                        <div class="products-select-container">
+                                            <input type="checkbox">
+                                        </div>
+                                    </div>
+                                `;
+
+                                itemContainer.get(0).innerHTML += data
+                            });
+
+                        },
+                        error: () => {
+                            alert("Fail")
+                        }
+                    })
+                }
+
+                function readImage(input) {
+                    const fileTag = document.querySelector("#profileImage")
+                    const imgTag = document.querySelector("#imageTag")
+
+                    console.log(imgTag.src)
+                    
+                    if(input.files && input.files[0]) {
+                        const reader = new FileReader()
+
+                        reader.onload = e => {
+                            imgTag.src = e.target.result
+                        }
+
+                        reader.readAsDataURL(input.files[0]);
+                    } else {
+                        imgTag.src = ''
+                    }
+                }
             </script>
         </body>
 

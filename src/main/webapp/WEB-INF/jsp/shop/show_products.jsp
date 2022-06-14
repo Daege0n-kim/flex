@@ -37,7 +37,7 @@
                 <c:when test="${not empty name}">
                     <a href="/mypageUserImage">MYPAGE</a>
                     <a href="/logout">
-                        <li class="header-menu-list-item">SIGN OUT</li>
+                        SIGN OUT
                     </a>
                 </c:when>
             </c:choose>

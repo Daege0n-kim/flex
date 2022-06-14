@@ -1,10 +1,11 @@
 package com.pg.flex.dto.response;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @ToString
-@Getter
+@Getter @Setter
 public class OrderedResponse {
   private String thumbSavedFileName;
   private String brandName;

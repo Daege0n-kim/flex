@@ -65,6 +65,23 @@ public class ShopController {
     
     List<ProductResponse> products = service.getProducts();
 
+    int productIndex = 0;
+    int brandIndex = 0;
+
+    for(ProductResponse response: products) {
+      String changeName = changeBrandName(response.getBrandName());
+
+      products.get(productIndex).setBrandName(changeName);
+      productIndex++;
+    }
+
+    for(Brand response: brands) {
+      String changeName = changeBrandName(response.getBrandName());
+
+      brands.get(brandIndex).setBrandName(changeName);
+      brandIndex++;
+    }
+
     model.addAttribute("products", products);
     model.addAttribute("categories", categories);
     model.addAttribute("gender", genders);
@@ -96,6 +113,13 @@ public class ShopController {
     List<Category> categories = service.getCategories();
     List<Gender> gender = service.getSex();
     List<Brand> brands = service.getProductBrands();
+
+    int index = 0;
+    for(Brand brand: brands) {
+      String changedId = changeBrandName(brand.getBrandName());
+      brands.get(index).setBrandName(changedId);
+      index++;
+    }
     
     // 3.  1, 2번에서 한 작업물을 프론트로 보내주기 위해 저장 함
     model.addAttribute("product", productResponse);
