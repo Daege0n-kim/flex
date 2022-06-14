@@ -18,8 +18,10 @@ import com.pg.flex.dto.response.DeliveryResponse;
 import com.pg.flex.dto.response.Like;
 import com.pg.flex.dto.response.OrderedResponse;
 import com.pg.flex.dto.response.PaymentResponse;
+import com.pg.flex.dto.response.ProductResponse;
 import com.pg.flex.dto.response.UserDetailResponse;
 import com.pg.flex.service.mypage.MyPageService;
+import com.pg.flex.service.shop.ShopService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +38,9 @@ public class MyPageController {
   @Autowired
   private MyPageService myPageService;
 
+  @Autowired
+  private ShopService shopService;
+
   @Value("${upload.file.path}")
   private String UPLOAD_FILE_PATH;
 
@@ -46,13 +51,9 @@ public class MyPageController {
 
   @GetMapping(value = "/mypageUserImage")
   public String mypageUserImage(HttpSession session, Model model) {
-
     String userId = (String) session.getAttribute("loginId");
     UserDetailResponse userDetail = myPageService.getUserDetail(userId);
-    
-    // String path = "/mypage/uploadfile/" + userDetail.getSavedFileName();
-    
-    // model.addAttribute("path", path);
+
     model.addAttribute("userDetail", userDetail);
     return "/mypage/mypageUserImage";
   }
@@ -69,6 +70,15 @@ public class MyPageController {
 
     UserDetailResponse userDetail = myPageService.getUserDetail(userId);
     List<Cart> cartList = myPageService.getCartList(userId);
+
+    int index = 0;
+
+    for(Cart cart: cartList) {
+      String changeName = changeBrandName(cart.getProductBrand());
+
+      cartList.get(index).setProductBrand(changeName);
+      index++;
+    }
     
     model.addAttribute("userDetail", userDetail);
     model.addAttribute("cartLike", cartList);
@@ -81,6 +91,14 @@ public class MyPageController {
     UserDetailResponse userDetail = myPageService.getUserDetail(userId);
 
     List<Like> likes = myPageService.getLikesByUserId(userId);
+
+    int index = 0;
+
+    for(Like like: likes) {
+      String changeId = changeBrandName(like.getBrandName());
+      likes.get(index).setBrandName(changeId);
+      index++;
+    }
     
     model.addAttribute("likes", likes);
     model.addAttribute("userDetail", userDetail);
@@ -98,6 +116,15 @@ public class MyPageController {
     UserDetailResponse userDetail = myPageService.getUserDetail(userId);
     List<OrderedResponse> orders = myPageService.getOrderedList(userId);
 
+    int index = 0;
+
+    for(OrderedResponse response: orders) {
+      String changeName = changeBrandName(response.getBrandName());
+
+      orders.get(index).setBrandName(changeName);
+      index++;
+    }
+
     model.addAttribute("orders", orders);
     model.addAttribute("userDetail", userDetail);
     return "/mypage/Purchase-History/Purchase-History";
@@ -109,7 +136,22 @@ public class MyPageController {
   }
 
   @GetMapping(value = "/SelectProduct")
-  public String SelectProduct() {
+  public String SelectProduct(HttpSession session, Model model) {
+    String userId = (String)session.getAttribute("loginId");
+    UserDetailResponse userDetail = myPageService.getUserDetail(userId);
+
+    List<ProductResponse> products = shopService.getProducts();
+
+    int productIndex = 0;
+    for(ProductResponse response: products) {
+      String changeName = changeBrandName(response.getBrandName());
+
+      products.get(productIndex).setBrandName(changeName);
+      productIndex++;
+    }
+
+    model.addAttribute("products", products);
+    model.addAttribute("userDetail", userDetail);
     return "/mypage/SelectProduct/SelectProduct";
   }
 
@@ -211,5 +253,25 @@ public class MyPageController {
     myPageService.updateUserInform(requestForm);
 
     response.sendRedirect("/mypageUserImage");
+  }
+
+  public String changeBrandName(String brandName) {
+    String changedBrandName = "";
+
+    switch (brandName) {
+      case "나이키":
+      changedBrandName = "Nike";
+      break;
+
+      case "아디다스":
+      changedBrandName = "Adidas";
+      break;
+
+      case "스톤아일랜드":
+      changedBrandName = "Stone Island";
+      break;
+    }
+
+    return changedBrandName;
   }
 }

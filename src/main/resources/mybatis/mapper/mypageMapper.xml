@@ -13,6 +13,21 @@
   <result column="total_price" property="totalPrice" />
 </resultMap>
 
+  <resultMap id="SearchedProductResultMap" type="com.pg.flex.dto.response.ProductResponse">
+    <result column="product_index" property="productIndex" />
+    <result column="product_name" property="productName" />
+    <result column="product_price" property="productPrice" />
+    <result column="thumb_saved_file_name" property="thumbSavedFileName" />
+    <result column="detail_saved_file_name" property="detailSavedFileName" />
+    <result column="category_index" property="categoryIndex" />
+    <result column="brand_index" property="brandIndex" />
+    <result column="gender_index" property="genderIndex" />
+    <result column="category_name" property="categoryName" />
+    <result column="brand_name" property="brandName" />
+    <result column="gender_name" property="genderName" />
+    <result column="like_index" property="likeIndex" />
+  </resultMap>
+
 <resultMap id="DeliveryResponseMap" type="com.pg.flex.dto.response.DeliveryResponse">
   <result column="delivery_index" property="deliveryIndex" />
   <result column="delivery_address" property="deliveryAddress" />
@@ -390,5 +405,40 @@
       login_id = #{loginId}
 
   </update>
+
+  <select id="searchProductBySearchKey" parameterType="string" resultMap="SearchedProductResultMap">
+    SELECT
+      p.product_index,
+      p.product_name,
+      p.product_price,
+      P.thumb_saved_file_name,
+      P.detail_saved_file_name,
+      c.category_index,
+      b.brand_index,
+      g.gender_index,
+      c.category_name,
+      b.brand_name,
+      g.gender_name
+    FROM
+      product AS p
+    INNER JOIN
+      category AS c
+    ON
+      p.category = c.category_index
+    INNER JOIN
+      brand AS b
+    ON
+      p.brand=b.brand_index
+    INNER JOIN
+      gender g
+    ON
+      p.gender = g.gender_index
+    WHERE
+      p.product_name like CONCAT('%',#{searchKey},'%')
+    OR
+      b.brand_name like CONCAT('%',#{searchKey},'%')
+    OR
+      c.category_name like CONCAT('%',#{searchKey},'%')
+  </select>
 </mapper>
     

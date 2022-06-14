@@ -16,6 +16,7 @@ import com.pg.flex.dto.response.Like;
 import com.pg.flex.dto.response.LikeResponse;
 import com.pg.flex.dto.response.OrderedResponse;
 import com.pg.flex.dto.response.PaymentResponse;
+import com.pg.flex.dto.response.ProductResponse;
 import com.pg.flex.dto.response.UserDetailResponse;
 
 import java.io.File;
@@ -259,5 +260,9 @@ public class MyPageService {
     );
 
     return query;
+  }
+
+  public List<ProductResponse> searchProductBySearchKey(String searchKey) {
+    return myPageDao.searchProductBySearchKey(searchKey);
   }  
 }

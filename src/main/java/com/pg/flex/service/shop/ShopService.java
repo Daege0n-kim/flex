@@ -196,7 +196,11 @@ public class ShopService {
       }
     }
 
-    if(update.size() > 0) dao.updateCartCount(update);
-    if(add.size() > 0) dao.addToCartFromLike(add);
+    if(update.size() > 0) {
+      dao.updateCartCount(update);
+    }
+    if(add.size() > 0) {
+      dao.addToCartFromLike(add);
+    }
   }
 }

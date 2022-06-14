@@ -288,7 +288,7 @@
                 function addToCartAll() {
                     let requestData = []
 
-                    if(requestData.length === 0) {
+                    if(addCartArray.length == 0) {
                         alert("선택된 상품이 없습니다.")
                         return
                     }

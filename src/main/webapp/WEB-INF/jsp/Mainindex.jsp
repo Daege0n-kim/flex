@@ -38,7 +38,7 @@
           <a href="/" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
           <nav>
             <a href="/style">STYLE</a> <a href="/show_products">SHOP</a> <a href="/about">ABOUT</a>
-            <c:set var="name" value="${searchId}" />
+            <c:set var="name" value="${loginId}" />
             <c:choose>
               <c:when test="${empty name}">
                 <a href="/sign-in">SIGN IN</a>
@@ -93,7 +93,7 @@
           <a href="/Posting?productIndex=${product.productIndex}">
           <div class="post-card-container">
             <div class="post-thumb-container">
-              <img src="" alt="No Image Here" class="post-thumb-img" onclick="">
+              <img src="" onerror="this.style.display='none'" alt="No Image Here" class="post-thumb-img" onclick="">
             </div>
             <div class="post-content-container">
               <div class="user-id-area">
