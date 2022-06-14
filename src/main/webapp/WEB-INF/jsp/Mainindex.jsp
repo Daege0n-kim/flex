@@ -87,49 +87,24 @@
         </h4>
         <div class="card-container">
           <!-- 3개짜리 카드 시작 -->
-
-          <a href="/Posting?productIndex=${product.productIndex}">
-          <div class="post-card-container">
-            <div class="post-thumb-container">
-              <img src="" onerror="this.style.display='none'" alt="No Image Here" class="post-thumb-img" onclick="">
-            </div>
-            <div class="post-content-container">
-              <div class="user-id-area">
-                <p>@mrpark</p>
+          <c:forEach var="item" items="${boards}" varStatus="index">
+            <a href="/Posting?boardIndex=${item.boardIndex}">
+              <div class="post-card-container">
+                <div class="post-thumb-container">
+                  <img src="resources/board-images/${item.savedFileName}" alt="No Image Here" class="post-thumb-img" onclick="">
+                </div>
+                <div class="post-content-container">
+                  <div class="user-id-area">
+                    <p>@ <c:out value="${item.searchId}" /> </p>
+                  </div>
+                  <div class="post-title-area">
+                    <p> <c:out value="${item.boardContent}" /> </p>
+                  </div>
+                </div>
               </div>
-              <div class="post-title-area">
-                <p>안드로이드 공부 하다가 한컷 ^-^</p>
-              </div>
-            </div>
-          </div>
-        </a>
+            </a>
+          </c:forEach>
           <!-- 3개짜리 카드 끝 -->
-          <div class="post-card-container">
-            <div class="post-thumb-container">
-              <img src="" alt="No Image Here" class="post-thumb-img">
-            </div>
-            <div class="post-content-container">
-              <div class="user-id-area">
-                <p>@mrpark</p>
-              </div>
-              <div class="post-title-area">
-                <p>안드로이드 공부 하다가 한컷 ^-^</p>
-              </div>
-            </div>
-          </div>
-          <div class="post-card-container">
-            <div class="post-thumb-container">
-              <img src="" alt="No Image Here" class="post-thumb-img">
-            </div>
-            <div class="post-content-container">
-              <div class="user-id-area">
-                <p>@mrpark</p>
-              </div>
-              <div class="post-title-area">
-                <p>안드로이드 공부 하다가 한컷 ^-^</p>
-              </div>
-            </div>
-          </div>
         </div>
 
         <div class="ezkorry-roller"><span>FLEX FOR LIMITED EDITION TRANSACTION </span></div>
@@ -138,58 +113,22 @@
         <h4 class="tit">&lt; NEW ARRIVE &gt;</h4>
         <div class="card-container">
           <!-- 4개짜리 카드 시작 -->
-          <div class="product-card-container">
-            <div class="product-thumb-container">
-              <img src="" alt="No Image Here" class="product-thumb-img">
-            </div>
-            <div class="product-content-container">
-              <div class="product-brand-area">
-                <p>NIKE AIR</p>
+          <c:forEach var="item" items="${products}" varStatus="index">
+            <div class="product-card-container">
+              <div class="product-thumb-container">
+                <img src="resources/product-image/${item.thumbSavedFileName}" alt="No Image Here" class="product-thumb-img">
               </div>
-              <div class="product-name-area">
-                <p>TRAVIS SCOTT</p>
+              <div class="product-content-container">
+                <div class="product-brand-area">
+                  <p> <c:out value="${item.brandName}" /> </p>
+                </div>
+                <div class="product-name-area">
+                  <p> <c:out value="${item.productName}" /> </p>
+                </div>
               </div>
             </div>
-          </div>
+          </c:forEach>
           <!-- 4개짜리 카드 끝 -->
-          <div class="product-card-container">
-            <div class="product-thumb-container">
-              <img src="" alt="No Image Here" class="product-thumb-img">
-            </div>
-            <div class="product-content-container">
-              <div class="product-brand-area">
-                <p>NIKE AIR</p>
-              </div>
-              <div class="product-name-area">
-                <p>TRAVIS SCOTT</p>
-              </div>
-            </div>
-          </div>
-          <div class="product-card-container">
-            <div class="product-thumb-container">
-              <img src="" alt="No Image Here" class="product-thumb-img">
-            </div>
-            <div class="product-content-container">
-              <div class="product-brand-area">
-                <p>NIKE AIR</p>
-              </div>
-              <div class="product-name-area">
-                <p>TRAVIS SCOTT</p>
-              </div>
-            </div>
-          </div>
-          <div class="product-card-container">
-            <div class="product-thumb-container">
-              <img src="" alt="No Image Here" class="product-thumb-img">
-            </div>
-            <div class="product-content-container">
-              <div class="product-brand-area">
-                <p>NIKE AIR</p>
-              </div>
-              <div class="product-name-area">
-                <p>TRAVIS SCOTT</p>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -201,59 +140,22 @@
         <h4 class="tit">&lt; MD's Pick &gt;</h4>
         <div class="card-container">
           <!-- 4개짜리 카드 시작 -->
-          <div class="product-card-container">
-            <div class="product-thumb-container">
-              <img src="" alt="No Image Here" class="product-thumb-img">
-            </div>
-            <div class="product-content-container">
-              <div class="product-brand-area">
-                <p>NIKE AIR</p>
+          <c:forEach var="item" items="${productsReverse}" varStatus="index">
+            <div class="product-card-container">
+              <div class="product-thumb-container">
+                <img src="resources/product-image/${item.thumbSavedFileName}" alt="No Image Here" class="product-thumb-img">
               </div>
-              <div class="product-name-area">
-                <p>TRAVIS SCOTT</p>
+              <div class="product-content-container">
+                <div class="product-brand-area">
+                  <p> <c:out value="${item.brandName}" /> </p>
+                </div>
+                <div class="product-name-area">
+                  <p> <c:out value="${item.productName}" /> </p>
+                </div>
               </div>
             </div>
-          </div>
+          </c:forEach>
           <!-- 4개짜리 카드 끝 -->
-          <div class="product-card-container">
-            <div class="product-thumb-container">
-              <img src="" alt="No Image Here" class="product-thumb-img">
-            </div>
-            <div class="product-content-container">
-              <div class="product-brand-area">
-                <p>NIKE AIR</p>
-              </div>
-              <div class="product-name-area">
-                <p>TRAVIS SCOTT</p>
-              </div>
-            </div>
-          </div>
-          <div class="product-card-container">
-            <div class="product-thumb-container">
-              <img src="" alt="No Image Here" class="product-thumb-img">
-            </div>
-            <div class="product-content-container">
-              <div class="product-brand-area">
-                <p>NIKE AIR</p>
-              </div>
-              <div class="product-name-area">
-                <p>TRAVIS SCOTT</p>
-              </div>
-            </div>
-          </div>
-          <div class="product-card-container">
-            <div class="product-thumb-container">
-              <img src="" alt="No Image Here" class="product-thumb-img">
-            </div>
-            <div class="product-content-container">
-              <div class="product-brand-area">
-                <p>NIKE AIR</p>
-              </div>
-              <div class="product-name-area">
-                <p>TRAVIS SCOTT</p>
-              </div>
-            </div>
-          </div>
         </div>
 
 

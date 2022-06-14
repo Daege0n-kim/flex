@@ -107,28 +107,6 @@
         <div class="item-detail-img-container">
           <img src="/resources/product-image/${product.detailSavedFileName}" alt="" class="product-detail-img">
         </div>
-
-        <div class="board-list-container">
-          <h1>STYLE</h1>
-          <div class="board-list">
-            <div class="board-card">
-              <img src="" alt="" class="board-thumb">
-              <div class="board-info-area">
-                <span class="user-id"></span>
-                <span class="board-title"></span>
-                <span class="like"></span>
-                <span class="comment-count"></span>
-                <div class="related-product-group">
-                  <img src="" alt="" class="related-product">
-                  <img src="" alt="" class="related-product">
-                  <img src="" alt="" class="related-product">
-                  <img src="" alt="" class="related-product">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
       </div>
     </div>
 

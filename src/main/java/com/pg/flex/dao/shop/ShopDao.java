@@ -53,4 +53,8 @@ public interface ShopDao {
 
   void updateCartCount(List<AddCartRequest> requestForm);
   void addToCartFromLike(List<AddCartRequest> requestForm);
+
+  List<ProductResponse> getMainProduct();
+
+  List<ProductResponse> getMainProductReverse();
 }

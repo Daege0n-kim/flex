@@ -219,135 +219,40 @@
 
                         <!-- posting -->
                         <div id="con2" class="conBox on">
-                            <p class="posting-number">42개</p>
+                            <p class="posting-number"> <c:out value="${totalPosting}" /> 개</p>
                             <div class="posting-card-bundle-container">
                                 <!-- 카드 한 줄 시작 -->
                                 <div class="posting-card-row-bundle-container">
                                     <!-- 카드 한 개 시작 -->
-                                    <div class="post-card-container">
-                                        <div class="post-thumb-container">
-                                            <img src="" alt="No Image Here" class="post-thumb-img">
-                                        </div>
-                                        <div class="post-content-container">
-                                            <div class="user-id-area">
-                                                <p>@kimchi</p>
+                                    <c:forEach var="item" items="${boards}" varStatus="index">
+                                        <div class="post-card-container">
+                                            <div class="post-thumb-container">
+                                                <img src="resources/board-images/${item.savedFileName}" alt="No Image Here" class="post-thumb-img" style="width: 100%;">
                                             </div>
-                                            <div class="post-title-area">
-                                                <p>봄인줄 알았지만 겨울이었다.</p>
-                                            </div>
-                                            <div class="post-response-area">
-                                                <p>(하트) 12 (댓글) 2</p>
-                                            </div>
-                                            <div class="product-img-container">
-                                                <div class="product-thumb-container">
-                                                    <img src="" alt="No Image Here" class="product-thumb-img">
+                                            <div class="post-content-container">
+                                                <div class="user-id-area">
+                                                    <p>@ <c:out value="${item.searchId}" /> </p>
                                                 </div>
-                                                <div class="product-thumb-container">
-                                                    <img src="" alt="No Image Here" class="product-thumb-img">
+                                                <div class="post-title-area">
+                                                    <p> <c:out value="${item.boardContent}" /> </p>
                                                 </div>
-                                                <div class="product-thumb-container">
-                                                    <img src="" alt="No Image Here" class="product-thumb-img">
+                                                <div class="post-response-area">
+                                                    <p>(하트) 12 (댓글) 2</p>
                                                 </div>
-                                                <div class="product-thumb-container">
-                                                    <img src="" alt="No Image Here" class="product-thumb-img">
+                                                <div class="product-img-container">
+                                                    <c:forEach var="img" items="${item.relatedThumb}" varStatus="i">
+                                                        <div class="product-thumb-container">
+                                                            <img src="resources/product-image/${img}" alt="No Image Here" class="product-thumb-img" style="width: 100%;">
+                                                        </div>
+                                                    </c:forEach>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </c:forEach>
                                     <!-- 카드 한 개 끝 -->
-                                    <div class="post-card-container">
-                                        <div class="post-thumb-container">
-                                            <img src="" alt="No Image Here" class="post-thumb-img">
-                                        </div>
-                                        <div class="post-content-container">
-                                            <div class="user-id-area">
-                                                <p>@kimchi</p>
-                                            </div>
-                                            <div class="post-title-area">
-                                                <p>봄인줄 알았지만 겨울이었다.</p>
-                                            </div>
-                                            <div class="post-response-area">
-                                                <p>(하트) 12 (댓글) 2</p>
-                                            </div>
-                                            <div class="product-img-container">
-                                                <div class="product-thumb-container">
-                                                    <img src="" alt="No Image Here" class="product-thumb-img">
-                                                </div>
-                                                <div class="product-thumb-container">
-                                                    <img src="" alt="No Image Here" class="product-thumb-img">
-                                                </div>
-                                                <div class="product-thumb-container">
-                                                    <img src="" alt="No Image Here" class="product-thumb-img">
-                                                </div>
-                                                <div class="product-thumb-container">
-                                                    <img src="" alt="No Image Here" class="product-thumb-img">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="post-card-container">
-                                        <div class="post-thumb-container">
-                                            <img src="" alt="No Image Here" class="post-thumb-img">
-                                        </div>
-                                        <div class="post-content-container">
-                                            <div class="user-id-area">
-                                                <p>@kimchi</p>
-                                            </div>
-                                            <div class="post-title-area">
-                                                <p>봄인줄 알았지만 겨울이었다.</p>
-                                            </div>
-                                            <div class="post-response-area">
-                                                <p>(하트) 12 (댓글) 2</p>
-                                            </div>
-                                            <div class="product-img-container">
-                                                <div class="product-thumb-container">
-                                                    <img src="" alt="No Image Here" class="product-thumb-img">
-                                                </div>
-                                                <div class="product-thumb-container">
-                                                    <img src="" alt="No Image Here" class="product-thumb-img">
-                                                </div>
-                                                <div class="product-thumb-container">
-                                                    <img src="" alt="No Image Here" class="product-thumb-img">
-                                                </div>
-                                                <div class="product-thumb-container">
-                                                    <img src="" alt="No Image Here" class="product-thumb-img">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="post-card-container">
-                                        <div class="post-thumb-container">
-                                            <img src="" alt="No Image Here" class="post-thumb-img">
-                                        </div>
-                                        <div class="post-content-container">
-                                            <div class="user-id-area">
-                                                <p>@kimchi</p>
-                                            </div>
-                                            <div class="post-title-area">
-                                                <p>봄인줄 알았지만 겨울이었다.</p>
-                                            </div>
-                                            <div class="post-response-area">
-                                                <p>(하트) 12 (댓글) 2</p>
-                                            </div>
-                                            <div class="product-img-container">
-                                                <div class="product-thumb-container">
-                                                    <img src="" alt="No Image Here" class="product-thumb-img">
-                                                </div>
-                                                <div class="product-thumb-container">
-                                                    <img src="" alt="No Image Here" class="product-thumb-img">
-                                                </div>
-                                                <div class="product-thumb-container">
-                                                    <img src="" alt="No Image Here" class="product-thumb-img">
-                                                </div>
-                                                <div class="product-thumb-container">
-                                                    <img src="" alt="No Image Here" class="product-thumb-img">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <!-- 카드 한 줄 끝 -->
-                                <div class="posting-card-row-bundle-container">
+                                <!-- <div class="posting-card-row-bundle-container">
                                     <div class="post-card-container">
                                         <div class="post-thumb-container">
                                             <img src="" alt="No Image Here" class="post-thumb-img">
@@ -468,7 +373,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <!-- following -->

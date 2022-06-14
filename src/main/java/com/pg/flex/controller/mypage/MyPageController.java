@@ -24,6 +24,7 @@ import com.pg.flex.dto.response.OrderedResponse;
 import com.pg.flex.dto.response.PaymentResponse;
 import com.pg.flex.dto.response.ProductResponse;
 import com.pg.flex.dto.response.RelatedResponse;
+import com.pg.flex.dto.response.UserBoardResponse;
 import com.pg.flex.dto.response.UserDetailResponse;
 import com.pg.flex.service.mypage.MyPageService;
 import com.pg.flex.service.shop.ShopService;
@@ -59,7 +60,16 @@ public class MyPageController {
     String userId = (String) session.getAttribute("loginId");
     UserDetailResponse userDetail = myPageService.getUserDetail(userId);
 
+    List<UserBoardResponse> boards = myPageService.getBoardsByUserId(userId);
+
+    for(UserBoardResponse board: boards) {
+      List<String> related = myPageService.getRelatedProductByBoardIndex(board.getBoardIndex());
+      board.setRelatedThumb(related);
+    }
+
+    model.addAttribute("totalPosting", boards.size());
     model.addAttribute("userDetail", userDetail);
+    model.addAttribute("boards", boards);
     return "/mypage/mypageUserImage";
   }
 
@@ -294,7 +304,7 @@ public class MyPageController {
     File dest = new File(pathName);
 
     try {
-      // requestForm.getPostSavedFile().transferTo(dest);
+      requestForm.getPostSavedFile().transferTo(dest);
       PostBoardQueryForm query = new PostBoardQueryForm(requestForm.getPostContent(), savedFileName, userId);
       myPageService.postBoard(query);
       System.out.println(query.getBoardIndex());

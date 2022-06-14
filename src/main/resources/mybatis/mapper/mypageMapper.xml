@@ -13,6 +13,20 @@
   <result column="total_price" property="totalPrice" />
 </resultMap>
 
+<resultMap id="SneakersMap" type="com.pg.flex.dto.response.SneakersResponse">
+  <result column="board_index" property="boardIndex" />
+  <result column="saved_file_name" property="savedFileName" />
+  <result column="search_id" property="searchId" />
+  <result column="board_content" property="boardContent" />
+</resultMap>
+
+<resultMap id="BoardMap" type="com.pg.flex.dto.response.UserBoardResponse">
+  <result column="board_index" property="boardIndex" />
+  <result column="saved_file_name" property="savedFileName" />
+  <result column="search_id" property="searchId" />
+  <result column="board_content" property="boardContent" />
+</resultMap>
+
   <resultMap id="SearchedProductResultMap" type="com.pg.flex.dto.response.ProductResponse">
     <result column="product_index" property="productIndex" />
     <result column="product_name" property="productName" />
@@ -455,5 +469,134 @@
         (#{item.boardIndex}, #{item.productIndex})
       </foreach>
   </insert>
+
+  <select id="getBoardsByUserId" parameterType="string" resultMap="BoardMap">
+    SELECT
+      b.board_index,
+      b.saved_file_name,
+      u.search_id,
+      b.board_content
+    from 
+      board b
+    inner join
+      user u
+    on
+      b.create_user = u.login_id
+    where
+      u.login_id = #{userId}
+  </select>
+
+  <select id="getBoardsForMainPage" resultMap="BoardMap">
+    SELECT
+      b.board_index,
+      b.saved_file_name,
+      u.search_id,
+      b.board_content
+    from 
+      board b
+    inner join
+      user u
+    on
+      b.create_user = u.login_id
+  </select>
+
+  <select id="getRelatedProductByBoardIndex" parameterType="int" resultType="string">
+    SELECT
+      p.thumb_saved_file_name
+    from
+      product p    	
+    inner join
+      related_product rp 
+    on
+      p.product_index = rp.product_index
+    INNER JOIN 
+      board b
+    on
+      rp.board_index = b.board_index  
+    WHERE 
+      b.board_index = #{boardIndex}
+  </select>
+
+  <select id="getSneakers" resultMap="SneakersMap">
+    SELECT 
+      DISTINCT 
+      board.board_index,
+      board.saved_file_name,
+      board.board_content
+    FROM 
+      board board
+    INNER JOIN
+      related_product rp
+    ON 
+      rp.board_index = board.board_index
+    INNER JOIN
+      product product
+    ON
+      product.product_index = rp.product_index
+    WHERE
+      product.category = 1
+    LIMIT 4
+  </select>
+
+  <select id="getJodan" resultMap="SneakersMap">
+    SELECT 
+      DISTINCT 
+      board.board_index,
+      board.saved_file_name,
+      board.board_content
+    FROM 
+      board board
+    INNER JOIN
+      related_product rp
+    ON 
+      rp.board_index = board.board_index
+    INNER JOIN
+      product product
+    ON
+      product.product_index = rp.product_index
+    WHERE
+      product.product_name like '%Jodan%'
+    LIMIT 4
+  </select>
+
+  <select id="getStone" resultMap="SneakersMap">
+    SELECT 
+      DISTINCT 
+      board.board_index,
+      board.saved_file_name,
+      board.board_content
+    FROM 
+      board board
+    INNER JOIN
+      related_product rp
+    ON 
+      rp.board_index = board.board_index
+    INNER JOIN
+      product product
+    ON
+      product.product_index = rp.product_index
+    WHERE
+      product.brand = 3
+    LIMIT 4
+  </select>
+
+  <select id="getCommon" resultMap="SneakersMap">
+    SELECT 
+      DISTINCT 
+      board.board_index,
+      board.saved_file_name,
+      board.board_content
+    FROM 
+      board board
+    INNER JOIN
+      related_product rp
+    ON 
+      rp.board_index = board.board_index
+    INNER JOIN
+      product product
+    ON
+      product.product_index = rp.product_index
+    LIMIT 4
+  </select>
 </mapper>
     

@@ -20,6 +20,8 @@ import com.pg.flex.dto.response.OrderedResponse;
 import com.pg.flex.dto.response.PaymentResponse;
 import com.pg.flex.dto.response.ProductResponse;
 import com.pg.flex.dto.response.RelatedResponse;
+import com.pg.flex.dto.response.SneakersResponse;
+import com.pg.flex.dto.response.UserBoardResponse;
 import com.pg.flex.dto.response.UserDetailResponse;
 
 import java.io.File;
@@ -275,5 +277,33 @@ public class MyPageService {
 
   public void postRelatedProduct(List<RelatedProductQuery> requestForm) {
     myPageDao.postRelatedProduct(requestForm);
+  }
+
+  public List<UserBoardResponse> getBoardsByUserId(String userId) {
+    return myPageDao.getBoardsByUserId(userId);
+  }
+
+  public List<String> getRelatedProductByBoardIndex(int boardIndex) {
+    return myPageDao.getRelatedProductByBoardIndex(boardIndex);
+  }
+
+  public List<UserBoardResponse> getBoardsForMainPage() {
+    return myPageDao.getBoardsForMainPage();
+  }
+
+  public List<SneakersResponse> getSneakers() {
+    return myPageDao.getSneakers();
+  }
+
+  public List<SneakersResponse> getJodan() {
+      return myPageDao.getJodan();
+  }
+
+  public List<SneakersResponse> getStone() {
+    return myPageDao.getStone();
+  }
+
+  public List<SneakersResponse> getCommon() {
+    return myPageDao.getCommon();
   }  
 }
