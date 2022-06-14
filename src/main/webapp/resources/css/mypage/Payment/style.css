@@ -31,7 +31,7 @@ body{position:relative}
 
 /* profile-card */
 .main-top-container .profile-card-container{width:65vw;height:32.5vw;margin-left:3vw;margin-right:6vw;border:0.1vw solid #707070;display:flex;flex-direction:row;z-index:2}
-.main-top-container .profile-thumb-container{flex:1;position:relative}
+.main-top-container .profile-thumb-container{flex:1;position:relative;overflow:hidden}
 .main-top-container .profile-thumb-container img{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:100%;height:auto;padding:4rem 4rem}
 .main-top-container .profile-content-container{border-left:0.1vw solid #707070;flex:1;display:flex;flex-direction:column}
 .main-top-container .content-top-container{padding:1.5vw;flex:1}
