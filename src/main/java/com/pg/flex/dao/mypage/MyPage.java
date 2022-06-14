@@ -20,6 +20,8 @@ import com.pg.flex.dto.response.OrderedResponse;
 import com.pg.flex.dto.response.PaymentResponse;
 import com.pg.flex.dto.response.ProductResponse;
 import com.pg.flex.dto.response.RelatedResponse;
+import com.pg.flex.dto.response.SneakersResponse;
+import com.pg.flex.dto.response.UserBoardResponse;
 import com.pg.flex.dto.response.UserDetailResponse;
 
 import java.util.List;
@@ -84,4 +86,18 @@ public interface MyPage {
   public void postBoard(PostBoardQueryForm query);
 
   public void postRelatedProduct(List<RelatedProductQuery> requestForm);
+
+  public List<UserBoardResponse> getBoardsByUserId(String userId);
+
+  public List<String> getRelatedProductByBoardIndex(int boardIndex);
+
+  public List<UserBoardResponse> getBoardsForMainPage();
+
+  public List<SneakersResponse> getSneakers();
+
+  public List<SneakersResponse> getJodan();
+
+  public List<SneakersResponse> getStone();
+
+  public List<SneakersResponse> getCommon();
 }

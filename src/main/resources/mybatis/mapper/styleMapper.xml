@@ -12,10 +12,6 @@
     <result column="comment_count" property="commentCount" />
     <!-- <result column="saved_file_name" property="savedFileName" /> -->
   </resultMap>
-
-
-
-
   
   <!-- style  post가져오기 -->
   <select id="getPosts" resultMap="StyleResultMap">

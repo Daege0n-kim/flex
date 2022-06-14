@@ -20,6 +20,15 @@ public class ProductResponse {
   private String  brandName;
   private String  genderName;
   private int     likeIndex;
+  
+  public ProductResponse() {}
+
+  public ProductResponse(int productIndex, String productName, int productPrice, String thumbSavedFileName, String brandName) {
+    this.productIndex = productIndex;
+    this.thumbSavedFileName = thumbSavedFileName;
+    this.brandName = brandName;
+    this.productName = productName;
+  }
 
   public ProductResponse(int productIndex, String productName, int productPrice, String thumbSavedFileName, String detailSavedFileName, int categoryIndex, int brandIndex, int genderIndex, String categoryName, String brandName, String genderName) {
     this.productIndex = productIndex;

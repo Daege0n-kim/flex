@@ -203,4 +203,12 @@ public class ShopService {
       dao.addToCartFromLike(add);
     }
   }
+
+  public List<ProductResponse> getMainProduct() {
+    return dao.getMainProduct();
+  }
+
+  public List<ProductResponse> getMainProductReverse() {
+    return dao.getMainProductReverse();
+  }
 }

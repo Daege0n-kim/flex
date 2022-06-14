@@ -290,4 +290,35 @@
     </foreach>
 </insert>
 
+<select id="getMainProduct" resultMap="ProductResultMap">
+  SELECT 
+		p.product_index,
+		p.thumb_saved_file_name,
+		b.brand_name,
+		p.product_name 
+	from 
+		product p
+	inner join
+		brand b
+	on
+		p.brand = b.brand_index 
+	LIMIT 4
+</select>
+
+<select id="getMainProductReverse" resultMap="ProductResultMap">
+  SELECT 
+		p.product_index,
+		p.thumb_saved_file_name,
+		b.brand_name,
+		p.product_name 
+	from 
+		product p
+	inner join
+		brand b
+	on
+		p.brand = b.brand_index 
+  ORDER BY p.product_index DESC
+	LIMIT 4
+</select>
+
 </mapper>
