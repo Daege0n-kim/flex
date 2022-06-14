@@ -87,6 +87,16 @@
   <result column="created_date" property="createdDate" />
 </resultMap>
 
+<resultMap id="RelatedMap" type="com.pg.flex.dto.response.RelatedResponse">
+  <result column="board_index" property="boardIndex" />
+  <result column="board_content" property="boardContent" />
+  <result column="saved_file_name" property="savedFileName" />
+  <result column="created_date" property="createdDate" />
+  <result column="create_user" property="createUser" />
+</resultMap>
+
+
+
   <select id="getUserDetail" parameterType="string" resultMap="ProductResultMap">
     SELECT 
       login_id,
@@ -430,11 +440,20 @@
       c.category_name like CONCAT('%',#{searchKey},'%')
   </select>
 
-  <insert id="postBoard" parameterType="com.pg.flex.dto.query.PostBoardQueryForm">
+  <insert id="postBoard" parameterType="com.pg.flex.dto.query.PostBoardQueryForm" useGeneratedKeys="true" keyProperty="boardIndex">
     INSERT INTO
       board (board_content, saved_file_name, created_date, create_user)
     VALUES
       (#{boardContent}, #{savedFileName}, now(), #{userId})
+  </insert>
+
+  <insert id="postRelatedProduct" parameterType="com.pg.flex.dto.query.RelatedProductQuery">
+    INSERT INTO
+      related_product (board_index, product_index)
+    VALUES
+      <foreach collection="list" item="item" separator=",">
+        (#{item.boardIndex}, #{item.productIndex})
+      </foreach>
   </insert>
 </mapper>
     

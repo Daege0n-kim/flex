@@ -4,6 +4,7 @@ import com.pg.flex.dao.mypage.MyPage;
 import com.pg.flex.dto.UserImage;
 import com.pg.flex.dto.query.AddTotalPrice;
 import com.pg.flex.dto.query.PostBoardQueryForm;
+import com.pg.flex.dto.query.RelatedProductQuery;
 import com.pg.flex.dto.query.UpdateUserInformQuery;
 import com.pg.flex.dto.request.AddToCartFromLike;
 import com.pg.flex.dto.request.CartIndexForPurchase;
@@ -18,6 +19,7 @@ import com.pg.flex.dto.response.LikeResponse;
 import com.pg.flex.dto.response.OrderedResponse;
 import com.pg.flex.dto.response.PaymentResponse;
 import com.pg.flex.dto.response.ProductResponse;
+import com.pg.flex.dto.response.RelatedResponse;
 import com.pg.flex.dto.response.UserDetailResponse;
 
 import java.io.File;
@@ -269,5 +271,9 @@ public class MyPageService {
 
   public void postBoard(PostBoardQueryForm query) {
     myPageDao.postBoard(query);
+  }
+
+  public void postRelatedProduct(List<RelatedProductQuery> requestForm) {
+    myPageDao.postRelatedProduct(requestForm);
   }  
 }

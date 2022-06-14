@@ -1,4 +1,4 @@
-package com.pg.flex.dto.query;
+package com.pg.flex.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,28 +6,24 @@ import lombok.ToString;
 
 @ToString
 @Getter @Setter
-public class PostBoardQueryForm {
+public class RelatedResponse {
 
-  private int    boardIndex;
+  private int boardIndex;
   private String boardContent;
   private String savedFileName;
-  private String userId;
+  private String createdDate;
+  private String createUser;
+  
 
-
-
-  public PostBoardQueryForm() {
+  public RelatedResponse() {
   }
 
-  public PostBoardQueryForm(String boardContent, String savedFileName, String userId) {
-    this.boardContent = boardContent;
-    this.savedFileName = savedFileName;
-    this.userId = userId;
-  }
-  public PostBoardQueryForm(int boardIndex, String boardContent, String savedFileName, String userId) {
+  public RelatedResponse(int boardIndex, String boardContent, String savedFileName, String createdDate, String createUser) {
     this.boardIndex = boardIndex;
     this.boardContent = boardContent;
     this.savedFileName = savedFileName;
-    this.userId = userId;
+    this.createdDate = createdDate;
+    this.createUser = createUser;
   }
 
   public int getBoardIndex() {
@@ -54,35 +50,46 @@ public class PostBoardQueryForm {
     this.savedFileName = savedFileName;
   }
 
-  public String getUserId() {
-    return this.userId;
+  public String getCreatedDate() {
+    return this.createdDate;
   }
 
-  public void setUserId(String userId) {
-    this.userId = userId;
+  public void setCreatedDate(String createdDate) {
+    this.createdDate = createdDate;
   }
 
-  public PostBoardQueryForm boardIndex(int boardIndex) {
+  public String getCreateUser() {
+    return this.createUser;
+  }
+
+  public void setCreateUser(String createUser) {
+    this.createUser = createUser;
+  }
+
+  public RelatedResponse boardIndex(int boardIndex) {
     setBoardIndex(boardIndex);
     return this;
   }
 
-  public PostBoardQueryForm boardContent(String boardContent) {
+  public RelatedResponse boardContent(String boardContent) {
     setBoardContent(boardContent);
     return this;
   }
 
-  public PostBoardQueryForm savedFileName(String savedFileName) {
+  public RelatedResponse savedFileName(String savedFileName) {
     setSavedFileName(savedFileName);
     return this;
   }
 
-  public PostBoardQueryForm userId(String userId) {
-    setUserId(userId);
+  public RelatedResponse createdDate(String createdDate) {
+    setCreatedDate(createdDate);
     return this;
   }
 
- 
+  public RelatedResponse createUser(String createUser) {
+    setCreateUser(createUser);
+    return this;
+  }
 
   @Override
   public String toString() {
@@ -90,8 +97,9 @@ public class PostBoardQueryForm {
       " boardIndex='" + getBoardIndex() + "'" +
       ", boardContent='" + getBoardContent() + "'" +
       ", savedFileName='" + getSavedFileName() + "'" +
-      ", userId='" + getUserId() + "'" +
+      ", createdDate='" + getCreatedDate() + "'" +
+      ", createUser='" + getCreateUser() + "'" +
       "}";
   }
-  
+
 }
