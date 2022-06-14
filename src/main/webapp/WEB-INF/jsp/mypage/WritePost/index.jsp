@@ -28,9 +28,19 @@
 <body>
     <div id="header">
         <header>
-            <a href="#" title="Logo"><img src="resources/img/main/logo.png" class="header-logo"></a>
+            <a href="/" title="Logo"><img src="../../../resources/img/main/logo.png" alt="logo"></a>
             <nav>
-                <a href="">STYLE</a> <a href="">SHOP</a> <a href="">ABOUT</a> <a href="">SIGN IN</a>
+                <a href="/style">STYLE</a> <a href="/show_products">SHOP</a> <a href="/about">ABOUT</a>
+                <c:set var="name" value="${loginId}" />
+                <c:choose>
+                    <c:when test="${empty name}">
+                        <a href="/sign-in">SIGN IN</a>
+                    </c:when>
+                    <c:when test="${not empty name}">
+                        <a href="/mypageUserImage">MYPAGE</a>
+                        <a href="/logout">SIGN OUT</a>
+                    </c:when>
+                </c:choose>
             </nav>
         </header>
     </div>

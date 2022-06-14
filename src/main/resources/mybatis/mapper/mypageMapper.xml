@@ -89,25 +89,14 @@
 
   <select id="getUserDetail" parameterType="string" resultMap="ProductResultMap">
     SELECT 
-      user.login_id,
-      user.name,
-      user.search_id,
-      user.saved_file_name,
-      (
-        SUM(product.product_price * purchase.count)
-      ) AS total_price
+      login_id,
+      name,
+      search_id,
+      saved_file_name
     FROM 
-      user AS user
-    INNER JOIN
-      purchase AS purchase
-    ON
-      user.login_id = purchase.user_id
-    INNER JOIN
-      product AS product
-    ON
-      purchase.product_index = product.product_index
+      user
     WHERE 
-      user.login_id = #{loginId}
+      login_id = #{loginId}
   </select>
 
 
